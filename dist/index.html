@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rishik Maduri — SAP Certified ABAP Cloud Developer. Enterprise Application Builder & SAP S/4HANA Specialist." />
+  <title>RISHIK MADURI | Enterprise Nexus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="./assets/index-BVnZAbeL.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BbCxHz0-.css">
+</head>
+<body>
+  <!-- System Boot Sequence -->
+  <div id="boot-screen" class="boot-screen">
+    <div class="boot-container">
+      <div class="boot-logo">
+        <div class="boot-ring"></div>
+        <div class="boot-ring boot-ring--2"></div>
+        <div class="boot-core">N</div>
+      </div>
+      <div class="boot-title">ENTERPRISE NEXUS</div>
+      <div class="boot-subtitle">SAP COMMAND CENTER v4.0</div>
+      <div class="boot-log" id="boot-log"></div>
+      <div class="boot-progress">
+        <div class="boot-progress-bar" id="boot-progress"></div>
+      </div>
+      <div class="boot-status" id="boot-status">INITIALIZING...</div>
+    </div>
+  </div>
+
+  <!-- Background Layers -->
+  <canvas id="bg-canvas" class="bg-canvas"></canvas>
+  <canvas id="network-canvas" class="network-canvas"></canvas>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <!-- HUD Frame -->
+  <div class="hud-frame">
+    <div class="hud-corner hud-corner--tl"></div>
+    <div class="hud-corner hud-corner--tr"></div>
+    <div class="hud-corner hud-corner--bl"></div>
+    <div class="hud-corner hud-corner--br"></div>
+  </div>
+
+  <!-- Top Status Bar -->
+  <header class="status-bar">
+    <div class="status-left">
+      <span class="status-dot"></span>
+      <span class="status-text">SYSTEM ONLINE</span>
+      <span class="status-divider">|</span>
+      <span class="status-text" id="live-time">00:00:00</span>
+    </div>
+    <div class="status-center">
+      <span class="status-brand">ENTERPRISE NEXUS</span>
+    </div>
+    <div class="status-right">
+      <span class="status-metric"><span id="metric-uptime">99.97</span>% UPTIME</span>
+      <span class="status-divider">|</span>
+      <span class="status-metric">SAP BTP CONNECTED</span>
+    </div>
+  </header>
+
+  <!-- Mission Control Navigation -->
+  <nav class="mission-control" id="mission-control">
+    <div class="mc-header">
+      <span class="mc-icon">◈</span>
+      <span class="mc-title">MISSION CONTROL</span>
+    </div>
+    <ul class="mc-tree">
+      <li class="mc-item active" data-section="profile">
+        <span class="mc-branch">├──</span>
+        <span class="mc-link">Profile</span>
+        <span class="mc-indicator"></span>
+      </li>
+      <li class="mc-item" data-section="technologies">
+        <span class="mc-branch">├──</span>
+        <span class="mc-link">Technologies</span>
+        <span class="mc-indicator"></span>
+      </li>
+      <li class="mc-item" data-section="certification">
+        <span class="mc-branch">├──</span>
+        <span class="mc-link">Certification</span>
+        <span class="mc-indicator"></span>
+      </li>
+      <li class="mc-item" data-section="projects">
+        <span class="mc-branch">├──</span>
+        <span class="mc-link">Projects</span>
+        <span class="mc-indicator"></span>
+      </li>
+      <li class="mc-item" data-section="achievements">
+        <span class="mc-branch">├──</span>
+        <span class="mc-link">Achievements</span>
+        <span class="mc-indicator"></span>
+      </li>
+      <li class="mc-item" data-section="contact">
+        <span class="mc-branch">└──</span>
+        <span class="mc-link">Contact</span>
+        <span class="mc-indicator"></span>
+      </li>
+    </ul>
+    <div class="mc-footer">
+      <div class="mc-stat">
+        <span class="mc-stat-label">MODULES</span>
+        <span class="mc-stat-value">6</span>
+      </div>
+      <div class="mc-stat">
+        <span class="mc-stat-label">STATUS</span>
+        <span class="mc-stat-value mc-stat-value--active">ACTIVE</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Viewport -->
+  <main class="viewport" id="viewport">
+
+    <!-- PROFILE / LANDING -->
+    <section class="panel panel--hero active" id="profile" data-panel="profile">
+      <div class="hero-bg-elements">
+        <div class="hero-diagram hero-diagram--1"></div>
+        <div class="hero-diagram hero-diagram--2"></div>
+        <div class="hero-data-stream" id="hero-data-stream"></div>
+      </div>
+      <div class="panel-content hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          COMMAND CENTER ACCESS GRANTED
+        </div>
+        <h1 class="hero-name">
+          <span class="hero-name-line">RISHIK</span>
+          <span class="hero-name-line hero-name-line--accent">MADURI</span>
+        </h1>
+        <div class="hero-titles">
+          <div class="hero-title-item">
+            <span class="hero-title-icon">▸</span>
+            SAP Certified ABAP Cloud Developer
+          </div>
+          <div class="hero-title-item">
+            <span class="hero-title-icon">▸</span>
+            Enterprise Application Builder
+          </div>
+          <div class="hero-title-item">
+            <span class="hero-title-icon">▸</span>
+            SAP S/4HANA Specialist
+          </div>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric-card">
+            <div class="metric-value" data-count="1">0</div>
+            <div class="metric-label">SAP CERTIFICATION</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" data-count="2">0</div>
+            <div class="metric-label">ENTERPRISE PROJECTS</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" data-count="8.5" data-decimal="true">0</div>
+            <div class="metric-label">CGPA</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" data-count="9">0</div>
+            <div class="metric-label">TECH STACK</div>
+          </div>
+        </div>
+        <div class="hero-cta">
+          <button class="btn-primary" data-section="technologies">
+            <span class="btn-glow"></span>
+            INITIALIZE SYSTEMS
+          </button>
+          <button class="btn-secondary" data-section="contact">
+            OPEN CHANNEL
+          </button>
+        </div>
+      </div>
+      <div class="sap-landscape">
+        <div class="sap-node sap-node--s4">S/4HANA</div>
+        <div class="sap-connector"></div>
+        <div class="sap-node sap-node--btp">SAP BTP</div>
+        <div class="sap-connector"></div>
+        <div class="sap-node sap-node--fiori">Fiori</div>
+        <div class="sap-connector"></div>
+        <div class="sap-node sap-node--abap">ABAP Cloud</div>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGIES -->
+    <section class="panel" id="technologies" data-panel="technologies">
+      <div class="panel-header">
+        <span class="panel-tag">SYS.TECH.001</span>
+        <h2 class="panel-title">Technology Architecture</h2>
+        <p class="panel-desc">Interconnected enterprise skill nodes — live system topology</p>
+      </div>
+      <div class="panel-content">
+        <div class="tech-network-container">
+          <canvas id="tech-canvas" class="tech-canvas"></canvas>
+          <div class="tech-nodes" id="tech-nodes"></div>
+        </div>
+        <div class="tech-legend">
+          <div class="legend-item"><span class="legend-dot legend-dot--sap"></span> SAP Core</div>
+          <div class="legend-item"><span class="legend-dot legend-dot--dev"></span> Development</div>
+          <div class="legend-item"><span class="legend-dot legend-dot--integration"></span> Integration</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATION -->
+    <section class="panel" id="certification" data-panel="certification">
+      <div class="panel-header">
+        <span class="panel-tag">SYS.CERT.002</span>
+        <h2 class="panel-title">Digital Verification Chamber</h2>
+        <p class="panel-desc">Enterprise credential authentication protocol</p>
+      </div>
+      <div class="panel-content cert-chamber">
+        <div class="cert-scanner">
+          <div class="cert-scanner-ring"></div>
+          <div class="cert-scanner-ring cert-scanner-ring--2"></div>
+          <div class="cert-scanner-beam"></div>
+          <div class="cert-card">
+            <div class="cert-card-header">
+              <span class="cert-logo">SAP</span>
+              <span class="cert-type">OFFICIAL CERTIFICATION</span>
+            </div>
+            <div class="cert-card-body">
+              <h3 class="cert-name">SAP Certified Associate</h3>
+              <p class="cert-role">Back-End Developer – ABAP Cloud</p>
+              <div class="cert-holder">RISHIK MADURI</div>
+            </div>
+            <div class="cert-card-footer">
+              <div class="cert-id">ID: SAP-ABAP-CLOUD-2025-RM</div>
+            </div>
+          </div>
+        </div>
+        <div class="cert-status-panel">
+          <div class="cert-status-item verified">
+            <span class="cert-check">✓</span>
+            <span class="cert-status-text">VERIFIED</span>
+          </div>
+          <div class="cert-status-item verified">
+            <span class="cert-check">✓</span>
+            <span class="cert-status-text">ACTIVE</span>
+          </div>
+          <div class="cert-status-item verified">
+            <span class="cert-check">✓</span>
+            <span class="cert-status-text">ENTERPRISE READY</span>
+          </div>
+        </div>
+        <div class="cert-timeline">
+          <div class="cert-timeline-item">
+            <span class="cert-timeline-date">2024</span>
+            <span class="cert-timeline-event">SAP Learning Journey Initiated</span>
+          </div>
+          <div class="cert-timeline-item">
+            <span class="cert-timeline-date">2025</span>
+            <span class="cert-timeline-event">Certification Examination Completed</span>
+          </div>
+          <div class="cert-timeline-item">
+            <span class="cert-timeline-date">2025</span>
+            <span class="cert-timeline-event">Associate Credential Awarded</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="panel" id="projects" data-panel="projects">
+      <div class="panel-header">
+        <span class="panel-tag">SYS.MOD.003</span>
+        <h2 class="panel-title">Active Enterprise Modules</h2>
+        <p class="panel-desc">Deployed production-grade SAP solutions</p>
+      </div>
+      <div class="panel-content projects-grid">
+        <article class="module-card" data-module="01">
+          <div class="module-header">
+            <span class="module-id">MODULE 01</span>
+            <span class="module-status">● DEPLOYED</span>
+          </div>
+          <h3 class="module-title">Smart College Management System</h3>
+          <p class="module-desc">End-to-end enterprise management platform built on SAP RAP architecture with full-stack SAP integration.</p>
+          <div class="module-layers">
+            <div class="layer" data-layer="rap">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">RAP Architecture</span>
+              <div class="layer-detail">Restful ABAP Programming — Core business logic layer</div>
+            </div>
+            <div class="layer" data-layer="cds">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">CDS Layer</span>
+              <div class="layer-detail">Core Data Services — Semantic data modeling</div>
+            </div>
+            <div class="layer" data-layer="odata">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">OData Layer</span>
+              <div class="layer-detail">Open Data Protocol — Service exposure</div>
+            </div>
+            <div class="layer" data-layer="fiori">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">SAP Fiori Layer</span>
+              <div class="layer-detail">Modern UX — Responsive enterprise UI</div>
+            </div>
+            <div class="layer" data-layer="security">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">Security Layer</span>
+              <div class="layer-detail">Authorization & role-based access control</div>
+            </div>
+          </div>
+          <div class="module-arch">
+            <div class="arch-line"></div>
+            <div class="arch-nodes">
+              <span>Fiori UI</span><span>→</span><span>OData</span><span>→</span><span>RAP</span><span>→</span><span>CDS</span><span>→</span><span>S/4HANA</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="module-card" data-module="02">
+          <div class="module-header">
+            <span class="module-id">MODULE 02</span>
+            <span class="module-status">● DEPLOYED</span>
+          </div>
+          <h3 class="module-title">Loan Eligibility & Approval System</h3>
+          <p class="module-desc">Intelligent financial processing engine with automated business rules and real-time eligibility validation.</p>
+          <div class="module-layers">
+            <div class="layer" data-layer="validation">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">Validation Engine</span>
+              <div class="layer-detail">Real-time input validation & data integrity</div>
+            </div>
+            <div class="layer" data-layer="rules">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">Business Rules Engine</span>
+              <div class="layer-detail">Automated eligibility decision logic</div>
+            </div>
+            <div class="layer" data-layer="rap">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">RAP Services</span>
+              <div class="layer-detail">Transactional service orchestration</div>
+            </div>
+            <div class="layer" data-layer="fiori">
+              <span class="layer-icon">◆</span>
+              <span class="layer-name">SAP Fiori Interface</span>
+              <div class="layer-detail">Streamlined approval workflow UI</div>
+            </div>
+          </div>
+          <div class="module-arch">
+            <div class="arch-line"></div>
+            <div class="arch-nodes">
+              <span>Fiori App</span><span>→</span><span>Rules Engine</span><span>→</span><span>Validation</span><span>→</span><span>RAP</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS + TIMELINE -->
+    <section class="panel" id="achievements" data-panel="achievements">
+      <div class="panel-header">
+        <span class="panel-tag">SYS.ACH.004</span>
+        <h2 class="panel-title">Achievements & Career Path</h2>
+        <p class="panel-desc">Mission milestones and enterprise credentials</p>
+      </div>
+      <div class="panel-content achievements-layout">
+        <div class="badges-grid">
+          <div class="badge-card" data-badge="1">
+            <div class="badge-glow"></div>
+            <div class="badge-icon">🏆</div>
+            <div class="badge-title">SAP Certified Associate</div>
+            <div class="badge-sub">ABAP Cloud Developer</div>
+          </div>
+          <div class="badge-card" data-badge="2">
+            <div class="badge-glow"></div>
+            <div class="badge-icon">🏆</div>
+            <div class="badge-title">Hackathon Winner</div>
+            <div class="badge-sub">Innovation Challenge</div>
+          </div>
+          <div class="badge-card" data-badge="3">
+            <div class="badge-glow"></div>
+            <div class="badge-icon">🏆</div>
+            <div class="badge-title">Hackathon Runner-Up</div>
+            <div class="badge-sub">Technical Excellence</div>
+          </div>
+          <div class="badge-card" data-badge="4">
+            <div class="badge-glow"></div>
+            <div class="badge-icon">🏆</div>
+            <div class="badge-title">Enterprise Project Builder</div>
+            <div class="badge-sub">Production SAP Solutions</div>
+          </div>
+          <div class="badge-card" data-badge="5">
+            <div class="badge-glow"></div>
+            <div class="badge-icon">🏆</div>
+            <div class="badge-title">8.5 CGPA</div>
+            <div class="badge-sub">Academic Excellence</div>
+          </div>
+        </div>
+        <div class="career-path">
+          <h3 class="career-path-title">Career Timeline</h3>
+          <div class="journey-track">
+            <div class="journey-node" data-year="2022">
+              <div class="journey-dot"></div>
+              <div class="journey-content">
+                <span class="journey-year">2022</span>
+                <span class="journey-event">Started Engineering</span>
+              </div>
+            </div>
+            <div class="journey-node" data-year="2024">
+              <div class="journey-dot"></div>
+              <div class="journey-content">
+                <span class="journey-year">2024</span>
+                <span class="journey-event">SAP Learning Journey</span>
+              </div>
+            </div>
+            <div class="journey-node" data-year="2025">
+              <div class="journey-dot"></div>
+              <div class="journey-content">
+                <span class="journey-year">2025</span>
+                <span class="journey-event">SAP Certification Achieved</span>
+              </div>
+            </div>
+            <div class="journey-node" data-year="2025-b">
+              <div class="journey-dot"></div>
+              <div class="journey-content">
+                <span class="journey-year">2025</span>
+                <span class="journey-event">Enterprise SAP Projects</span>
+              </div>
+            </div>
+            <div class="journey-node journey-node--current" data-year="2026">
+              <div class="journey-dot"></div>
+              <div class="journey-content">
+                <span class="journey-year">2026</span>
+                <span class="journey-event">Seeking SAP Developer Opportunities</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="panel" id="contact" data-panel="contact">
+      <div class="panel-header">
+        <span class="panel-tag">SYS.COM.005</span>
+        <h2 class="panel-title">Open Communication Channel</h2>
+        <p class="panel-desc">Establish enterprise connection</p>
+      </div>
+      <div class="panel-content contact-layout">
+        <div class="contact-terminal">
+          <div class="terminal-header">
+            <span class="terminal-dot terminal-dot--red"></span>
+            <span class="terminal-dot terminal-dot--yellow"></span>
+            <span class="terminal-dot terminal-dot--green"></span>
+            <span class="terminal-title">nexus-comms@enterprise</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="terminal-prompt">root@nexus:~$</span> initiate_contact --target=rishik_maduri</div>
+            <div class="terminal-line terminal-line--output">Channel status: OPEN</div>
+            <div class="terminal-line terminal-line--output">Encryption: AES-256-GCM</div>
+            <div class="terminal-line terminal-line--output">Protocol: Enterprise Secure Link</div>
+            <div class="terminal-line"><span class="terminal-prompt">root@nexus:~$</span> <span class="terminal-cursor">_</span></div>
+          </div>
+        </div>
+        <div class="contact-channels">
+          <a href="mailto:rishikmaduri@gmail.com" class="contact-link">
+            <span class="contact-link-icon">✉</span>
+            <span class="contact-link-label">EMAIL</span>
+            <span class="contact-link-value">rishikmaduri@gmail.com</span>
+          </a>
+          <a href="https://linkedin.com/in/rishikmaduri" target="_blank" rel="noopener" class="contact-link">
+            <span class="contact-link-icon">⬡</span>
+            <span class="contact-link-label">LINKEDIN</span>
+            <span class="contact-link-value">/in/rishikmaduri</span>
+          </a>
+          <a href="https://github.com/rishikmaduri" target="_blank" rel="noopener" class="contact-link">
+            <span class="contact-link-icon">◉</span>
+            <span class="contact-link-label">GITHUB</span>
+            <span class="contact-link-value">/rishikmaduri</span>
+          </a>
+        </div>
+        <div class="contact-dashboard">
+          <div class="dashboard-widget">
+            <div class="widget-header">SYSTEM MONITOR</div>
+            <div class="widget-body">
+              <div class="widget-row">
+                <span>Availability</span>
+                <span class="widget-value widget-value--green">ONLINE</span>
+              </div>
+              <div class="widget-row">
+                <span>Response Time</span>
+                <span class="widget-value">&lt; 24h</span>
+              </div>
+              <div class="widget-row">
+                <span>Open To</span>
+                <span class="widget-value widget-value--cyan">SAP ROLES</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="final-statement">
+        <div class="statement-glow"></div>
+        <p class="statement-text">"Building the next generation of enterprise applications with SAP technologies."</p>
+        <div class="statement-author">— RISHIK MADURI</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Holographic Popup -->
+  <div class="holo-popup" id="holo-popup">
+    <div class="holo-popup-content">
+      <button class="holo-close" id="holo-close">×</button>
+      <div class="holo-popup-body" id="holo-popup-body"></div>
+    </div>
+  </div>
+
+  <!-- Transition Overlay -->
+  <div class="transition-overlay" id="transition-overlay"></div>
+
+</body>
+</html>
