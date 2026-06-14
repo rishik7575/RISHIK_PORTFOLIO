@@ -42,7 +42,7 @@
     <header class="top-bar">
       <div class="bar-section bar-brand">
         <span class="system-indicator pulse-green"></span>
-        <span class="brand-text">APEX-01</span>
+        <span class="brand-text font-display">APEX-01</span>
         <span class="brand-divider">/</span>
         <span class="brand-sub">workspace</span>
       </div>
@@ -92,7 +92,7 @@
     <!-- App Body containing Sidebar and Editor Grid -->
     <div class="workspace-body">
       
-      <!-- Left Sidebar File Explorer Navigation -->
+      <!-- Left Sidebar File Tree Navigation -->
       <aside class="sidebar">
         <div class="sidebar-header">
           <span class="sidebar-title">EXPLORER</span>
@@ -163,12 +163,20 @@
                       <span class="profile-label">OBJECT IDENTIFIER</span>
                       <h1 class="profile-name">RISHIK MADURI</h1>
                       <div class="profile-title">
-                        <span class="text-cyan">SAP Certified Associate</span> | Back-End Developer – ABAP Cloud
+                        <span class="text-cyan font-weight-700">SAP Certified Associate</span> | Back-End Developer – ABAP Cloud
                       </div>
                     </div>
                     <div class="profile-badges">
                       <span class="status-badge badge-active">AVAILABLE FOR OPPORTUNITIES</span>
                       <span class="status-badge badge-loc">HYDERABAD, INDIA</span>
+                    </div>
+                  </div>
+
+                  <!-- Work Authorization Flag inside Developer Profile -->
+                  <div class="work-auth-banner">
+                    <span class="auth-icon">🛡️</span>
+                    <div class="auth-text">
+                      <strong>U.S. CITIZEN</strong> — Eligible to work in **India** and **USA** immediately without sponsorship (No visa sponsorship required).
                     </div>
                   </div>
 
@@ -254,16 +262,14 @@
                         <span class="file-ext">ABAP SQL</span>
                       </div>
                       <div class="code-box-content font-mono">
-                        <div class="code-line"><span class="abap-keyword">SELECT</span> student_id, student_name, department</div>
-                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">FROM</span> ZI_STUDENT</div>
-                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">WHERE</span> status = <span class="abap-string">'ACTIVE'</span></div>
-                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">INTO TABLE</span> @DATA(lt_students).</div>
-                        <div class="code-line"><br></div>
-                        <div class="code-line"><span class="abap-keyword">MODIFY ENTITIES OF</span> ZR_STUDENT</div>
-                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">ENTITY</span> Student</div>
-                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">UPDATE FIELDS (</span> department <span class="abap-keyword">)</span></div>
-                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">WITH VALUE</span> #( ( %key-student_id = <span class="abap-string">'S001'</span> department = <span class="abap-string">'CSE'</span> ) ).</div>
-                        <div class="code-line"><span class="abap-keyword">COMMIT ENTITIES.</span></div>
+                        <div class="code-line"><span class="abap-comment">* Define standard ABAP CDS view projection *</span></div>
+                        <div class="code-line"><span class="abap-keyword">define root view entity</span> ZI_STUDENT</div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">as select from</span> zstudent</div>
+                        <div class="code-line">{</div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">key</span> student_id,</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student_name,</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;department</div>
+                        <div class="code-line">}</div>
                       </div>
                       <button class="btn-execute" id="btn-execute-lab">
                         <span class="btn-label">EXECUTE REQUEST</span>
@@ -482,27 +488,27 @@
 
                 <div class="cert-vault-grid">
                   <div class="cert-verify-chamber">
-                    <div class="verify-scanner">
+                    <div class="verify-scanner" id="verification-scanner-chamber">
                       <div class="scan-radar"></div>
                       <div class="scan-laser-line"></div>
                       
                       <div class="cert-card-container">
-                        <div class="badge-framer">
+                        <div class="badge-framer" id="badge-vector-svg-container">
                           <!-- Custom Designed High-Fidelity SVG official SAP Certificate Badge -->
                           <svg viewBox="0 0 240 240" class="sap-svg-badge">
                             <defs>
-                              <linearGradient id="badge-glow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <linearGradient id="badge-glow-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.8"/>
                                 <stop offset="100%" stop-color="#7c4dff" stop-opacity="0.8"/>
                               </linearGradient>
                             </defs>
-                            <circle cx="120" cy="120" r="110" fill="rgba(10, 25, 50, 0.95)" stroke="url(#badge-glow-grad)" stroke-width="3" />
+                            <circle cx="120" cy="120" r="110" fill="rgba(10, 25, 50, 0.95)" stroke="url(#badge-glow-grad-2)" stroke-width="3" />
                             <circle cx="120" cy="120" r="95" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="6,4" />
                             
                             <!-- SAP Text Arc -->
-                            <path id="textPath" d="M 40 120 A 80 80 0 0 1 200 120" fill="none" />
+                            <path id="textPath-2" d="M 40 120 A 80 80 0 0 1 200 120" fill="none" />
                             <text fill="#e8f4ff" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="600" letter-spacing="1">
-                              <textPath href="#textPath" startOffset="50%" text-anchor="middle">
+                              <textPath href="#textPath-2" startOffset="50%" text-anchor="middle">
                                 SAP CERTIFIED ASSOCIATE
                               </textPath>
                             </text>
@@ -518,6 +524,13 @@
                             <polygon points="120,180 126,192 139,192 129,200 133,212 120,204 107,212 111,200 101,192 114,192" fill="#00e676" />
                           </svg>
                         </div>
+                        
+                        <!-- Generated high-fidelity SAP Certificate Image Embedded -->
+                        <div class="badge-image-wrapper hidden" id="badge-certificate-image-container">
+                          <img src="/sap_certificate.png" alt="SAP Certified Associate - Back-End Developer - ABAP Cloud - Rishik Maduri" class="sap-certificate-img" id="sap-cert-thumbnail" />
+                          <div class="img-zoom-hint">🔍 Click to zoom</div>
+                        </div>
+
                         <div class="cert-status-badge hidden" id="cert-auth-badge">
                           <span>VERIFIED</span>
                         </div>
@@ -536,6 +549,10 @@
                       <div class="spec-row">
                         <span class="s-key">Status:</span>
                         <span class="s-val text-success font-mono" id="cert-status-text">UNVERIFIED</span>
+                      </div>
+                      <div class="spec-row">
+                        <span class="s-key">Certification Name:</span>
+                        <span class="s-val text-primary font-weight-600">SAP Certified Associate - Back-End Developer - ABAP Cloud</span>
                       </div>
                       <div class="spec-row">
                         <span class="s-key">Certification ID:</span>
@@ -934,19 +951,19 @@
                     <h3 class="section-title"><span class="title-comment">*</span> Future Horizon Roadmap</h3>
                     <div class="future-grid">
                       <div class="future-card">
-                        <span class="fut-role text-cyan">SAP Technical Consultant</span>
+                        <span class="fut-role text-cyan font-weight-700">SAP Technical Consultant</span>
                         <p class="fut-desc">Design and customize complex cloud integrations using OData APIs, RAP actions, and BTP middleware services.</p>
                       </div>
                       <div class="future-card">
-                        <span class="fut-role text-purple">SAP Solution Architect</span>
+                        <span class="fut-role text-purple font-weight-700">SAP Solution Architect</span>
                         <p class="fut-desc">Strategize global S/4HANA transitions, design decoupled architectures, and map business capabilities to Cloud solutions.</p>
                       </div>
                       <div class="future-card">
-                        <span class="fut-role text-success">Enterprise Cloud Engineer</span>
+                        <span class="fut-role text-success font-weight-700">Enterprise Cloud Engineer</span>
                         <p class="fut-desc">Optimize multi-cloud orchestrations, configure Cloud Connectors, and code high-throughput server back-ends.</p>
                       </div>
                       <div class="future-card">
-                        <span class="fut-role">Technology Entrepreneur</span>
+                        <span class="fut-role font-weight-700">Technology Entrepreneur</span>
                         <p class="fut-desc">Build SaaS tools addressing enterprise process gaps and streamline business data exchanges.</p>
                       </div>
                     </div>
@@ -972,10 +989,194 @@
                     <div class="term-output-line">Type <span class="text-cyan">help</span> to view available system commands.</div>
                     <div class="term-prompt-line">
                       <span class="shell-prompt">rishik_maduri@apex-01:~$</span>
-                      <input type="text" id="terminal-input" class="term-input" autocomplete="off" autofocus />
+                      <input type="text" id="terminal-input" class="term-input" autocomplete="off" />
                     </div>
                   </div>
                 </div>
+              </div>
+            </section>
+
+            <!-- ─── RECRUITER EXECUTIVE DASHBOARD VIEWPORT ─── -->
+            <section class="panel" id="panel-recruiter-dashboard" data-panel="recruiter_dashboard">
+              <div class="panel-inner recruiter-dashboard-inner">
+                
+                <!-- Hero Heading Card -->
+                <div class="recruiter-hero">
+                  <div class="recruiter-hero-left">
+                    <span class="hero-label-top">SAP ENTERPRISE TALENT PIPELINE</span>
+                    <h2 class="recruiter-hero-name">RISHIK MADURI</h2>
+                    <p class="recruiter-hero-role">SAP Certified Associate | ABAP Cloud Back-End Developer</p>
+                    <div class="recruiter-hero-details">
+                      <span>📍 Hyderabad, India</span>
+                      <span class="meta-separator">|</span>
+                      <span>🎓 Bachelor of Computer Science Engineering</span>
+                      <span class="meta-separator">|</span>
+                      <span>📈 CGPA: <strong>8.5/10</strong></span>
+                    </div>
+                  </div>
+                  <div class="recruiter-hero-right">
+                    <div class="availability-stamp">
+                      <span class="stamp-dot"></span>
+                      AVAILABLE FOR ROLES
+                    </div>
+                  </div>
+                </div>
+
+                <!-- US Citizenship & Work Authorization highlight banner (Recruiter Core Request) -->
+                <div class="recruiter-auth-alert">
+                  <div class="alert-shield">🇺🇸</div>
+                  <div class="alert-content">
+                    <h4 class="alert-title">Work Authorization & Citizenship Verification</h4>
+                    <p class="alert-text">
+                      <strong>US CITIZEN</strong> — Legally authorized to work in both the <strong>United States</strong> and <strong>India</strong>. Fully eligible to begin immediate employment <strong>without visa sponsorship</strong> (No sponsorship required, H-1B or L1 transfers unnecessary).
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Quick Action Panels: Resume & Direct Email (Handy Feature) -->
+                <div class="recruiter-action-grid">
+                  <div class="action-card primary-action">
+                    <div class="action-meta">
+                      <h4 class="action-title">Resume & CV Download</h4>
+                      <p class="action-desc">Obtain a clean, printer-friendly PDF copy of Rishik's technical resume.</p>
+                    </div>
+                    <a href="mailto:rishikmaduri@gmail.com?subject=Resume Request - SAP ABAP Cloud Developer" class="btn-glowing-resume">
+                      <span>REQUEST RESUME (PDF)</span>
+                    </a>
+                  </div>
+                  <div class="action-card">
+                    <div class="action-meta">
+                      <h4 class="action-title">Establish Direct Connection</h4>
+                      <p class="action-desc">Open a secure channel to discuss active roles, interview schedules, or project capabilities.</p>
+                    </div>
+                    <div class="action-buttons-row">
+                      <a href="mailto:rishikmaduri@gmail.com" class="btn-secondary">Send Email</a>
+                      <a href="https://linkedin.com/in/rishikmaduri" target="_blank" rel="noopener" class="btn-secondary">LinkedIn Profile</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Verified SAP Credentials Chamber with zoomable certificate image (Recruiter Core Request) -->
+                <div class="recruiter-cert-section">
+                  <h3 class="recruiter-section-heading">Verified Professional Credentials</h3>
+                  <div class="recruiter-cert-container">
+                    <div class="cert-image-pane">
+                      <!-- Render generated certificate image -->
+                      <img src="/sap_certificate.png" alt="SAP Certified Associate - Back-End Developer - ABAP Cloud" class="recruiter-verified-cert-img" id="recruiter-cert-image" />
+                      <div class="zoom-overlay-hint">🔍 Click Certificate to Zoom & Inspect</div>
+                    </div>
+                    <div class="cert-details-pane">
+                      <div class="cert-ver-header">
+                        <span class="cert-badge-ver">SAP CERTIFIED ASSOCIATE</span>
+                        <span class="cert-badge-status">✔ ACTIVE & AUTHENTIC</span>
+                      </div>
+                      <h4 class="cert-title-primary">Back-End Developer – ABAP Cloud</h4>
+                      <div class="cert-meta-list">
+                        <div class="meta-row"><span class="m-k">Credential Code:</span><span class="m-v font-mono text-cyan">C-ABAPD-2507</span></div>
+                        <div class="meta-row"><span class="m-k">Issuing Authority:</span><span class="m-v">SAP SE (Walldorf, Germany)</span></div>
+                        <div class="meta-row"><span class="m-k">Verification Registry:</span><span class="m-v text-success font-weight-700">Credly Registry Approved</span></div>
+                        <div class="meta-row"><span class="m-k">Issue Date:</span><span class="m-v">December 2025</span></div>
+                        <div class="meta-row"><span class="m-k">Validation Period:</span><span class="m-v">Dec 2025 – Dec 2026</span></div>
+                      </div>
+                      <a href="https://www.credly.com/badges/9e33eaa4-6ff1-4b29-a8fd-79ef407da686" target="_blank" rel="noopener" class="btn-primary">
+                        VERIFY LIVE ON CREDLY
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Recruiter-focused Project Cases Spotlights -->
+                <div class="recruiter-projects-section">
+                  <h3 class="recruiter-section-heading">Enterprise Project Spotlights</h3>
+                  <div class="recruiter-projects-grid">
+                    
+                    <!-- Case study 1 -->
+                    <div class="recruiter-project-card">
+                      <div class="proj-header">
+                        <h4 class="proj-title">Smart College Management System</h4>
+                        <span class="proj-badge text-success">Managed RAP Scenario</span>
+                      </div>
+                      <p class="proj-overview">A full-scale academic administration portal deployed on **SAP BTP Cloud Foundry** using the RESTful ABAP Programming (RAP) model.</p>
+                      
+                      <div class="case-study-details">
+                        <div class="case-block">
+                          <strong class="case-label">BUSINESS NEED:</strong>
+                          <p class="case-text">Fragmented university databases causing high administrative workloads and data conflicts.</p>
+                        </div>
+                        <div class="case-block">
+                          <strong class="case-label">RISHIK'S SOLUTION:</strong>
+                          <p class="case-text">Modeled semantic data using CDS Entities and programmed behavior definitions with validation triggers. Configured secure role-based authorizations with DCL views.</p>
+                        </div>
+                        <div class="case-block">
+                          <strong class="case-label">BUSINESS IMPACT:</strong>
+                          <p class="case-text">Centralized academic records, eliminated manual sync checks, and accelerated administrative workflows by **45%**.</p>
+                        </div>
+                      </div>
+                      <div class="proj-tech-row">
+                        <span class="tech-pill">ABAP Cloud</span>
+                        <span class="tech-pill">SAP BTP</span>
+                        <span class="tech-pill">CDS Views</span>
+                        <span class="tech-pill">OData v4</span>
+                        <span class="tech-pill">SAP Fiori</span>
+                      </div>
+                    </div>
+
+                    <!-- Case study 2 -->
+                    <div class="recruiter-project-card">
+                      <div class="proj-header">
+                        <h4 class="proj-title">Loan Eligibility & Approval System</h4>
+                        <span class="proj-badge text-purple">Managed Transactional BO</span>
+                      </div>
+                      <p class="proj-overview">Automated financial screening pipeline checking eligibility parameters against credit scoring logic on **SAP S/4HANA**.</p>
+                      
+                      <div class="case-study-details">
+                        <div class="case-block">
+                          <strong class="case-label">BUSINESS NEED:</strong>
+                          <p class="case-text">Slow, manual loan screening, calculation inconsistencies, and a lack of audit trails in high-volume lending.</p>
+                        </div>
+                        <div class="case-block">
+                          <strong class="case-label">RISHIK'S SOLUTION:</strong>
+                          <p class="case-text">Programmed RAP determinations validating credit (CIBIL verify), occupation status, and income thresholds. Integrated service definitions exposed via OData.</p>
+                        </div>
+                        <div class="case-block">
+                          <strong class="case-label">BUSINESS IMPACT:</strong>
+                          <p class="case-text">Automated calculations and enabled instant loan status screening, reducing calculation errors to zero.</p>
+                        </div>
+                      </div>
+                      <div class="proj-tech-row">
+                        <span class="tech-pill">RAP Engine</span>
+                        <span class="tech-pill">S/4HANA</span>
+                        <span class="tech-pill">Business Rules</span>
+                        <span class="tech-pill">Determinations</span>
+                        <span class="tech-pill">Fiori Elements</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Verified System Achievements & Badges -->
+                <div class="recruiter-achievements-section">
+                  <h3 class="recruiter-section-heading">Key Accomplishments</h3>
+                  <div class="recruiter-ach-grid">
+                    <div class="ach-card">
+                      <span class="ach-icon-big">🏆</span>
+                      <h4 class="ach-title-sub">Hackathon Winner</h4>
+                      <p class="ach-desc-sub">1st Place in National Level Engineering Hackathon for building resource scheduling algorithms.</p>
+                    </div>
+                    <div class="ach-card">
+                      <span class="ach-icon-big">🥈</span>
+                      <h4 class="ach-title-sub">Hackathon Runner-Up</h4>
+                      <p class="ach-desc-sub">2nd Place in Enterprise Technology Hackathon for data modeling and query optimizations.</p>
+                    </div>
+                    <div class="ach-card">
+                      <span class="ach-icon-big">📚</span>
+                      <h4 class="ach-title-sub">SAP Learning Journey Completed</h4>
+                      <p class="ach-desc-sub">Finished formal SAP training series: S4D400 (ABAP basics), S4D401 (ABAP OO), and S4D430 (ABAP RAP).</p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </section>
             
@@ -1005,7 +1206,7 @@
       <div class="inspector-header" id="inspector-header">
         <div class="header-left">
           <span class="inspector-dot"></span>
-          <span class="inspector-title">RECRUITER SCANNER</span>
+          <span class="inspector-title font-display">SYSTEM OVERVIEW</span>
         </div>
         <button class="btn-collapse" id="btn-collapse-scan">_</button>
       </div>
@@ -1015,12 +1216,16 @@
         
         <div class="scanner-stats">
           <div class="stat-row">
+            <span class="stat-key">Eligibility:</span>
+            <span class="stat-val text-success font-weight-700">US Citizen (India/USA No Visa Needed)</span>
+          </div>
+          <div class="stat-row">
             <span class="stat-key">CGPA:</span>
-            <span class="stat-val font-mono">8.5</span>
+            <span class="stat-val font-mono">8.5 / 10</span>
           </div>
           <div class="stat-row">
             <span class="stat-key">Projects:</span>
-            <span class="stat-val">2 Enterprise RAP Applications</span>
+            <span class="stat-val font-weight-600">2 Enterprise RAP Applications</span>
           </div>
           <div class="stat-row">
             <span class="stat-key">Achievements:</span>
@@ -1037,7 +1242,7 @@
         </div>
 
         <div class="quick-contact-panel">
-          <div class="contact-header-line">Enterprise Channels</div>
+          <div class="contact-header-line">Contact Channels (Handy)</div>
           <div class="contact-grid">
             <a href="mailto:rishikmaduri@gmail.com" class="c-channel" title="Send email">
               <span class="c-icon">✉</span>
@@ -1061,6 +1266,16 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Image zoom modal for high fidelity certificate view -->
+  <div class="certificate-zoom-modal" id="cert-zoom-modal">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-content-wrapper">
+      <button class="modal-close-btn" id="modal-close-btn">×</button>
+      <img src="/sap_certificate.png" alt="Official SAP Certified Associate Certificate - Rishik Maduri" class="modal-cert-img" />
+      <div class="modal-caption">SAP Certified Associate - Back-End Developer - ABAP Cloud (Rishik Maduri)</div>
+    </div>
   </div>
 
   <script type="module" src="/src/js/main.js"></script>

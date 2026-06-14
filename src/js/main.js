@@ -158,6 +158,19 @@ function focusTab(file) {
   activeTab = file;
   renderTabs();
 
+  // If body is in recruiter mode, switch it back to developer mode to show individual files correctly
+  if (document.body.classList.contains('mode-recruiter')) {
+    document.body.classList.remove('mode-recruiter');
+    document.body.classList.add('mode-developer');
+    
+    const devBtn = document.getElementById('btn-mode-dev');
+    const recruiterBtn = document.getElementById('btn-mode-recruiter');
+    if (devBtn && recruiterBtn) {
+      devBtn.classList.add('active');
+      recruiterBtn.classList.remove('active');
+    }
+  }
+
   // Sync left sidebar list selection
   document.querySelectorAll('.tree-file').forEach(el => {
     if (el.dataset.file === file) {
@@ -247,12 +260,29 @@ function initViewModeToggle() {
       document.body.className = 'mode-developer';
       devBtn.classList.add('active');
       recruiterBtn.classList.remove('active');
+      
+      // Select the last active file tab in Developer Mode
+      if (activeTab) {
+        focusTab(activeTab);
+      }
     });
 
     recruiterBtn.addEventListener('click', () => {
       document.body.className = 'mode-recruiter';
       recruiterBtn.classList.add('active');
       devBtn.classList.remove('active');
+      
+      // Open the Recruiter Dashboard panel
+      document.querySelectorAll('.panel').forEach(panel => {
+        if (panel.dataset.panel === 'recruiter_dashboard') {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+      
+      // Deselect all file explorer items in Recruiter Mode
+      document.querySelectorAll('.tree-file').forEach(el => el.classList.remove('active'));
     });
   }
 }
@@ -519,22 +549,30 @@ const verificationLogs = [
 
 function initCertVault() {
   const btn = document.getElementById('btn-verify-cert');
-  const scanner = document.querySelector('.verify-scanner');
+  const scannerChamber = document.getElementById('verification-scanner-chamber');
   const logsBox = document.getElementById('cert-verify-logs');
   const statusVal = document.getElementById('cert-status-text');
   const authBadge = document.getElementById('cert-auth-badge');
   const credlyLink = document.getElementById('btn-credly-link');
+  
+  // Containers to switch
+  const svgBadgeContainer = document.getElementById('badge-vector-svg-container');
+  const imgCertContainer = document.getElementById('badge-certificate-image-container');
 
   if (!btn) return;
 
   btn.addEventListener('click', () => {
     btn.disabled = true;
-    scanner.classList.add('scanning');
+    scannerChamber.classList.add('scanning');
     authBadge.classList.add('hidden');
     credlyLink.classList.add('hidden');
     logsBox.innerHTML = '';
     statusVal.textContent = 'CHECKING SIGNATURES...';
     statusVal.className = 's-val text-warning font-mono';
+    
+    // Reset back to SVG during scan
+    imgCertContainer.classList.add('hidden');
+    svgBadgeContainer.classList.remove('hidden');
 
     let index = 0;
     
@@ -548,12 +586,16 @@ function initCertVault() {
         index++;
         
         // Wait slightly between log checks
-        setTimeout(printNextLog, 300 + Math.random() * 200);
+        setTimeout(printNextLog, 250 + Math.random() * 150);
       } else {
         // Complete Verification
         setTimeout(() => {
-          scanner.classList.remove('scanning');
+          scannerChamber.classList.remove('scanning');
           authBadge.classList.remove('hidden');
+          
+          // Switch to official generated image certificate view
+          svgBadgeContainer.classList.add('hidden');
+          imgCertContainer.classList.remove('hidden');
           
           const successLine = document.createElement('div');
           successLine.className = 'term-line log-success';
@@ -572,6 +614,41 @@ function initCertVault() {
     }
 
     setTimeout(printNextLog, 400);
+  });
+}
+
+// ─── Image Zoom Modal Event Handlers (Handy Feature) ───
+function initImageZoomModal() {
+  const modal = document.getElementById('cert-zoom-modal');
+  const backdrop = document.getElementById('modal-backdrop');
+  const closeBtn = document.getElementById('modal-close-btn');
+  const triggers = [
+    document.getElementById('sap-cert-thumbnail'),
+    document.getElementById('recruiter-cert-image')
+  ];
+
+  if (!modal) return;
+
+  function openModal() {
+    modal.classList.add('active');
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+  }
+
+  triggers.forEach(trigger => {
+    if (trigger) {
+      trigger.addEventListener('click', openModal);
+    }
+  });
+
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
   });
 }
 
@@ -692,11 +769,12 @@ Degree Record:
 
 const contactOutput = `
 Communication Parameters:
-  Email:    rishikmaduri@gmail.com
-  Phone:    +91 8121650392
-  Location: Hyderabad, India
-  LinkedIn: /in/rishikmaduri
-  GitHub:   /rishikmaduri
+  Email:        rishikmaduri@gmail.com
+  Phone:        +91 8121650392
+  Location:     Hyderabad, India
+  Citizenship:  US Citizen (Legally eligible in India & USA without visa sponsorship)
+  LinkedIn:     /in/rishikmaduri
+  GitHub:       /rishikmaduri
 `;
 
 function initTerminal() {
@@ -756,9 +834,8 @@ function initTerminal() {
           response = contactOutput;
           break;
         case 'resume':
-          response = 'Initializing resume CV package fetch...\nCredential download link initiated: (Mock PDF download initiated)';
-          // Simulating PDF CV download link open if needed
-          window.open('mailto:rishikmaduri@gmail.com?subject=Resume Request', '_blank');
+          response = 'Initializing resume CV package fetch...\nCredential download link initiated: (Redirecting to request mail...)';
+          window.open('mailto:rishikmaduri@gmail.com?subject=Resume Request - SAP ABAP Cloud Developer', '_blank');
           break;
         case 'neofetch':
           response = neofetchOutput;
@@ -823,7 +900,7 @@ function initCursorTrack() {
     // Update footer position indicators as cursor metrics just for IDE immersion
     const posEl = document.getElementById('editor-pos');
     if (posEl) {
-      const line = Math.floor(e.clientY / 20) + 1;
+      const line = Math.floor(e.clientY / 22) + 1;
       const col = Math.floor(e.clientX / 10) + 1;
       posEl.textContent = `Ln ${line}, Col ${col}`;
     }
@@ -839,6 +916,7 @@ function initWorkspace() {
   initRAPLab();
   initSVGTopology();
   initCertVault();
+  initImageZoomModal(); // Wire up zoom triggers
   initJSONAccordion();
   initTerminal();
   initRecruiterScanPanel();
