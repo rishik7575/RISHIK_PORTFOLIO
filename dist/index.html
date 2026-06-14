@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="./assets/index-BegvkZsp.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-l9edhv4L.css">
+  <script type="module" crossorigin src="./assets/index-DZtSoZ9V.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BnQ6UZTW.css">
 </head>
 <body class="mode-developer">
   <!-- System Boot / Sync Sequence -->
@@ -177,7 +177,7 @@
                   <div class="work-auth-banner">
                     <span class="auth-icon">🛡️</span>
                     <div class="auth-text">
-                      <strong>U.S. CITIZEN</strong> — Eligible to work in **India** and **USA** immediately without sponsorship (No visa sponsorship required).
+                      <strong>U.S. CITIZEN</strong> — Legally authorized to work in both **India** and **USA** immediately without sponsorship (No visa sponsorship required).
                     </div>
                   </div>
 
@@ -262,15 +262,17 @@
                         <span>Query Sandbox</span>
                         <span class="file-ext">ABAP SQL</span>
                       </div>
-                      <div class="code-box-content font-mono">
-                        <div class="code-line"><span class="abap-comment">* Define standard ABAP CDS view projection *</span></div>
-                        <div class="code-line"><span class="abap-keyword">define root view entity</span> ZI_STUDENT</div>
-                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">as select from</span> zstudent</div>
-                        <div class="code-line">{</div>
-                        <div class="code-line">&nbsp;&nbsp;<span class="abap-keyword">key</span> student_id,</div>
-                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student_name,</div>
-                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;department</div>
-                        <div class="code-line">}</div>
+                      <div class="code-box-content font-mono" id="abap-editor-block">
+                        <div class="code-line" id="code-line-1"><span class="abap-comment">* Define standard ABAP CDS view projection *</span></div>
+                        <div class="code-line" id="code-line-2"><span class="abap-keyword">define root view entity</span> ZI_STUDENT</div>
+                        <div class="code-line" id="code-line-3">&nbsp;&nbsp;<span class="abap-keyword">as select from</span> zstudent</div>
+                        <div class="code-line" id="code-line-4">{</div>
+                        <div class="code-line" id="code-line-5">&nbsp;&nbsp;<span class="abap-keyword">key</span> student_id,</div>
+                        <div class="code-line" id="code-line-6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student_name,</div>
+                        <div class="code-line" id="code-line-7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;department,</div>
+                        <div class="code-line" id="code-line-8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;credits_earned,</div>
+                        <div class="code-line" id="code-line-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cgpa</div>
+                        <div class="code-line" id="code-line-10">}</div>
                       </div>
                       <button class="btn-execute" id="btn-execute-lab">
                         <span class="btn-label">EXECUTE REQUEST</span>
@@ -339,6 +341,12 @@
                         <span class="m-value font-mono text-cyan" id="lab-query-time">0.00ms</span>
                       </div>
                     </div>
+
+                    <!-- Dynamic ABAP engine logs (Better Sim feature) -->
+                    <div class="lab-console-log font-mono" id="lab-console-log">
+                      <!-- Populated via main.js loop -->
+                    </div>
+
                     <div class="result-table-wrapper">
                       <table class="result-table" id="db-result-table">
                         <thead>
@@ -579,6 +587,10 @@
                       </button>
                       <a href="https://www.credly.com/badges/9e33eaa4-6ff1-4b29-a8fd-79ef407da686" target="_blank" rel="noopener" class="btn-secondary btn-full text-center hidden" id="btn-credly-link">
                         VIEW OFFICIAL CREDLY BADGE
+                      </a>
+                      <!-- Direct Link to Original PDF Certificate (Handy request) -->
+                      <a href="/SAP_CERTIFICATE.pdf" target="_blank" class="btn-secondary btn-full text-center hidden" id="btn-original-pdf-link">
+                        OPEN ORIGINAL PDF CERTIFICATE
                       </a>
                     </div>
                   </div>
@@ -1079,9 +1091,14 @@
                         <div class="meta-row"><span class="m-k">Issue Date:</span><span class="m-v">December 2025</span></div>
                         <div class="meta-row"><span class="m-k">Validation Period:</span><span class="m-v">Dec 2025 – Dec 2026</span></div>
                       </div>
-                      <a href="https://www.credly.com/badges/9e33eaa4-6ff1-4b29-a8fd-79ef407da686" target="_blank" rel="noopener" class="btn-primary">
-                        VERIFY LIVE ON CREDLY
-                      </a>
+                      <div class="recruiter-cert-actions">
+                        <a href="https://www.credly.com/badges/9e33eaa4-6ff1-4b29-a8fd-79ef407da686" target="_blank" rel="noopener" class="btn-primary">
+                          VERIFY LIVE ON CREDLY
+                        </a>
+                        <a href="/SAP_CERTIFICATE.pdf" target="_blank" class="btn-secondary">
+                          OPEN ORIGINAL PDF
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1202,9 +1219,9 @@
       </main>
     </div>
 
-    <!-- Recruiter Quick Scan Inspector Panel -->
+    <!-- Recruiter Quick Scan Inspector Panel (SYSTEM OVERVIEW) -->
     <div class="floating-inspector" id="recruiter-quick-scan">
-      <div class="inspector-header" id="inspector-header">
+      <div class="inspector-header" id="inspector-header" style="cursor: move;">
         <div class="header-left">
           <span class="inspector-dot"></span>
           <span class="inspector-title font-display">SYSTEM OVERVIEW</span>

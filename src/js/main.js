@@ -289,10 +289,10 @@ function initViewModeToggle() {
 
 // ─── Live RAP Transaction Lab Simulator ───
 const studentMockData = [
-  { id: 'S001', name: 'Rishik Maduri', dept: 'CSE', credits: '120', cgpa: '8.5' },
-  { id: 'S002', name: 'Aaron Smith', dept: 'ECE', credits: '112', cgpa: '7.9' },
-  { id: 'S003', name: 'Priya Nair', dept: 'CSE', credits: '120', cgpa: '9.2' },
-  { id: 'S004', name: 'John Doe', dept: 'MECH', credits: '98', cgpa: '6.8' }
+  { id: 'S001', name: 'Rishik Maduri', dept: 'CSE', credits_earned: '120', cgpa: '8.5' },
+  { id: 'S002', name: 'Aaron Smith', dept: 'ECE', credits_earned: '112', cgpa: '7.9' },
+  { id: 'S003', name: 'Priya Nair', dept: 'CSE', credits_earned: '120', cgpa: '9.2' },
+  { id: 'S004', name: 'John Doe', dept: 'MECH', credits_earned: '98', cgpa: '6.8' }
 ];
 
 function initRAPLab() {
@@ -306,6 +306,33 @@ function initRAPLab() {
 
   if (!btn) return;
 
+  // Print helper for console logger
+  function printLog(logContainer, text, type = 'info') {
+    if (!logContainer) return;
+    const time = new Date().toLocaleTimeString();
+    const line = document.createElement('div');
+    line.className = 'log-item';
+    line.innerHTML = `
+      <span class="log-time">[${time}]</span>
+      <span class="log-text ${type}">${text}</span>
+    `;
+    logContainer.appendChild(line);
+    logContainer.scrollTop = logContainer.scrollHeight;
+  }
+
+  // Highlight helper for ABAP code lines
+  function highlightEditorLines(lineNumbers) {
+    document.querySelectorAll('#abap-editor-block .code-line').forEach(el => {
+      el.classList.remove('compiling-active');
+    });
+    lineNumbers.forEach(num => {
+      const line = document.getElementById(`code-line-${num}`);
+      if (line) {
+        line.classList.add('compiling-active');
+      }
+    });
+  }
+
   btn.addEventListener('click', () => {
     btn.disabled = true;
     btn.querySelector('.btn-spinner').classList.remove('hidden');
@@ -313,7 +340,7 @@ function initRAPLab() {
     statusEl.className = 'lab-status running';
     outputPanel.classList.add('hidden');
 
-    // Clean previous animation states
+    // Clean previous states
     const flowNodes = ['fiori', 'odata', 'behavior', 'rap', 'cds', 'hana'];
     flowNodes.forEach(id => {
       document.getElementById(`node-${id}`)?.classList.remove('active', 'success-active');
@@ -321,58 +348,130 @@ function initRAPLab() {
     for (let i = 1; i <= 5; i++) {
       document.getElementById(`arrow-${i}`)?.classList.remove('active');
     }
+    highlightEditorLines([]);
 
-    // Step-by-step layer animation
-    let delay = 0;
-    
-    flowNodes.forEach((nodeId, idx) => {
+    // Clear and prepare console logger
+    const logBox = document.getElementById('lab-console-log');
+    if (logBox) logBox.innerHTML = '';
+
+    // Step timeline
+    const timeline = [
+      {
+        delay: 0,
+        node: 'fiori',
+        arrow: null,
+        lines: [1, 2],
+        logs: [
+          { text: 'Fiori Client: Transaction engine initialization request sent.', type: 'info' },
+          { text: 'GET ZI_STUDENT_Processor_v4/Student(S001) - Request headers established.', type: 'cyan' }
+        ]
+      },
+      {
+        delay: 450,
+        node: 'odata',
+        arrow: 1,
+        lines: [3],
+        logs: [
+          { text: 'OData Gateway V4 Hub: Query mapping request dispatcher active.', type: 'info' },
+          { text: 'Access Control (ZDCL_STUDENT): Security clearance check SUCCESS.', type: 'success' }
+        ]
+      },
+      {
+        delay: 950,
+        node: 'behavior',
+        arrow: 2,
+        lines: [4, 5],
+        logs: [
+          { text: 'RAP Behavior Definition (ZI_STUDENT): Executing calculate_credits_earned hook.', type: 'info' },
+          { text: 'RAP Core Engine: Registry buffer state set to read-only mode.', type: 'info' }
+        ]
+      },
+      {
+        delay: 1450,
+        node: 'rap',
+        arrow: 3,
+        lines: [6, 7],
+        logs: [
+          { text: 'RAP Business Object: Standard SELECT dispatcher routing DB parameters.', type: 'info' },
+          { text: 'Semantic database compiler checking CDS View Entity definitions...', type: 'info' }
+        ]
+      },
+      {
+        delay: 1950,
+        node: 'cds',
+        arrow: 4,
+        lines: [8, 9],
+        logs: [
+          { text: 'CDS View Entity: Resolving semantic annotations and database projection views.', type: 'info' },
+          { text: 'HANA Query Planner: SELECT student_id, student_name, department, credits_earned, cgpa FROM zstudent', type: 'cyan' }
+        ]
+      },
+      {
+        delay: 2450,
+        node: 'hana',
+        arrow: 5,
+        lines: [10],
+        logs: [
+          { text: 'SAP HANA Column Store DB: Accessing active records schema. Optimizing execution...', type: 'info' },
+          { text: 'SAP HANA Column Store DB: Row search successful. sy-subrc = 0, retrieved: 4', type: 'success' }
+        ]
+      }
+    ];
+
+    timeline.forEach(step => {
       setTimeout(() => {
-        const node = document.getElementById(`node-${nodeId}`);
+        const node = document.getElementById(`node-${step.node}`);
         node?.classList.add('active');
-        
-        // Light up preceding arrow
-        if (idx > 0) {
-          document.getElementById(`arrow-${idx}`)?.classList.add('active');
+        if (step.arrow) {
+          document.getElementById(`arrow-${step.arrow}`)?.classList.add('active');
         }
-
-        if (idx === flowNodes.length - 1) {
-          // Reached database layer, complete the transaction
-          setTimeout(() => {
-            // Apply green success state
-            flowNodes.forEach(nId => {
-              const nd = document.getElementById(`node-${nId}`);
-              nd?.classList.remove('active');
-              nd?.classList.add('success-active');
-            });
-            for (let aIdx = 1; aIdx <= 5; aIdx++) {
-              document.getElementById(`arrow-${aIdx}`)?.classList.remove('active');
-            }
-
-            statusEl.textContent = 'SUCCESS';
-            statusEl.className = 'lab-status success';
-            btn.disabled = false;
-            btn.querySelector('.btn-spinner').classList.add('hidden');
-
-            // Render execution outputs
-            resTimeEl.textContent = `${Math.floor(25 + Math.random() * 30)}ms`;
-            resSizeEl.textContent = `${studentMockData.length} Rows`;
-            queryTimeEl.textContent = `${(0.12 + Math.random() * 0.15).toFixed(2)}ms`;
-
-            // Draw data table
-            renderLabTable(resultTable);
-            outputPanel.classList.remove('hidden');
-
-            // Scroll parent to make sure output is visible
-            const parentViewport = document.getElementById('editor-viewport');
-            if (parentViewport) {
-              parentViewport.scrollTop = parentViewport.scrollHeight;
-            }
-          }, 400);
-        }
-      }, delay);
-
-      delay += 350; // Delay between node transitions
+        highlightEditorLines(step.lines);
+        step.logs.forEach(log => printLog(logBox, log.text, log.type));
+      }, step.delay);
     });
+
+    // Complete transition
+    setTimeout(() => {
+      flowNodes.forEach(nId => {
+        const nd = document.getElementById(`node-${nId}`);
+        nd?.classList.remove('active');
+        nd?.classList.add('success-active');
+      });
+      for (let aIdx = 1; aIdx <= 5; aIdx++) {
+        document.getElementById(`arrow-${aIdx}`)?.classList.remove('active');
+      }
+
+      // Flash editor lines green to show success
+      document.querySelectorAll('#abap-editor-block .code-line').forEach(el => {
+        el.classList.remove('compiling-active');
+        el.classList.add('success-flash');
+        setTimeout(() => el.classList.remove('success-flash'), 1000);
+      });
+
+      statusEl.textContent = 'SUCCESS';
+      statusEl.className = 'lab-status success';
+      btn.disabled = false;
+      btn.querySelector('.btn-spinner').classList.add('hidden');
+
+      // Set metrics
+      resTimeEl.textContent = `${Math.floor(25 + Math.random() * 25)}ms`;
+      resSizeEl.textContent = `${studentMockData.length} Rows`;
+      queryTimeEl.textContent = `${(0.12 + Math.random() * 0.1).toFixed(2)}ms`;
+
+      // Render table
+      renderLabTable(resultTable);
+      outputPanel.classList.remove('hidden');
+
+      // Final success logs
+      printLog(logBox, '>>> OData Response JSON payload generated successfully. HTTP 200 OK.', 'success');
+      printLog(logBox, '>>> RAP Engine simulation completed successfully.', 'success');
+
+      // Scroll down
+      const parentViewport = document.getElementById('editor-viewport');
+      if (parentViewport) {
+        parentViewport.scrollTop = parentViewport.scrollHeight;
+      }
+    }, 3000);
   });
 }
 
@@ -394,7 +493,7 @@ function renderLabTable(tableEl) {
           <td>${row.id}</td>
           <td>${row.name}</td>
           <td>${row.dept}</td>
-          <td>${row.credits}</td>
+          <td>${row.credits_earned}</td>
           <td>${row.cgpa}</td>
         </tr>
       `).join('')}
@@ -868,7 +967,14 @@ function initRecruiterScanPanel() {
   const collapseBtn = document.getElementById('btn-collapse-scan');
   const header = document.getElementById('inspector-header');
 
-  if (!scanPanel) return;
+  if (!scanPanel || !header) return;
+
+  let isDragging = false;
+  let hasDragged = false;
+  let startX = 0;
+  let startY = 0;
+  let startLeft = 0;
+  let startTop = 0;
 
   function toggleCollapse() {
     scanPanel.classList.toggle('collapsed');
@@ -880,10 +986,75 @@ function initRecruiterScanPanel() {
     toggleCollapse();
   });
 
-  header.addEventListener('click', () => {
+  header.addEventListener('mousedown', (e) => {
+    // If clicked on collapseBtn directly, skip drag
+    if (e.target === collapseBtn || collapseBtn.contains(e.target)) return;
+
+    isDragging = true;
+    hasDragged = false;
+    
+    const rect = scanPanel.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = rect.left;
+    startTop = rect.top;
+
+    scanPanel.style.transition = 'none';
+    scanPanel.classList.add('is-dragging');
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+  function onMouseMove(e) {
+    if (!isDragging) return;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+      hasDragged = true;
+    }
+
+    let newLeft = startLeft + dx;
+    let newTop = startTop + dy;
+
+    const rect = scanPanel.getBoundingClientRect();
+    const minLeft = 10;
+    const maxLeft = window.innerWidth - rect.width - 10;
+    const minTop = 10;
+    const maxTop = window.innerHeight - 40;
+
+    newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
+    newTop = Math.max(minTop, Math.min(newTop, maxTop));
+
+    scanPanel.style.left = `${newLeft}px`;
+    scanPanel.style.top = `${newTop}px`;
+    scanPanel.style.bottom = 'auto';
+    scanPanel.style.right = 'auto';
+  }
+
+  function onMouseUp(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    scanPanel.style.transition = '';
+    scanPanel.classList.remove('is-dragging');
+    
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+
+  header.addEventListener('click', (e) => {
+    if (hasDragged) {
+      e.stopPropagation();
+      e.preventDefault();
+      return;
+    }
+    if (e.target === collapseBtn || collapseBtn.contains(e.target)) return;
+    
     toggleCollapse();
   });
-  
+
   // Collapse by default on narrow screens
   if (window.innerWidth < 768) {
     scanPanel.classList.add('collapsed');

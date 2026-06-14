@@ -2855,3 +2855,71 @@ body.mode-developer .c-channel:hover {
     gap: 1.25rem;
   }
 }
+
+/* ─── Dragging, Compiling highlights & Console Log additions ─── */
+.floating-inspector.is-dragging {
+  transition: none !important;
+  user-select: none;
+  cursor: move;
+}
+
+.code-line.compiling-active {
+  background-color: rgba(0, 229, 255, 0.1) !important;
+  box-shadow: inset 3px 0 0 var(--cyan) !important;
+  transition: all 0.2s ease;
+}
+
+.code-line.success-flash {
+  background-color: rgba(0, 230, 118, 0.12) !important;
+  box-shadow: inset 3px 0 0 var(--green) !important;
+  transition: all 0.2s ease;
+}
+
+.lab-console-log {
+  background-color: rgba(5, 8, 16, 0.65);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  border-radius: 4px;
+  padding: 0.85rem;
+  max-height: 160px;
+  overflow-y: auto;
+  margin-bottom: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.lab-console-log .log-item {
+  display: flex;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  align-items: flex-start;
+}
+
+.lab-console-log .log-time {
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.lab-console-log .log-text {
+  word-break: break-all;
+  text-align: left;
+}
+
+.lab-console-log .log-text.info {
+  color: var(--text-secondary);
+}
+
+.lab-console-log .log-text.success {
+  color: var(--green);
+}
+
+.lab-console-log .log-text.cyan {
+  color: var(--cyan);
+}
+
+.lab-console-log .log-text.warning {
+  color: var(--yellow);
+}
