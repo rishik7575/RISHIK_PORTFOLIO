@@ -1,595 +1,854 @@
 /* ═══════════════════════════════════════════════════════════════
-   ENTERPRISE NEXUS — Command Center Engine
+   APEX-01 ENTERPRISE CONSOLE — SYSTEM ENGINE
    ═══════════════════════════════════════════════════════════════ */
 
-// ─── Boot Sequence ───
+// ─── Boot Sequence Logger ───
 const bootLog = document.getElementById('boot-log');
 const bootProgress = document.getElementById('boot-progress');
 const bootStatus = document.getElementById('boot-status');
 const bootScreen = document.getElementById('boot-screen');
 
 const bootMessages = [
-  '[INIT] Loading Enterprise Nexus kernel...',
-  '[SYS] Connecting to SAP Business Technology Platform...',
-  '[NET] Establishing secure enterprise channels...',
-  '[AUTH] Verifying ABAP Cloud credentials...',
-  '[MOD] Loading S/4HANA landscape modules...',
-  '[UI] Initializing holographic interface...',
-  '[DATA] Syncing enterprise data streams...',
-  '[SEC] Encryption layer: AES-256-GCM active',
-  '[CMD] Mission Control systems online',
-  '[OK] Enterprise Nexus ready — access granted',
+  { text: 'APEX-01 KERNEL INITIALIZATION IN PROGRESS...', type: 'info' },
+  { text: 'Loading core system environment parameters...', type: 'info' },
+  { text: 'Connecting SAP Business Technology Platform...', type: 'cyan' },
+  { text: 'SAP BTP Subaccount cf-eu10 Connection: SUCCESS', type: 'success' },
+  { text: 'Initializing Cloud Connector tunnel...', type: 'info' },
+  { text: 'SAP S/4HANA On-Premise system connected safely.', type: 'success' },
+  { text: 'Mounting active RAP services (zcollege, zloan)...', type: 'purple' },
+  { text: 'Validating ABAP Cloud runtime syntax parser...', type: 'info' },
+  { text: 'Verifying credential cache signatures...', type: 'info' },
+  { text: 'Local decrypter: AES-256-GCM verification active.', type: 'purple' },
+  { text: 'Loading file tree workspace components...', type: 'info' },
+  { text: 'All modules integrated. APEX-01 workspace online.', type: 'success' }
 ];
 
 function runBootSequence() {
+  if (!bootLog) return;
   let progress = 0;
   const step = 100 / bootMessages.length;
 
   bootMessages.forEach((msg, i) => {
     setTimeout(() => {
       const line = document.createElement('div');
-      line.className = 'log-line';
-      line.textContent = msg;
+      line.className = `boot-log-line text-${msg.type}`;
+      line.textContent = `[SYS] ${msg.text}`;
       bootLog.appendChild(line);
       bootLog.scrollTop = bootLog.scrollHeight;
 
       progress += step;
       bootProgress.style.width = `${progress}%`;
-      bootStatus.textContent = msg.split('] ')[1]?.toUpperCase() || 'LOADING...';
+      bootStatus.textContent = msg.text.toUpperCase();
 
       if (i === bootMessages.length - 1) {
         setTimeout(() => {
-          bootStatus.textContent = 'ACCESS GRANTED';
-          bootStatus.style.color = '#00ff88';
+          bootStatus.textContent = 'SYSTEM ACTIVE // ACCESS GRANTED';
+          bootStatus.style.color = 'var(--green)';
           setTimeout(() => {
             bootScreen.classList.add('hidden');
-            initApp();
+            initWorkspace();
           }, 800);
-        }, 400);
+        }, 450);
       }
-    }, i * 350);
+    }, i * 280);
   });
 }
 
-// ─── Live Clock ───
-function updateClock() {
-  const el = document.getElementById('live-time');
-  if (!el) return;
-  const now = new Date();
-  el.textContent = now.toLocaleTimeString('en-US', { hour12: false });
-}
+// ─── Live Metrics Controller ───
+function initLiveMetrics() {
+  const btpEl = document.getElementById('metric-btp');
+  const abapEl = document.getElementById('metric-abap');
+  const rapEl = document.getElementById('metric-rap');
+  const deployEl = document.getElementById('metric-deploy');
+  const certEl = document.getElementById('metric-cert');
+  const healthEl = document.getElementById('metric-health');
 
-// ─── Background Canvas (Data Streams) ───
-class BackgroundEngine {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.particles = [];
-    this.resize();
-    window.addEventListener('resize', () => this.resize());
-  }
-
-  resize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.initParticles();
-  }
-
-  initParticles() {
-    this.particles = [];
-    const count = Math.floor((this.canvas.width * this.canvas.height) / 15000);
-    for (let i = 0; i < count; i++) {
-      this.particles.push({
-        x: Math.random() * this.canvas.width,
-        y: Math.random() * this.canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        size: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.4 + 0.1,
-      });
-    }
-  }
-
-  draw(mouseX, mouseY) {
-    const { ctx, canvas, particles } = this;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach((p, i) => {
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x < 0) p.x = canvas.width;
-      if (p.x > canvas.width) p.x = 0;
-      if (p.y < 0) p.y = canvas.height;
-      if (p.y > canvas.height) p.y = 0;
-
-      if (mouseX && mouseY) {
-        const dx = p.x - mouseX;
-        const dy = p.y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 150) {
-          p.x += dx * 0.01;
-          p.y += dy * 0.01;
-        }
-      }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 212, 255, ${p.opacity})`;
-      ctx.fill();
-
-      particles.slice(i + 1).forEach(p2 => {
-        const dx = p.x - p2.x;
-        const dy = p.y - p2.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(0, 212, 255, ${0.06 * (1 - dist / 120)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      });
-    });
-  }
-}
-
-// ─── Network Canvas (Global) ───
-class NetworkEngine {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.nodes = [];
-    this.time = 0;
-    this.resize();
-    window.addEventListener('resize', () => this.resize());
-    this.initNodes();
-  }
-
-  resize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-  }
-
-  initNodes() {
-    this.nodes = [];
-    for (let i = 0; i < 8; i++) {
-      this.nodes.push({
-        x: Math.random() * this.canvas.width,
-        y: Math.random() * this.canvas.height,
-        radius: 2 + Math.random() * 2,
-        pulse: Math.random() * Math.PI * 2,
-      });
-    }
-  }
-
-  draw() {
-    this.time += 0.01;
-    const { ctx, canvas, nodes } = this;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    nodes.forEach((node, i) => {
-      node.pulse += 0.02;
-      const glow = Math.sin(node.pulse) * 0.3 + 0.7;
-
-      ctx.beginPath();
-      ctx.arc(node.x, node.y, node.radius * glow, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 136, 255, ${0.3 * glow})`;
-      ctx.fill();
-
-      nodes.slice(i + 1).forEach(other => {
-        const dx = node.x - other.x;
-        const dy = node.y - other.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 300) {
-          ctx.beginPath();
-          ctx.moveTo(node.x, node.y);
-          ctx.lineTo(other.x, other.y);
-          ctx.strokeStyle = `rgba(0, 212, 255, ${0.04 * (1 - dist / 300)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-
-          const pulsePos = (this.time * 0.5 + i * 0.3) % 1;
-          const px = node.x + (other.x - node.x) * pulsePos;
-          const py = node.y + (other.y - node.y) * pulsePos;
-          ctx.beginPath();
-          ctx.arc(px, py, 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(0, 212, 255, 0.6)';
-          ctx.fill();
-        }
-      });
-    });
-  }
-}
-
-// ─── Technology Network Graph ───
-const TECH_NODES = [
-  { id: 'abap', label: 'SAP ABAP Cloud', type: 'sap', x: 0.5, y: 0.2 },
-  { id: 'rap', label: 'SAP RAP', type: 'sap', x: 0.25, y: 0.35 },
-  { id: 's4', label: 'SAP S/4HANA', type: 'sap', x: 0.75, y: 0.35 },
-  { id: 'cds', label: 'CDS Views', type: 'sap', x: 0.15, y: 0.55 },
-  { id: 'odata', label: 'OData', type: 'integration', x: 0.5, y: 0.5 },
-  { id: 'fiori', label: 'SAP Fiori', type: 'sap', x: 0.85, y: 0.55 },
-  { id: 'java', label: 'Java', type: 'dev', x: 0.3, y: 0.75 },
-  { id: 'python', label: 'Python', type: 'dev', x: 0.55, y: 0.78 },
-  { id: 'js', label: 'JavaScript', type: 'dev', x: 0.75, y: 0.72 },
-];
-
-const TECH_CONNECTIONS = [
-  ['abap', 'rap'], ['abap', 's4'], ['rap', 'cds'], ['rap', 'odata'],
-  ['s4', 'odata'], ['s4', 'fiori'], ['cds', 'odata'], ['odata', 'fiori'],
-  ['odata', 'js'], ['rap', 'java'], ['java', 'python'], ['js', 'fiori'],
-  ['abap', 'odata'], ['python', 'js'],
-];
-
-class TechNetwork {
-  constructor(canvas, labelsContainer) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.labelsContainer = labelsContainer;
-    this.mouseX = 0;
-    this.mouseY = 0;
-    this.time = 0;
-    this.hoveredNode = null;
-
-    this.canvas.addEventListener('mousemove', (e) => {
-      const rect = this.canvas.getBoundingClientRect();
-      this.mouseX = e.clientX - rect.left;
-      this.mouseY = e.clientY - rect.top;
-    });
-
-    this.createLabels();
-    this.resize();
-    window.addEventListener('resize', () => this.resize());
-  }
-
-  resize() {
-    const container = this.canvas.parentElement;
-    this.canvas.width = container.clientWidth;
-    this.canvas.height = container.clientHeight;
-    this.updateLabels();
-  }
-
-  getNodePositions() {
-    return TECH_NODES.map(n => ({
-      ...n,
-      px: n.x * this.canvas.width,
-      py: n.y * this.canvas.height,
-    }));
-  }
-
-  createLabels() {
-    this.labelsContainer.innerHTML = '';
-    TECH_NODES.forEach(node => {
-      const el = document.createElement('div');
-      el.className = `tech-node-label tech-node-label--${node.type}`;
-      el.textContent = node.label;
-      el.dataset.id = node.id;
-      el.addEventListener('click', () => showHoloPopup(node.label, getTechDescription(node.id)));
-      this.labelsContainer.appendChild(el);
-    });
-  }
-
-  updateLabels() {
-    const positions = this.getNodePositions();
-    const labels = this.labelsContainer.querySelectorAll('.tech-node-label');
-    labels.forEach((el, i) => {
-      if (positions[i]) {
-        el.style.left = `${positions[i].px}px`;
-        el.style.top = `${positions[i].py}px`;
-      }
-    });
-  }
-
-  getColor(type) {
-    const colors = {
-      sap: [0, 212, 255],
-      dev: [0, 136, 255],
-      integration: [123, 47, 255],
-    };
-    return colors[type] || colors.sap;
-  }
-
-  draw() {
-    this.time += 0.015;
-    const { ctx, canvas } = this;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const positions = this.getNodePositions();
-
-    TECH_CONNECTIONS.forEach(([from, to], connIndex) => {
-      const n1 = positions.find(n => n.id === from);
-      const n2 = positions.find(n => n.id === to);
-      if (!n1 || !n2) return;
-
-      const gradient = ctx.createLinearGradient(n1.px, n1.py, n2.px, n2.py);
-      gradient.addColorStop(0, 'rgba(0, 212, 255, 0.15)');
-      gradient.addColorStop(0.5, 'rgba(0, 212, 255, 0.35)');
-      gradient.addColorStop(1, 'rgba(0, 212, 255, 0.15)');
-
-      ctx.beginPath();
-      ctx.moveTo(n1.px, n1.py);
-      ctx.lineTo(n2.px, n2.py);
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      const pulsePos = (this.time * 0.3 + connIndex * 0.1) % 1;
-      const px = n1.px + (n2.px - n1.px) * pulsePos;
-      const py = n1.py + (n2.py - n1.py) * pulsePos;
-
-      ctx.beginPath();
-      ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0, 212, 255, 0.8)';
-      ctx.shadowColor = 'rgba(0, 212, 255, 0.8)';
-      ctx.shadowBlur = 8;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-    });
-
-    positions.forEach(node => {
-      const [r, g, b] = this.getColor(node.type);
-      const pulse = Math.sin(this.time * 2 + node.x * 10) * 0.2 + 0.8;
-
-      ctx.beginPath();
-      ctx.arc(node.px, node.py, 6 * pulse, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.3)`;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(node.px, node.py, 3, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.9)`;
-      ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
-      ctx.shadowBlur = 12;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-    });
-
-    this.updateLabels();
-  }
-}
-
-function getTechDescription(id) {
-  const descriptions = {
-    abap: 'Core SAP development language for cloud-native ABAP applications on SAP BTP.',
-    rap: 'Restful ABAP Programming — modern development model for SAP Fiori apps.',
-    s4: 'Next-generation intelligent ERP suite powering enterprise digital transformation.',
-    cds: 'Core Data Services for semantic data modeling and analytics.',
-    odata: 'Open Data Protocol for standardized RESTful API communication.',
-    fiori: 'SAP\'s modern UX design system for responsive enterprise applications.',
-    java: 'Enterprise-grade backend development for integration scenarios.',
-    python: 'Data processing, automation, and analytics scripting.',
-    js: 'Frontend development for Fiori/UI5 and web-based interfaces.',
-  };
-  return descriptions[id] || 'Enterprise technology component.';
-}
-
-// ─── Hero Data Stream ───
-function initHeroDataStream() {
-  const container = document.getElementById('hero-data-stream');
-  if (!container) return;
-
-  const snippets = [
-    'OData v4.0 → /sap/opu/odata4/sap/zcollege/',
-    'CDS View: ZI_StudentMaster',
-    'RAP BO: ZR_StudentManagement',
-    'Auth: S_SERVICE → GRANTED',
-    'Fiori Launchpad → Tile Active',
-    'S/4HANA 2023 FPS02 → Connected',
-    'ABAP Cloud → Runtime OK',
-    'BTP Subaccount → cf-eu10',
-    'Workflow: LoanApproval → RUNNING',
-    'Validation: CreditScore > 650 → PASS',
-  ];
-
-  for (let i = 0; i < 15; i++) {
-    const el = document.createElement('div');
-    el.className = 'data-particle';
-    el.textContent = snippets[i % snippets.length];
-    el.style.left = `${Math.random() * 90 + 5}%`;
-    el.style.animationDuration = `${8 + Math.random() * 12}s`;
-    el.style.animationDelay = `${Math.random() * 10}s`;
-    container.appendChild(el);
-  }
-}
-
-// ─── Animated Counters ───
-function animateCounters() {
-  document.querySelectorAll('.metric-value[data-count]').forEach(el => {
-    const target = parseFloat(el.dataset.count);
-    const isDecimal = el.dataset.decimal === 'true';
-    const duration = 2000;
-    const start = performance.now();
-
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = target * eased;
-
-      el.textContent = isDecimal ? current.toFixed(1) : Math.floor(current);
-
-      if (progress < 1) requestAnimationFrame(update);
-      else el.textContent = isDecimal ? target.toFixed(1) : target;
-    }
-
-    requestAnimationFrame(update);
-  });
-}
-
-// ─── Panel Navigation ───
-let currentSection = 'profile';
-const transitionOverlay = document.getElementById('transition-overlay');
-
-function navigateTo(section) {
-  if (section === currentSection) return;
-
-  transitionOverlay.classList.add('active');
-
+  // Animate metrics on load
   setTimeout(() => {
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.mc-item').forEach(m => m.classList.remove('active'));
+    if (btpEl) {
+      btpEl.textContent = 'ONLINE';
+      btpEl.className = 'metric-val text-success font-mono';
+    }
+    
+    // Animate ABAP RT
+    let abapVal = 0;
+    const abapInterval = setInterval(() => {
+      abapVal += 5.5;
+      if (abapVal >= 99.98) {
+        abapVal = 99.98;
+        clearInterval(abapInterval);
+        
+        // Fluctuating metric slightly
+        setInterval(() => {
+          const delta = (Math.random() - 0.5) * 0.03;
+          abapEl.textContent = `${(99.98 + delta).toFixed(2)}%`;
+        }, 4000);
+      }
+      if (abapEl) abapEl.textContent = `${abapVal.toFixed(2)}%`;
+    }, 50);
 
-    const panel = document.getElementById(section);
-    const navItem = document.querySelector(`.mc-item[data-section="${section}"]`);
+    // Animate RAP Services
+    let rapVal = 0;
+    const rapInterval = setInterval(() => {
+      rapVal += 1;
+      if (rapVal >= 12) {
+        clearInterval(rapInterval);
+      }
+      if (rapEl) rapEl.textContent = `${rapVal} Active`;
+    }, 80);
 
-    if (panel) panel.classList.add('active');
-    if (navItem) navItem.classList.add('active');
+    // Set static metrics
+    if (deployEl) deployEl.textContent = '2';
+    if (certEl) certEl.textContent = 'VERIFIED';
+    if (healthEl) healthEl.textContent = 'HEALTHY';
+  }, 1000);
+}
 
-    currentSection = section;
+// ─── Workspace IDE Tab Manager ───
+let openTabs = ['profile.abap'];
+let activeTab = 'profile.abap';
 
-    if (section === 'profile') animateCounters();
-    if (section === 'achievements') animateJourneyNodes();
+const fileTypeMap = {
+  'profile.abap': { label: 'profile.abap', type: 'ABAP', iconClass: 'abap-icon', iconChar: 'A', linesCount: 84 },
+  'sap_landscape.yaml': { label: 'sap_landscape.yaml', type: 'YAML', iconClass: 'yaml-icon', iconChar: 'Y', linesCount: 52 },
+  'certifications.sec': { label: 'certifications.sec', type: 'SEC', iconClass: 'sec-icon', iconChar: 'S', linesCount: 48 },
+  'projects.rap': { label: 'projects.rap', type: 'RAP', iconClass: 'rap-icon', iconChar: 'R', linesCount: 96 },
+  'achievements.json': { label: 'achievements.json', type: 'JSON', iconClass: 'json-icon', iconChar: 'J', linesCount: 60 },
+  'roadmap.future': { label: 'roadmap.future', type: 'FUTURE', iconClass: 'future-icon', iconChar: 'F', linesCount: 42 },
+  'terminal.sh': { label: 'terminal.sh', type: 'SH', iconClass: 'terminal-icon', iconChar: '>_', linesCount: 35 }
+};
 
-    setTimeout(() => transitionOverlay.classList.remove('active'), 300);
-  }, 300);
+function renderTabs() {
+  const tabsBar = document.getElementById('tabs-bar');
+  if (!tabsBar) return;
+  tabsBar.innerHTML = '';
+
+  openTabs.forEach(file => {
+    const meta = fileTypeMap[file];
+    const tab = document.createElement('div');
+    tab.className = `tab-item ${file === activeTab ? 'active' : ''}`;
+    tab.dataset.file = file;
+    
+    tab.innerHTML = `
+      <span class="file-icon ${meta.iconClass}">${meta.iconChar}</span>
+      <span class="tab-label">${meta.label}</span>
+      <span class="tab-close" data-close="${file}">×</span>
+    `;
+
+    // Click tab to focus
+    tab.addEventListener('click', (e) => {
+      if (e.target.dataset.close) return;
+      focusTab(file);
+    });
+
+    // Close tab click
+    tab.querySelector('.tab-close').addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeTab(file);
+    });
+
+    tabsBar.appendChild(tab);
+  });
+}
+
+function focusTab(file) {
+  if (!openTabs.includes(file)) {
+    openTabs.push(file);
+  }
+  activeTab = file;
+  renderTabs();
+
+  // Sync left sidebar list selection
+  document.querySelectorAll('.tree-file').forEach(el => {
+    if (el.dataset.file === file) {
+      el.classList.add('active');
+    } else {
+      el.classList.remove('active');
+    }
+  });
+
+  // Switch displayed panels
+  document.querySelectorAll('.panel').forEach(panel => {
+    if (panel.dataset.panel === file) {
+      panel.classList.add('active');
+    } else {
+      panel.classList.remove('active');
+    }
+  });
+
+  // Gutter lines redraw
+  updateGutterLines(file);
+
+  // Update Footer info
+  const footerType = document.getElementById('editor-file-type');
+  if (footerType) footerType.textContent = fileTypeMap[file].type;
+
+  // Triggers panel-specific events
+  if (file === 'roadmap.future') {
+    animateRoadmapTimeline();
+  }
+  if (file === 'terminal.sh') {
+    const terminalInput = document.getElementById('terminal-input');
+    if (terminalInput) setTimeout(() => terminalInput.focus(), 50);
+  }
+}
+
+function closeTab(file) {
+  const index = openTabs.indexOf(file);
+  if (index === -1) return;
+
+  openTabs.splice(index, 1);
+
+  if (activeTab === file) {
+    if (openTabs.length > 0) {
+      activeTab = openTabs[Math.max(0, index - 1)];
+    } else {
+      activeTab = '';
+    }
+  }
+
+  if (activeTab) {
+    focusTab(activeTab);
+  } else {
+    // If no tabs open, open profile.abap by default to keep IDE alive
+    focusTab('profile.abap');
+  }
+}
+
+function updateGutterLines(file) {
+  const lineGutter = document.getElementById('line-numbers');
+  if (!lineGutter) return;
+  lineGutter.innerHTML = '';
+  
+  const count = fileTypeMap[file]?.linesCount || 50;
+  for (let i = 1; i <= count; i++) {
+    const num = document.createElement('div');
+    num.textContent = i;
+    lineGutter.appendChild(num);
+  }
 }
 
 function initNavigation() {
-  document.querySelectorAll('.mc-item').forEach(item => {
-    item.addEventListener('click', () => navigateTo(item.dataset.section));
-  });
-
-  document.querySelectorAll('[data-section]').forEach(el => {
-    if (el.tagName === 'BUTTON') {
-      el.addEventListener('click', () => navigateTo(el.dataset.section));
-    }
-  });
-}
-
-// ─── Journey Timeline Animation ───
-function animateJourneyNodes() {
-  document.querySelectorAll('.journey-node').forEach((node, i) => {
-    setTimeout(() => node.classList.add('visible'), i * 200);
-  });
-}
-
-// ─── Holographic Popup ───
-const holoPopup = document.getElementById('holo-popup');
-const holoPopupBody = document.getElementById('holo-popup-body');
-const holoClose = document.getElementById('holo-close');
-
-function showHoloPopup(title, description) {
-  holoPopupBody.innerHTML = `<h4>${title}</h4><p>${description}</p>`;
-  holoPopup.classList.add('active');
-}
-
-holoClose?.addEventListener('click', () => holoPopup.classList.remove('active'));
-holoPopup?.addEventListener('click', (e) => {
-  if (e.target === holoPopup) holoPopup.classList.remove('active');
-});
-
-// ─── Module Layer Interactions ───
-function initModuleLayers() {
-  document.querySelectorAll('.layer').forEach(layer => {
-    layer.addEventListener('click', () => {
-      const name = layer.querySelector('.layer-name')?.textContent;
-      const detail = layer.querySelector('.layer-detail')?.textContent;
-      showHoloPopup(name, detail);
+  document.querySelectorAll('.tree-file').forEach(el => {
+    el.addEventListener('click', () => {
+      const file = el.dataset.file;
+      focusTab(file);
     });
   });
 }
 
-// ─── Badge Interactions ───
-function initBadges() {
-  document.querySelectorAll('.badge-card').forEach(badge => {
-    badge.addEventListener('click', () => {
-      const title = badge.querySelector('.badge-title')?.textContent;
-      const sub = badge.querySelector('.badge-sub')?.textContent;
-      showHoloPopup(title, sub);
+// ─── Recruiter / Developer View Toggle ───
+function initViewModeToggle() {
+  const devBtn = document.getElementById('btn-mode-dev');
+  const recruiterBtn = document.getElementById('btn-mode-recruiter');
+
+  if (devBtn && recruiterBtn) {
+    devBtn.addEventListener('click', () => {
+      document.body.className = 'mode-developer';
+      devBtn.classList.add('active');
+      recruiterBtn.classList.remove('active');
+    });
+
+    recruiterBtn.addEventListener('click', () => {
+      document.body.className = 'mode-recruiter';
+      recruiterBtn.classList.add('active');
+      devBtn.classList.remove('active');
+    });
+  }
+}
+
+// ─── Live RAP Transaction Lab Simulator ───
+const studentMockData = [
+  { id: 'S001', name: 'Rishik Maduri', dept: 'CSE', credits: '120', cgpa: '8.5' },
+  { id: 'S002', name: 'Aaron Smith', dept: 'ECE', credits: '112', cgpa: '7.9' },
+  { id: 'S003', name: 'Priya Nair', dept: 'CSE', credits: '120', cgpa: '9.2' },
+  { id: 'S004', name: 'John Doe', dept: 'MECH', credits: '98', cgpa: '6.8' }
+];
+
+function initRAPLab() {
+  const btn = document.getElementById('btn-execute-lab');
+  const statusEl = document.getElementById('lab-engine-status');
+  const outputPanel = document.getElementById('lab-outputs');
+  const resTimeEl = document.getElementById('lab-res-time');
+  const resSizeEl = document.getElementById('lab-res-size');
+  const queryTimeEl = document.getElementById('lab-query-time');
+  const resultTable = document.getElementById('db-result-table');
+
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    btn.disabled = true;
+    btn.querySelector('.btn-spinner').classList.remove('hidden');
+    statusEl.textContent = 'RUNNING';
+    statusEl.className = 'lab-status running';
+    outputPanel.classList.add('hidden');
+
+    // Clean previous animation states
+    const flowNodes = ['fiori', 'odata', 'behavior', 'rap', 'cds', 'hana'];
+    flowNodes.forEach(id => {
+      document.getElementById(`node-${id}`)?.classList.remove('active', 'success-active');
+    });
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById(`arrow-${i}`)?.classList.remove('active');
+    }
+
+    // Step-by-step layer animation
+    let delay = 0;
+    
+    flowNodes.forEach((nodeId, idx) => {
+      setTimeout(() => {
+        const node = document.getElementById(`node-${nodeId}`);
+        node?.classList.add('active');
+        
+        // Light up preceding arrow
+        if (idx > 0) {
+          document.getElementById(`arrow-${idx}`)?.classList.add('active');
+        }
+
+        if (idx === flowNodes.length - 1) {
+          // Reached database layer, complete the transaction
+          setTimeout(() => {
+            // Apply green success state
+            flowNodes.forEach(nId => {
+              const nd = document.getElementById(`node-${nId}`);
+              nd?.classList.remove('active');
+              nd?.classList.add('success-active');
+            });
+            for (let aIdx = 1; aIdx <= 5; aIdx++) {
+              document.getElementById(`arrow-${aIdx}`)?.classList.remove('active');
+            }
+
+            statusEl.textContent = 'SUCCESS';
+            statusEl.className = 'lab-status success';
+            btn.disabled = false;
+            btn.querySelector('.btn-spinner').classList.add('hidden');
+
+            // Render execution outputs
+            resTimeEl.textContent = `${Math.floor(25 + Math.random() * 30)}ms`;
+            resSizeEl.textContent = `${studentMockData.length} Rows`;
+            queryTimeEl.textContent = `${(0.12 + Math.random() * 0.15).toFixed(2)}ms`;
+
+            // Draw data table
+            renderLabTable(resultTable);
+            outputPanel.classList.remove('hidden');
+
+            // Scroll parent to make sure output is visible
+            const parentViewport = document.getElementById('editor-viewport');
+            if (parentViewport) {
+              parentViewport.scrollTop = parentViewport.scrollHeight;
+            }
+          }, 400);
+        }
+      }, delay);
+
+      delay += 350; // Delay between node transitions
     });
   });
 }
 
-// ─── Cursor Glow ───
-function initCursorGlow() {
-  const glow = document.getElementById('cursor-glow');
-  if (!glow) return;
+function renderLabTable(tableEl) {
+  if (!tableEl) return;
+  tableEl.innerHTML = `
+    <thead>
+      <tr>
+        <th>STUDENT_ID</th>
+        <th>STUDENT_NAME</th>
+        <th>DEPARTMENT</th>
+        <th>CREDITS_EARNED</th>
+        <th>CGPA</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${studentMockData.map(row => `
+        <tr>
+          <td>${row.id}</td>
+          <td>${row.name}</td>
+          <td>${row.dept}</td>
+          <td>${row.credits}</td>
+          <td>${row.cgpa}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  `;
+}
 
-  let mouseX = 0, mouseY = 0;
-  let glowX = 0, glowY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animateGlow() {
-    glowX += (mouseX - glowX) * 0.08;
-    glowY += (mouseY - glowY) * 0.08;
-    glow.style.left = `${glowX}px`;
-    glow.style.top = `${glowY}px`;
-    requestAnimationFrame(animateGlow);
+// ─── Interactive SVG Architecture Topology ───
+const nodeDescriptions = {
+  fiori: {
+    title: 'SAP Fiori UI Layer',
+    type: 'UI PRESENTATION CLIENT',
+    desc: 'The gateway interface for recruiters and operators. Fiori templates query the back-end OData layer using REST protocols to display clean and fully responsive user interface forms.',
+    protocol: 'HTTPS / JSON REST',
+    role: 'Responsive Presentation UI Layout',
+    tech: 'SAPUI5 / Fiori Elements'
+  },
+  btp: {
+    title: 'SAP Business Technology Platform',
+    type: 'CLOUD INTEGRATION ORCHESTRATION',
+    desc: 'The middleware platform hosted on BTP Cloud. Orchestrates integration paths, API bindings, secure single sign-on tokens, and database connector channels to backend databases.',
+    protocol: 'JSON REST / RFC Calls',
+    role: 'Middleware Integration Platform',
+    tech: 'BTP Cloud Foundry / SAP Business Application Studio'
+  },
+  api: {
+    title: 'OData API Gateway',
+    type: 'DATA INTERFACE ENDPOINT',
+    desc: 'Exposes structural entities via OData v4 REST interfaces. Standardizes client communications, payload queries, and CRUD transaction requests between client web apps and back-end logic.',
+    protocol: 'OData V4 XML / JSON',
+    role: 'API Endpoints & Data Model Service Exposure',
+    tech: 'SAP Gateway SE / Service Definitions'
+  },
+  sec: {
+    title: 'DCL Security & Identity Access',
+    type: 'SECURITY CONTROL MECHANISM',
+    desc: 'Data Control Language (DCL) mapping access guidelines. Decides security permissions and checks authorizations so that data is filtered and only validated administrators can execute modifications.',
+    protocol: 'SAP Role-Based Security Rules',
+    role: 'DCL Filtering & System Security Auths',
+    tech: 'DCL View Entities / PFCG Profiles'
+  },
+  cc: {
+    title: 'SAP Cloud Connector',
+    type: 'SECURE HYBRID TUNNEL',
+    desc: 'Secure link connecting BTP cloud applications to S/4HANA instances inside internal firewalls. Eliminates the need for complex VPN routers by running a secure outbound SSL link.',
+    protocol: 'SSL Encrypted Direct Tunnel',
+    role: 'Secure On-Premise Gateway Bridge',
+    tech: 'SAP Cloud Connector Agent v2'
+  },
+  s4: {
+    title: 'SAP S/4HANA Core System',
+    type: 'ENTERPRISE DATABASE SUITE',
+    desc: 'The central application processing kernel. Runs the core ABAP logic stack and coordinates business flows, system authorizations, database write queries, and transaction pipelines.',
+    protocol: 'RFC / Local ABAP runtime',
+    role: 'Central ERP System Logic processing',
+    tech: 'S/4HANA FPS02 Core Architecture'
+  },
+  rap: {
+    title: 'SAP Restful ABAP Programming',
+    type: 'TRANSACTIONAL BACK-END ENGINE',
+    desc: 'The modern cloud programming model. Features decoupled business logic layers including determinations, validation rules, lock definitions, and runtime database persistence overrides.',
+    protocol: 'ABAP REST API Standards',
+    role: 'Transactional Framework & Determinations Processing',
+    tech: 'SAP RAP Framework (Managed Scenarios)'
+  },
+  db: {
+    title: 'SAP HANA Database',
+    type: 'IN-MEMORY DB PERSISTENCE',
+    desc: 'High-performance in-memory database. Holds physical table entries and handles complex semantic views dynamically using database index optimizations and column-oriented memory architecture.',
+    protocol: 'SQL Queries / HDB Pipelines',
+    role: 'Persistent Storage & CDS execution Engine',
+    tech: 'SAP HANA In-Memory Database Engine v2'
   }
-  animateGlow();
-}
+};
 
-// ─── Uptime Counter ───
-function initUptimeCounter() {
-  const el = document.getElementById('metric-uptime');
-  if (!el) return;
-  let value = 99.97;
-  setInterval(() => {
-    value = 99.95 + Math.random() * 0.04;
-    el.textContent = value.toFixed(2);
-  }, 3000);
-}
+function initSVGTopology() {
+  const nodes = document.querySelectorAll('.svg-node');
+  const titleEl = document.getElementById('drawer-node-title');
+  const typeEl = document.getElementById('drawer-node-type');
+  const descEl = document.getElementById('drawer-node-desc');
+  const protocolEl = document.getElementById('spec-protocol');
+  const roleEl = document.getElementById('spec-role');
+  const techEl = document.getElementById('spec-tech');
+  const specsContainer = document.getElementById('drawer-specs-container');
 
-// ─── Main App Init ───
-let bgEngine, networkEngine, techNetwork;
-let mouseX = 0, mouseY = 0;
+  nodes.forEach(node => {
+    node.addEventListener('click', () => {
+      const nodeId = node.id.replace('svg-node-', '');
+      const meta = nodeDescriptions[nodeId];
 
-function initApp() {
-  const bgCanvas = document.getElementById('bg-canvas');
-  const networkCanvas = document.getElementById('network-canvas');
-  const techCanvas = document.getElementById('tech-canvas');
-  const techNodes = document.getElementById('tech-nodes');
+      if (!meta) return;
 
-  bgEngine = new BackgroundEngine(bgCanvas);
-  networkEngine = new NetworkEngine(networkCanvas);
-  techNetwork = new TechNetwork(techCanvas, techNodes);
+      // Toggle active states on SVG nodes
+      nodes.forEach(n => n.classList.remove('active'));
+      node.classList.add('active');
 
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+      // Highlight active connection lines/paths in SVG
+      const connectionLines = document.querySelectorAll('.pulse-line');
+      connectionLines.forEach(line => line.classList.remove('active'));
+      
+      // Selectively pulse connected paths based on node
+      if (nodeId === 'fiori' || nodeId === 'btp') {
+        document.getElementById('path-fiori-btp')?.classList.add('active');
+      }
+      if (nodeId === 'btp' || nodeId === 'cc') {
+        document.getElementById('path-btp-cc')?.classList.add('active');
+      }
+      if (nodeId === 'cc' || nodeId === 's4') {
+        document.getElementById('path-cc-s4')?.classList.add('active');
+      }
+      if (nodeId === 'api' || nodeId === 'btp') {
+        document.getElementById('path-btp-api')?.classList.add('active');
+        document.getElementById('path-api-s4')?.classList.add('active');
+      }
+      if (nodeId === 'sec' || nodeId === 'btp') {
+        document.getElementById('path-btp-sec')?.classList.add('active');
+        document.getElementById('path-sec-s4')?.classList.add('active');
+      }
+      if (nodeId === 'rap' || nodeId === 's4') {
+        document.getElementById('path-s4-rap')?.classList.add('active');
+      }
+      if (nodeId === 'db' || nodeId === 's4') {
+        document.getElementById('path-s4-db')?.classList.add('active');
+      }
+      if (nodeId === 'rap' || nodeId === 'db') {
+        document.getElementById('path-rap-db')?.classList.add('active');
+      }
+
+      // Update details drawer
+      titleEl.textContent = meta.title;
+      typeEl.textContent = meta.type;
+      descEl.textContent = meta.desc;
+      protocolEl.textContent = meta.protocol;
+      roleEl.textContent = meta.role;
+      techEl.textContent = meta.tech;
+
+      specsContainer.classList.remove('hidden');
+    });
   });
+}
 
-  function renderLoop() {
-    bgEngine.draw(mouseX, mouseY);
-    networkEngine.draw();
-    if (currentSection === 'technologies') {
-      techNetwork.draw();
+// ─── Cryptographic Certification Vault Verification ───
+const verificationLogs = [
+  'Generating SHA-256 local checksum hashes...',
+  'Checking credential token registry in browser cache...',
+  'Establishing secure connection with Credly API endpoints...',
+  'Retrieving digital registry signatures for credential C-ABAPD-2507...',
+  'Verifying issuing authority: SAP SE Germany official registry...',
+  'Cross-checking metadata integrity constraints... SUCCESS',
+  'Verification result: CERTIFICATION SECURE & AUTHENTIC'
+];
+
+function initCertVault() {
+  const btn = document.getElementById('btn-verify-cert');
+  const scanner = document.querySelector('.verify-scanner');
+  const logsBox = document.getElementById('cert-verify-logs');
+  const statusVal = document.getElementById('cert-status-text');
+  const authBadge = document.getElementById('cert-auth-badge');
+  const credlyLink = document.getElementById('btn-credly-link');
+
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    btn.disabled = true;
+    scanner.classList.add('scanning');
+    authBadge.classList.add('hidden');
+    credlyLink.classList.add('hidden');
+    logsBox.innerHTML = '';
+    statusVal.textContent = 'CHECKING SIGNATURES...';
+    statusVal.className = 's-val text-warning font-mono';
+
+    let index = 0;
+    
+    function printNextLog() {
+      if (index < verificationLogs.length) {
+        const line = document.createElement('div');
+        line.className = 'term-line log-info';
+        line.textContent = `> [INIT] ${verificationLogs[index]}`;
+        logsBox.appendChild(line);
+        logsBox.scrollTop = logsBox.scrollHeight;
+        index++;
+        
+        // Wait slightly between log checks
+        setTimeout(printNextLog, 300 + Math.random() * 200);
+      } else {
+        // Complete Verification
+        setTimeout(() => {
+          scanner.classList.remove('scanning');
+          authBadge.classList.remove('hidden');
+          
+          const successLine = document.createElement('div');
+          successLine.className = 'term-line log-success';
+          successLine.textContent = '>>> [SUCCESS] CREDENTIAL SYSTEM AUTHENTICATION OK.';
+          logsBox.appendChild(successLine);
+          logsBox.scrollTop = logsBox.scrollHeight;
+
+          statusVal.textContent = 'VERIFIED / ACTIVE / AUTHENTIC';
+          statusVal.className = 's-val text-success font-mono';
+          btn.disabled = false;
+          
+          // Reveal Credly button
+          credlyLink.classList.remove('hidden');
+        }, 300);
+      }
     }
-    requestAnimationFrame(renderLoop);
-  }
-  renderLoop();
 
+    setTimeout(printNextLog, 400);
+  });
+}
+
+// ─── JSON Accordion Achievements ───
+function initJSONAccordion() {
+  const triggers = document.querySelectorAll('.j-trigger');
+  triggers.forEach(trig => {
+    trig.addEventListener('click', () => {
+      const parent = trig.parentElement;
+      const contents = parent.querySelector('.json-group-contents');
+      const toggle = trig.querySelector('.j-toggle');
+
+      if (contents.classList.contains('hidden')) {
+        contents.classList.remove('hidden');
+        toggle.textContent = '▼';
+        parent.classList.add('active');
+      } else {
+        contents.classList.add('hidden');
+        toggle.textContent = '▶';
+        parent.classList.remove('active');
+      }
+    });
+  });
+}
+
+// ─── Career Timeline Animation ───
+function animateRoadmapTimeline() {
+  const nodes = document.querySelectorAll('.roadmap-node');
+  nodes.forEach((node, i) => {
+    setTimeout(() => {
+      node.classList.add('visible');
+    }, i * 250);
+  });
+}
+
+// ─── Command Shell Terminal (.sh) ───
+const shellBody = document.getElementById('shell-body');
+const shellInput = document.getElementById('terminal-input');
+
+const helpOutput = `
+APEX-01 Active Commands:
+  help           Display this command directory
+  about          Learn about Rishik's background and target role
+  skills         View core technologies and SAP modules
+  projects       Inspect deployed enterprise applications
+  certification  View credential verification registry parameters
+  achievements   Print summary of academic & competition records
+  education      Print degree and performance metrics
+  linkedin       Link to official LinkedIn channel
+  github         Link to official GitHub repositories
+  contact        Print enterprise communication routes
+  resume         Download professional CV document (PDF)
+  clear          Purge command console logs
+  neofetch       Launch console system specifications report
+`;
+
+const neofetchOutput = `
+   /\\_/\\     \x1b[1;36mrishik_maduri@apex-01\x1b[0m
+  ( o.o )    ----------------------
+   > ^ <     OS: APEX-01 Console OS v5.0 (Windows Integration)
+             Kernel: SAP ABAP Cloud Runtime Kernel
+             Uptime: 99.98% (Online)
+             Shell: custom-bash-engine v1.0
+             Host: SAP Business Technology Platform
+             CPU: SAP HANA In-Memory Engine (24 Cores)
+             Memory: 128 GB RAM
+             Target: SAP Cloud Developer / Solution Architect
+`;
+
+const aboutOutput = `
+RISHIK MADURI
+  SAP Certified Associate Back-End Developer specializing in ABAP Cloud.
+  Focused on decoupling business rules from presentation view layouts 
+  using SAP Restful Application Programming (RAP), CDS, and OData APIs.
+  Goal: Build high-fidelity cloud systems as an Enterprise Architect.
+`;
+
+const skillsOutput = `
+Rishik's Stack:
+  - SAP Technologies: ABAP Cloud, RAP (Managed), CDS View Entities, OData v4
+  - Integration Tools: BTP Cockpit, Cloud Connector, Destination configurations
+  - Languages: Java, Python, JavaScript (ES6)
+  - UX Frameworks: SAP Fiori Elements / SAPUI5
+`;
+
+const projectsOutput = `
+Deployed Packages:
+  [01] Smart College Management System
+       Architecture: SAP RAP, CDS Views, DCL, SAP Fiori UX on SAP BTP
+       Scope: Deployed administrative scheduler reducing workflow blocks by 45%.
+  [02] Loan Eligibility & Approval System
+       Architecture: RAP Managed scenario, credit checks validation logic on S/4HANA
+       Scope: automated processing checking score variables without manual calculation.
+`;
+
+const certOutput = `
+Registry Check:
+  Certification: SAP Certified Associate - Back-End Developer - ABAP Cloud
+  Credential ID: C-ABAPD-2507
+  Verify Registry: Credly ID 9e33eaa4-6ff1-4b29-a8fd-79ef407da686
+  Link: https://www.credly.com/badges/9e33eaa4-6ff1-4b29-a8fd-79ef407da686
+`;
+
+const achOutput = `
+Authenticated Records:
+  - SAP ABAP Cloud Developer Associate Credential
+  - National Engineering Hackathon Championship Winner (1st)
+  - Enterprise Technology Hackathon Runner-Up (2nd)
+  - Completed SAP Learning courses: S4D400, S4D401, S4D430
+`;
+
+const eduOutput = `
+Degree Record:
+  Major: Bachelor of Computer Science Engineering
+  University Scale: 8.5 CGPA out of 10
+  Details: Top ranking marks in data structures, OOP, and DB programming.
+`;
+
+const contactOutput = `
+Communication Parameters:
+  Email:    rishikmaduri@gmail.com
+  Phone:    +91 8121650392
+  Location: Hyderabad, India
+  LinkedIn: /in/rishikmaduri
+  GitHub:   /rishikmaduri
+`;
+
+function initTerminal() {
+  if (!shellInput) return;
+
+  // Refocus input on console click
+  shellBody.parentElement.addEventListener('click', () => {
+    shellInput.focus();
+  });
+
+  shellInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const val = shellInput.value.trim().toLowerCase();
+      shellInput.value = '';
+
+      if (val === '') return;
+
+      // Print typed command line
+      const promptLine = document.createElement('div');
+      promptLine.className = 'term-output-line';
+      promptLine.innerHTML = `<span class="shell-prompt">rishik_maduri@apex-01:~$</span> ${val}`;
+      shellBody.insertBefore(promptLine, shellInput.parentElement);
+
+      let response = '';
+
+      switch (val) {
+        case 'help':
+          response = helpOutput;
+          break;
+        case 'about':
+          response = aboutOutput;
+          break;
+        case 'skills':
+          response = skillsOutput;
+          break;
+        case 'projects':
+          response = projectsOutput;
+          break;
+        case 'certification':
+          response = certOutput;
+          break;
+        case 'achievements':
+          response = achOutput;
+          break;
+        case 'education':
+          response = eduOutput;
+          break;
+        case 'linkedin':
+          response = 'Directing to: https://linkedin.com/in/rishikmaduri\n(Opening secure external channel...)';
+          window.open('https://linkedin.com/in/rishikmaduri', '_blank');
+          break;
+        case 'github':
+          response = 'Directing to: https://github.com/rishikmaduri\n(Opening secure external channel...)';
+          window.open('https://github.com/rishikmaduri', '_blank');
+          break;
+        case 'contact':
+          response = contactOutput;
+          break;
+        case 'resume':
+          response = 'Initializing resume CV package fetch...\nCredential download link initiated: (Mock PDF download initiated)';
+          // Simulating PDF CV download link open if needed
+          window.open('mailto:rishikmaduri@gmail.com?subject=Resume Request', '_blank');
+          break;
+        case 'neofetch':
+          response = neofetchOutput;
+          break;
+        case 'clear':
+          // Purge console except prompt
+          const lines = shellBody.querySelectorAll('.term-output-line');
+          lines.forEach(l => l.remove());
+          return;
+        default:
+          response = `shell: command not found: ${val}. Type 'help' to view active commands.`;
+          break;
+      }
+
+      // Print output lines
+      const outLine = document.createElement('div');
+      outLine.className = 'term-output-line';
+      outLine.innerHTML = response.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+      shellBody.insertBefore(outLine, shellInput.parentElement);
+
+      // Scroll console body to bottom
+      shellBody.scrollTop = shellBody.scrollHeight;
+    }
+  });
+}
+
+// ─── Recruiter Scanner Floating Panel Minimized Toggle ───
+function initRecruiterScanPanel() {
+  const scanPanel = document.getElementById('recruiter-quick-scan');
+  const collapseBtn = document.getElementById('btn-collapse-scan');
+  const header = document.getElementById('inspector-header');
+
+  if (!scanPanel) return;
+
+  function toggleCollapse() {
+    scanPanel.classList.toggle('collapsed');
+    collapseBtn.textContent = scanPanel.classList.contains('collapsed') ? '▲' : '_';
+  }
+
+  collapseBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleCollapse();
+  });
+
+  header.addEventListener('click', () => {
+    toggleCollapse();
+  });
+  
+  // Collapse by default on narrow screens
+  if (window.innerWidth < 768) {
+    scanPanel.classList.add('collapsed');
+    collapseBtn.textContent = '▲';
+  }
+}
+
+// ─── Mouse cursor position updater for glowing gradients ───
+function initCursorTrack() {
+  document.addEventListener('mousemove', (e) => {
+    document.documentElement.style.setProperty('--mx', `${e.clientX}px`);
+    document.documentElement.style.setProperty('--my', `${e.clientY}px`);
+    
+    // Update footer position indicators as cursor metrics just for IDE immersion
+    const posEl = document.getElementById('editor-pos');
+    if (posEl) {
+      const line = Math.floor(e.clientY / 20) + 1;
+      const col = Math.floor(e.clientX / 10) + 1;
+      posEl.textContent = `Ln ${line}, Col ${col}`;
+    }
+  });
+}
+
+// ─── Workspace Boot Initialization ───
+function initWorkspace() {
+  initLiveMetrics();
+  renderTabs();
   initNavigation();
-  initHeroDataStream();
-  initModuleLayers();
-  initBadges();
-  initCursorGlow();
-  initUptimeCounter();
-  animateCounters();
-
-  setInterval(updateClock, 1000);
-  updateClock();
+  initViewModeToggle();
+  initRAPLab();
+  initSVGTopology();
+  initCertVault();
+  initJSONAccordion();
+  initTerminal();
+  initRecruiterScanPanel();
+  initCursorTrack();
+  
+  // Open default tab
+  focusTab('profile.abap');
 }
 
-// ─── Keyboard Navigation ───
-document.addEventListener('keydown', (e) => {
-  const sections = ['profile', 'technologies', 'certification', 'projects', 'achievements', 'contact'];
-  const idx = sections.indexOf(currentSection);
-
-  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-    if (idx < sections.length - 1) navigateTo(sections[idx + 1]);
-  }
-  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-    if (idx > 0) navigateTo(sections[idx - 1]);
-  }
-  if (e.key === 'Escape') holoPopup?.classList.remove('active');
+// Start boot loading script on page load
+window.addEventListener('load', () => {
+  runBootSequence();
 });
-
-// ─── Start ───
-runBootSequence();
