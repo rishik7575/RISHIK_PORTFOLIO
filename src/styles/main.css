@@ -4666,3 +4666,87 @@ body.mode-developer .c-channel:hover {
 .graph-node-group:hover .graph-node-pulse {
   opacity: 0.5;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   APEX-01 V2.0 PREMIUM VISUAL POLISHING (NEXT LEVEL)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Dynamic Cyber Grid Background Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: 
+    linear-gradient(rgba(0, 229, 255, 0.005) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgba(0, 229, 255, 0.005) 1px, transparent 1px) 0 0 / 48px 48px,
+    radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0, 229, 255, 0.04) 0%, rgba(124, 77, 255, 0.015) 35%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.4s var(--transition-smooth);
+}
+
+body.mode-recruiter::before {
+  background: 
+    linear-gradient(rgba(124, 77, 255, 0.005) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgba(124, 77, 255, 0.005) 1px, transparent 1px) 0 0 / 48px 48px,
+    radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(124, 77, 255, 0.04) 0%, rgba(0, 229, 255, 0.015) 35%, transparent 65%);
+}
+
+/* Glowing Telemetry Progress Bar Shimmer */
+.diag-rating-fill,
+.gauge-fill,
+.bento-health-fill {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.diag-rating-fill::after,
+.gauge-fill::after,
+.bento-health-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  animation: progress-shine 2.5s infinite linear;
+}
+
+@keyframes progress-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* AI Copilot Developer Chat Bubble Refinements */
+.ai-message.assistant .message-content {
+  background: rgba(0, 229, 255, 0.02) !important;
+  border: 1px solid rgba(0, 229, 255, 0.1) !important;
+  border-left: 3px solid var(--cyan) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.03);
+}
+
+.ai-message.user .message-content {
+  background: rgba(124, 77, 255, 0.05) !important;
+  border: 1px solid rgba(124, 77, 255, 0.08) !important;
+  border-right: 3px solid var(--purple) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 15px rgba(124, 77, 255, 0.03);
+}
+
+/* Bento Cards Glow Enhancement */
+.bento-card, .profile-card, .execution-lab, .topology-drawer, .timeline-viewer-card, .graph-details-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+/* Scrollbar layout fine-tunes */
+.editor-viewport::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
