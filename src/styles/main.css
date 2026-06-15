@@ -3538,8 +3538,7 @@ body.mode-developer .c-channel:hover {
   }
 
   /* Footer bar overrides on mobile viewports */
-  .footer-left .status-changes, 
-  .footer-left .status-spacer, 
+  .footer-left,
   .footer-right {
     display: none !important;
   }
@@ -3548,14 +3547,15 @@ body.mode-developer .c-channel:hover {
     justify-content: center !important;
     padding: 0 1rem !important;
   }
-  .footer-icon-text {
-    display: none !important; /* Hide text to save space */
+  .footer-icon-text,
+  .footer-center-links .status-spacer {
+    display: none !important; /* Hide text and pipe spacers to save space */
   }
   .footer-center-links {
-    gap: 1.8rem !important; /* Wider gaps between icons on mobile */
+    gap: 0.85rem !important; /* Optimally sized gaps for mobile screen widths */
   }
   .footer-icon-link {
-    padding: 0.7rem !important; /* Large tap targets */
+    padding: 0.5rem 0.75rem !important; /* Touch friendly compact button dimensions */
     border-radius: 8px !important;
   }
   .footer-icon-svg {
