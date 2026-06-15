@@ -874,7 +874,7 @@ Communication Parameters:
   Location:     Hyderabad, India
   Citizenship:  US Citizen (Legally eligible in India & USA without visa sponsorship)
   LinkedIn:     /in/rishik-venkat-shiva-sai-maduri-960716301
-  GitHub:       /rishikmaduri
+  GitHub:       /rishik7575
 `;
 
 function initTerminal() {
@@ -927,8 +927,8 @@ function initTerminal() {
           window.open('https://www.linkedin.com/in/rishik-venkat-shiva-sai-maduri-960716301?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', '_blank');
           break;
         case 'github':
-          response = 'Directing to: https://github.com/rishikmaduri\n(Opening secure external channel...)';
-          window.open('https://github.com/rishikmaduri', '_blank');
+          response = 'Directing to: https://github.com/rishik7575\n(Opening secure external channel...)';
+          window.open('https://github.com/rishik7575', '_blank');
           break;
         case 'contact':
           response = contactOutput;
@@ -1083,6 +1083,13 @@ function initRecruiterScanPanel() {
       originalHeight = scanPanel.offsetHeight;
       originalMouseX = e.clientX;
       originalMouseY = e.clientY;
+
+      // Lock top/left coordinates so dragging bottom-right corner tracks correctly
+      const rect = scanPanel.getBoundingClientRect();
+      scanPanel.style.left = `${rect.left}px`;
+      scanPanel.style.top = `${rect.top}px`;
+      scanPanel.style.bottom = 'auto';
+      scanPanel.style.right = 'auto';
 
       scanPanel.style.transition = 'none';
       scanPanel.classList.add('is-resizing');
