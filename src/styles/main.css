@@ -47,7 +47,7 @@ html, body {
   background-color: var(--bg-deep);
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 17.5px; /* Bumped to 17.5px for large, premium text visibility */
+  font-size: 15.5px; /* Restored to standard highly readable size */
   overflow: hidden;
   height: 100vh;
   width: 100vw;
@@ -3394,6 +3394,10 @@ body.mode-developer .c-channel:hover {
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {
+  html, body {
+    font-size: 14.5px !important;
+  }
+
   .profile-grid,
   .lab-grid,
   .architecture-canvas-wrapper,
@@ -3434,6 +3438,10 @@ body.mode-developer .c-channel:hover {
 }
 
 @media (max-width: 768px) {
+  html, body {
+    font-size: 13.5px !important;
+  }
+
   /* Mobile Sidebar Slide-in Navigation Drawer */
   .sidebar {
     display: none;
@@ -3497,7 +3505,8 @@ body.mode-developer .c-channel:hover {
   .profile-card,
   .cert-vault-grid,
   .why-hero-card,
-  .recruiter-cert-section {
+  .recruiter-cert-section,
+  .recruiter-dashboard-inner {
     padding: 1.25rem !important;
   }
   
@@ -4081,10 +4090,23 @@ body.mode-developer .c-channel:hover {
   .certificate-zoom-modal {
     padding: 1rem !important;
   }
+  
+  /* Stack action buttons vertically on mobile */
+  .action-buttons-row {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+  .action-buttons-row .btn-secondary {
+    width: 100% !important;
+  }
 }
 
 /* Extra small mobile helpers */
 @media (max-width: 480px) {
+  html, body {
+    font-size: 12.5px !important;
+  }
+
   .mode-btn span {
     font-size: 0 !important;
   }
