@@ -870,10 +870,10 @@ Degree Record:
 const contactOutput = `
 Communication Parameters:
   Email:        rishikmaduri@gmail.com
-  Phone:        +91 8121650392
+  Phone:        +91 75695 59330
   Location:     Hyderabad, India
   Citizenship:  US Citizen (Legally eligible in India & USA without visa sponsorship)
-  LinkedIn:     /in/rishikmaduri
+  LinkedIn:     /in/rishik-venkat-shiva-sai-maduri-960716301
   GitHub:       /rishikmaduri
 `;
 
@@ -923,8 +923,8 @@ function initTerminal() {
           response = eduOutput;
           break;
         case 'linkedin':
-          response = 'Directing to: https://linkedin.com/in/rishikmaduri\n(Opening secure external channel...)';
-          window.open('https://linkedin.com/in/rishikmaduri', '_blank');
+          response = 'Directing to LinkedIn Profile...\n(Opening secure external channel...)';
+          window.open('https://www.linkedin.com/in/rishik-venkat-shiva-sai-maduri-960716301?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', '_blank');
           break;
         case 'github':
           response = 'Directing to: https://github.com/rishikmaduri\n(Opening secure external channel...)';
@@ -934,8 +934,8 @@ function initTerminal() {
           response = contactOutput;
           break;
         case 'resume':
-          response = 'Initializing resume CV package fetch...\nCredential download link initiated: (Redirecting to request mail...)';
-          window.open('mailto:rishikmaduri@gmail.com?subject=Resume Request - SAP ABAP Cloud Developer', '_blank');
+          response = 'Initializing resume CV package fetch...\nDownloading original resume document...';
+          window.open('/Rishik_Maduri_Resume.pdf', '_blank');
           break;
         case 'neofetch':
           response = neofetchOutput;
@@ -1093,6 +1093,7 @@ function initWorkspace() {
   initTerminal();
   initRecruiterScanPanel();
   initCursorTrack();
+  initHolographicCards(); // Initialize 3D shine cards
   
   // Open default tab
   focusTab('profile.abap');
@@ -1102,3 +1103,42 @@ function initWorkspace() {
 window.addEventListener('load', () => {
   runBootSequence();
 });
+
+// ─── Holographic Tilt Card Effect ───
+function initHolographicCards() {
+  const cards = document.querySelectorAll('.holo-card');
+  
+  cards.forEach(card => {
+    const shine = card.querySelector('.holo-card-shine');
+    
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const px = x / rect.width;
+      const py = y / rect.height;
+      
+      // Calculate rotation angles (-20 to 20 degrees)
+      const rotateX = (0.5 - py) * 20;
+      const rotateY = (px - 0.5) * 20;
+      
+      // Calculate shine position
+      const shineX = px * 100;
+      const shineY = py * 100;
+      
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+      if (shine) {
+        shine.style.background = `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255, 255, 255, 0.45) 0%, rgba(0, 229, 255, 0.25) 30%, rgba(124, 77, 255, 0.15) 70%, transparent 100%)`;
+        shine.style.opacity = '1';
+      }
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+      if (shine) {
+        shine.style.opacity = '0';
+      }
+    });
+  });
+}
