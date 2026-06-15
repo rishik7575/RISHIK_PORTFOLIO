@@ -110,6 +110,7 @@ let activeTab = 'profile.abap';
 
 const fileTypeMap = {
   'profile.abap': { label: 'profile.abap', type: 'ABAP', iconClass: 'abap-icon', iconChar: 'A', linesCount: 84 },
+  'why_rishik.md': { label: 'why_rishik.md', type: 'MD', iconClass: 'md-icon', iconChar: 'M', linesCount: 55 },
   'sap_landscape.yaml': { label: 'sap_landscape.yaml', type: 'YAML', iconClass: 'yaml-icon', iconChar: 'Y', linesCount: 52 },
   'certifications.sec': { label: 'certifications.sec', type: 'SEC', iconClass: 'sec-icon', iconChar: 'S', linesCount: 48 },
   'projects.rap': { label: 'projects.rap', type: 'RAP', iconClass: 'rap-icon', iconChar: 'R', linesCount: 96 },

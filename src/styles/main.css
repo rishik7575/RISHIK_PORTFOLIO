@@ -47,7 +47,7 @@ html, body {
   background-color: var(--bg-deep);
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 15.5px; /* Scaled up from 14px for extreme legibility */
+  font-size: 16.5px; /* Scaled up from 15.5px for even better readability */
   overflow: hidden;
   height: 100vh;
   width: 100vw;
@@ -498,6 +498,7 @@ body.mode-recruiter #panel-terminal {
 
 /* File icon badges */
 .abap-icon { background: rgba(0, 229, 255, 0.15); color: var(--cyan); }
+.md-icon { background: rgba(255, 138, 101, 0.15); color: #ff8a65; }
 .yaml-icon { background: rgba(255, 179, 0, 0.15); color: var(--yellow); }
 .sec-icon { background: rgba(0, 230, 118, 0.15); color: var(--green); }
 .rap-icon { background: rgba(124, 77, 255, 0.15); color: var(--purple); }
@@ -2922,4 +2923,244 @@ body.mode-developer .c-channel:hover {
 
 .lab-console-log .log-text.warning {
   color: var(--yellow);
+}
+
+/* ─── Markdown Panel (.md) ─── */
+.markdown-body {
+  padding: 2.2rem;
+  background-color: var(--bg-panel);
+  overflow-y: auto;
+}
+
+.markdown-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.md-frontmatter {
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-glass);
+  border-left: 3px solid var(--yellow);
+  padding: 1rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.md-line {
+  margin-bottom: 0.25rem;
+  text-align: left;
+}
+
+.md-meta {
+  color: var(--purple);
+}
+
+.md-content {
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  text-align: left;
+}
+
+.md-h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--cyan);
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.md-h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--purple);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.md-p {
+  margin-bottom: 1.25rem;
+}
+
+.md-ul, .md-ul-dashed {
+  list-style: none;
+  padding-left: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.md-ul li, .md-ul-dashed li {
+  position: relative;
+  margin-bottom: 0.55rem;
+}
+
+.md-ul li::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 0.55rem;
+}
+
+.font-italic {
+  font-style: italic;
+}
+
+/* Why Work With Rishik Section (Recruiter Dashboard) */
+.recruiter-why-section {
+  margin-top: 3.5rem;
+  text-align: left;
+}
+
+.why-hero-card {
+  background: linear-gradient(135deg, rgba(13, 20, 38, 0.8), rgba(20, 10, 45, 0.4));
+  border: 1px solid var(--border-glass);
+  border-left: 4px solid var(--cyan);
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+
+.why-intro-p {
+  font-size: 1.05rem;
+  color: var(--cyan);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.why-body-p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 2rem;
+}
+
+.why-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.why-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.why-card:hover {
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+}
+
+.why-card-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.why-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.why-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.why-tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.why-tag {
+  background-color: rgba(0, 229, 255, 0.06);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  color: var(--cyan);
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.why-tag:hover {
+  background-color: rgba(0, 229, 255, 0.12);
+  border-color: var(--cyan);
+  box-shadow: 0 0 8px rgba(0,229,255,0.25);
+}
+
+.why-text-p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.85rem;
+  line-height: 1.6;
+}
+
+.why-list-bullets {
+  list-style: none;
+  padding-left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.85rem;
+}
+
+.why-list-bullets li {
+  position: relative;
+  padding-left: 0.85rem;
+  text-align: left;
+}
+
+.why-list-bullets li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--purple);
+  font-weight: bold;
+}
+
+.why-text-p-footer {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-dim);
+  border-top: 1px dashed rgba(255,255,255,0.05);
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 992px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
