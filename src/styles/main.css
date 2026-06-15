@@ -889,7 +889,7 @@ body.mode-recruiter #panel-terminal {
 /* Metrics blocks inside Profile */
 .metrics-block {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1.25rem;
   margin-top: 1.5rem;
 }
@@ -943,7 +943,7 @@ body.mode-recruiter .metrics-block .metric-card:hover {
 
 .metrics-block .metric-card .metric-number {
   font-family: var(--font-display);
-  font-size: 1.85rem;
+  font-size: 1.5rem;
   font-weight: 700;
   display: block;
   margin-bottom: 0.3rem;
@@ -1262,7 +1262,7 @@ body.mode-recruiter .metrics-block .metric-card:hover {
 /* ─── Topology SVG map (.yaml) ─── */
 .architecture-canvas-wrapper {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2.2rem;
   background: var(--bg-panel);
   border: 1px solid var(--border-glass);
@@ -1418,7 +1418,7 @@ body.mode-recruiter .metrics-block .metric-card:hover {
 /* ─── Certifications Portal (.sec) ─── */
 .cert-vault-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2.5rem;
   background: var(--bg-panel);
   border: 1px solid var(--border-glass);
@@ -1700,7 +1700,7 @@ body.mode-recruiter .metrics-block .metric-card:hover {
 
 .dep-detail-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2.5rem;
   margin-bottom: 1.5rem;
 }
@@ -2013,7 +2013,7 @@ body.mode-recruiter .metrics-block .metric-card:hover {
 /* Future vision */
 .future-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.25rem;
   margin-top: 1rem;
 }
@@ -2934,7 +2934,7 @@ body.mode-developer .c-channel:hover {
 /* Recruiter action grid (Handy elements) */
 .recruiter-action-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
@@ -2993,10 +2993,11 @@ body.mode-developer .c-channel:hover {
 .action-buttons-row {
   display: flex;
   gap: 0.85rem;
+  flex-wrap: wrap;
 }
 
 .action-buttons-row .btn-secondary {
-  flex: 1;
+  flex: 1 1 120px;
   text-align: center;
   font-size: 0.85rem;
   height: 38px;
@@ -3017,7 +3018,7 @@ body.mode-developer .c-channel:hover {
 
 .recruiter-cert-container {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 2.2rem;
   background-color: rgba(13, 20, 38, 0.3);
   border: 1px solid var(--border-glass);
@@ -3177,7 +3178,7 @@ body.mode-developer .c-channel:hover {
 /* Recruiter Projects */
 .recruiter-projects-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
 }
 
@@ -3279,7 +3280,7 @@ body.mode-developer .c-channel:hover {
 /* Recruiter achievements cards */
 .recruiter-ach-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.25rem;
 }
 
@@ -3448,7 +3449,7 @@ body.mode-developer .c-channel:hover {
     position: absolute;
     top: 52px;
     left: 0;
-    bottom: 56px; /* sits cleanly above our 56px footer */
+    bottom: 64px; /* sits cleanly above our 64px footer on mobile */
     width: 260px;
     z-index: 200;
     background: rgba(9, 13, 22, 0.95);
@@ -4080,10 +4081,24 @@ body.mode-developer .c-channel:hover {
     font-size: 0.75rem !important;
   }
   
-  /* Stack metrics blocks vertically so text doesn't squeeze */
+  /* Render metrics blocks as a clean horizontal row on mobile */
   .metrics-block {
-    grid-template-columns: 1fr !important;
-    gap: 0.75rem !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+  .metrics-block .metric-card {
+    padding: 0.8rem 0.4rem !important;
+    border-radius: 6px !important;
+  }
+  .metrics-block .metric-card .metric-number {
+    font-size: 1.15rem !important;
+  }
+  .metrics-block .metric-card .metric-label {
+    font-size: 0.65rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+  .metrics-block .metric-card .metric-desc {
+    font-size: 0.65rem !important;
   }
   
   /* Reduce certificate zoom modal padding */
