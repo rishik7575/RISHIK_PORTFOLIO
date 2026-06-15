@@ -1391,7 +1391,7 @@ const nodeDetails = {
   python: {
     category: 'DATA SCRIPTER & UTILITY ENGINE',
     title: 'Python Software Foundation',
-    desc: 'Coded automation scripts, supply chain calculators (AgriLift/Dairy-Lift), and game engine logic loops (Gome AI).',
+    desc: 'Coded automation scripts and supply chain calculators (AgriLift/Dairy-Lift) to optimize logistics.',
     prof: 90,
     links: ['ABAP', 'Data Analysis']
   },
