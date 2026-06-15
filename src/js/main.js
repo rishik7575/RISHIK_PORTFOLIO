@@ -1061,6 +1061,66 @@ function initRecruiterScanPanel() {
     scanPanel.classList.add('collapsed');
     collapseBtn.textContent = '▲';
   }
+
+  // Resizing implementation
+  const resizer = document.getElementById('inspector-resizer');
+  if (resizer) {
+    let isResizing = false;
+    let originalWidth = 0;
+    let originalHeight = 0;
+    let originalMouseX = 0;
+    let originalMouseY = 0;
+
+    resizer.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      
+      // Disable resizing when collapsed
+      if (scanPanel.classList.contains('collapsed')) return;
+
+      isResizing = true;
+      originalWidth = scanPanel.offsetWidth;
+      originalHeight = scanPanel.offsetHeight;
+      originalMouseX = e.clientX;
+      originalMouseY = e.clientY;
+
+      scanPanel.style.transition = 'none';
+      scanPanel.classList.add('is-resizing');
+
+      document.addEventListener('mousemove', onResizeMouseMove);
+      document.addEventListener('mouseup', onResizeMouseUp);
+    });
+
+    function onResizeMouseMove(e) {
+      if (!isResizing) return;
+      const dw = e.clientX - originalMouseX;
+      const dh = e.clientY - originalMouseY;
+
+      const newWidth = Math.max(260, originalWidth + dw);
+      const newHeight = Math.max(150, originalHeight + dh);
+
+      // On small screens, keep width fluid via CSS (left/right dock)
+      if (window.innerWidth > 576) {
+        scanPanel.style.width = `${newWidth}px`;
+      }
+      scanPanel.style.height = `${newHeight}px`;
+
+      // Set max-height to none so the element can stretch and display its inner scrollbar
+      const body = scanPanel.querySelector('.inspector-body');
+      if (body) {
+        body.style.maxHeight = 'none';
+      }
+    }
+
+    function onResizeMouseUp() {
+      if (!isResizing) return;
+      isResizing = false;
+      scanPanel.style.transition = '';
+      scanPanel.classList.remove('is-resizing');
+      document.removeEventListener('mousemove', onResizeMouseMove);
+      document.removeEventListener('mouseup', onResizeMouseUp);
+    }
+  }
 }
 
 // ─── Mouse cursor position updater for glowing gradients ───

@@ -2121,7 +2121,7 @@ body.mode-recruiter #panel-terminal {
   width: 330px;
   background: rgba(13, 20, 38, 0.85);
   border: 1px solid var(--border-glass);
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
   backdrop-filter: blur(24px);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   z-index: 100;
@@ -2129,10 +2129,42 @@ body.mode-recruiter #panel-terminal {
   flex-direction: column;
   transition: transform 0.4s var(--transition-smooth), opacity 0.4s;
   overflow: hidden;
+  min-width: 260px;
+  min-height: 150px;
+  max-width: 95vw;
+  max-height: 90vh;
 }
 
 .floating-inspector.collapsed {
-  transform: translateY(calc(100% - 36px));
+  transform: translateY(calc(100% - 36px)) !important;
+  height: auto !important; /* Allow collapse calc to govern height */
+}
+
+/* Custom resizer handle */
+.inspector-resizer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  cursor: se-resize;
+  background: linear-gradient(135deg, transparent 50%, var(--cyan) 50%);
+  z-index: 1000;
+  border-bottom-right-radius: 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.inspector-resizer:hover {
+  opacity: 1;
+}
+
+body.mode-recruiter .inspector-resizer {
+  background: linear-gradient(135deg, transparent 50%, var(--purple) 50%);
+}
+
+.floating-inspector.collapsed .inspector-resizer {
+  display: none !important;
 }
 
 .inspector-header {
@@ -2188,8 +2220,10 @@ body.mode-developer .inspector-dot {
 
 .inspector-body {
   padding: 1.25rem;
-  max-height: 400px;
+  flex: 1;
   overflow-y: auto;
+  min-height: 0;
+  max-height: 400px;
 }
 
 .scanner-name {
@@ -2947,6 +2981,21 @@ body.mode-developer .c-channel:hover {
     text-align: center;
     gap: 1.25rem;
   }
+  
+  /* Reset badge alignments on mobile when items wrap */
+  .profile-badges {
+    align-items: flex-start !important;
+  }
+
+  /* Dock inspector on tablets/mobiles for clean responsive layout */
+  .floating-inspector {
+    width: auto !important;
+    left: 15px !important;
+    right: 15px !important;
+    bottom: 15px !important;
+    max-width: none !important;
+    border-radius: 8px !important;
+  }
 }
 
 /* ─── Dragging, Compiling highlights & Console Log additions ─── */
@@ -3450,5 +3499,37 @@ body.mode-developer .c-channel:hover {
   }
   .step-info {
     align-items: flex-start;
+  }
+  
+  /* Hide editor line numbers on mobile to reclaim horizontal space */
+  .line-numbers {
+    display: none !important;
+  }
+  
+  /* Make top metrics bar fully fit on phone screens */
+  .top-bar {
+    padding: 0 0.75rem !important;
+    gap: 0.5rem !important;
+  }
+  .brand-text {
+    font-size: 0.95rem !important;
+  }
+  .brand-sub, .brand-divider {
+    display: none !important;
+  }
+  .mode-btn {
+    padding: 0.35rem 0.65rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* Stack metrics blocks vertically so text doesn't squeeze */
+  .metrics-block {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  
+  /* Reduce certificate zoom modal padding */
+  .certificate-zoom-modal {
+    padding: 1rem !important;
   }
 }
