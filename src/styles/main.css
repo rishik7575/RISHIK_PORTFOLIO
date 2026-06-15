@@ -303,6 +303,10 @@ body::before {
   font-weight: 700;
   letter-spacing: 0.1em;
   font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .system-indicator {
@@ -371,6 +375,7 @@ body::before {
   padding: 2px;
   border-radius: 6px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .mode-btn {
@@ -385,6 +390,8 @@ body::before {
   z-index: 2;
   transition: color var(--transition-fast);
   border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .mode-btn:hover {
@@ -4132,5 +4139,47 @@ body.mode-developer .c-channel:hover {
   .mode-btn#btn-mode-recruiter span::after {
     content: "Recruiter" !important;
     font-size: 0.75rem !important;
+  }
+}
+
+/* ─── Responsive Top Metrics Bar Compression ─── */
+@media (max-width: 1440px) {
+  .top-bar {
+    padding: 0 0.85rem !important;
+    height: 48px !important;
+  }
+  .bar-brand {
+    font-size: 1.05rem !important;
+  }
+  .brand-sub {
+    font-size: 0.82rem !important;
+  }
+  .live-metrics {
+    gap: 0.65rem !important;
+  }
+  .metric-item {
+    font-size: 0.76rem !important;
+    padding: 0.2rem 0.5rem !important;
+    gap: 0.35rem !important;
+  }
+  .mode-btn {
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  /* Hide System Health and Certification metrics on smaller laptop widths */
+  .live-metrics .metric-item:nth-child(6),
+  .live-metrics .metric-item:nth-child(5) {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  /* Hide Deployments and ABAP Runtime metrics on intermediate viewports */
+  .live-metrics .metric-item:nth-child(4),
+  .live-metrics .metric-item:nth-child(2) {
+    display: none !important;
   }
 }
