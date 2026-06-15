@@ -4183,3 +4183,486 @@ body.mode-developer .c-channel:hover {
     display: none !important;
   }
 }
+
+/* ─── APEX-01 V2.0 STYLING EXTENSIONS ─── */
+
+/* 1. Recruiter Bento Grid Layout */
+.recruiter-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+}
+.bento-card {
+  background: rgba(13, 20, 38, 0.45);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  padding: 1.25rem;
+  backdrop-filter: blur(20px);
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.bento-card:hover {
+  border-color: rgba(0, 184, 212, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 184, 212, 0.08);
+}
+.bento-card-header {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.bento-card-header h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.bento-icon {
+  font-size: 1.1rem;
+}
+
+/* Bento metrics item */
+.bento-impact-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.75rem;
+}
+.bento-metric-item {
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.03);
+  padding: 0.75rem;
+  border-radius: 4px;
+}
+.bento-metric-val {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+.bento-metric-lbl {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  display: block;
+  margin-top: 0.15rem;
+}
+
+/* 2. Interactive SVG Knowledge Graph Layout */
+.graph-layout-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+@media (max-width: 900px) {
+  .graph-layout-container {
+    grid-template-columns: 1fr;
+  }
+}
+.graph-canvas-wrapper {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.skills-graph-svg {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+.graph-link {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1.5px;
+  transition: stroke 0.3s, stroke-opacity 0.3s, stroke-width 0.3s;
+}
+.graph-link.active {
+  stroke: var(--cyan);
+  stroke-opacity: 0.85;
+  stroke-width: 2.5px;
+}
+.graph-node-bg {
+  fill: #080f1e;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1.5px;
+  transition: stroke 0.3s, stroke-width 0.3s;
+}
+.graph-node-glow {
+  fill: none;
+  stroke-width: 2px;
+  stroke-opacity: 0;
+  transition: stroke-opacity 0.3s;
+}
+.cyan-glow { stroke: var(--cyan); }
+.purple-glow { stroke: var(--purple); }
+.green-glow { stroke: var(--green); }
+.yellow-glow { stroke: var(--yellow); }
+
+.graph-node-core {
+  transition: transform 0.3s;
+}
+.cyan-core { fill: var(--cyan); }
+.purple-core { fill: var(--purple); }
+.green-core { fill: var(--green); }
+.yellow-core { fill: var(--yellow); }
+
+.node-label {
+  fill: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-anchor: middle;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+/* Hover/active node behaviors */
+.graph-node-group:hover .graph-node-bg,
+.graph-node-group.active .graph-node-bg {
+  stroke: var(--cyan);
+  stroke-width: 2px;
+}
+.graph-node-group:hover .graph-node-glow,
+.graph-node-group.active .graph-node-glow {
+  stroke-opacity: 0.4;
+  animation: pulse-ring 2s infinite;
+}
+.graph-node-group:hover .graph-node-core,
+.graph-node-group.active .graph-node-core {
+  transform: scale(1.15);
+}
+
+.graph-details-card {
+  background: rgba(13, 20, 38, 0.35);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 220px;
+}
+.card-empty-state {
+  text-align: center;
+  color: var(--text-dim);
+}
+.card-hint-icon {
+  font-size: 2rem;
+  color: var(--purple);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.card-empty-state h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+.card-empty-state p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.card-content-state {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: fade-in 0.3s ease;
+}
+.card-meta-category {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--purple);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.card-node-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: #fff;
+}
+.card-node-desc {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.card-proficiency-block {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.prof-bar-outer {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.prof-bar-inner {
+  height: 100%;
+  background: var(--cyan);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+.prof-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--cyan);
+}
+.card-linkages-block {
+  margin-top: 0.25rem;
+}
+.linkage-lbl {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.link-pill {
+  display: inline-block;
+  font-size: 0.7rem;
+  background: rgba(124, 77, 255, 0.15);
+  color: var(--text-secondary);
+  border: 1px solid rgba(124, 77, 255, 0.3);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  transition: all 0.2s;
+}
+.link-pill:hover {
+  background: var(--purple);
+  color: #fff;
+}
+
+/* 3. Trophies Cabinet Hologram Shimmer */
+.trophy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.trophy-card {
+  background: rgba(13, 20, 38, 0.4);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.trophy-card.locked {
+  border-color: rgba(255, 255, 255, 0.03);
+}
+.trophy-card.unlocked {
+  border-color: rgba(0, 230, 118, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 230, 118, 0.05);
+}
+.trophy-card:hover {
+  transform: translateY(-2px);
+}
+.trophy-icon-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.trophy-emoji {
+  font-size: 1.8rem;
+}
+.trophy-lock-icon {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  font-size: 0.75rem;
+  background: #000;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.trophy-card.unlocked .trophy-lock-icon {
+  display: none;
+}
+.trophy-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.trophy-subtitle {
+  margin: 0.25rem 0 0.75rem 0;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+.trophy-action-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+.btn-unlock {
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.35rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-unlock:hover {
+  background: var(--cyan);
+  color: #000;
+}
+.trophy-unlocked-details {
+  animation: slide-down 0.3s ease;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-top: 0.5rem;
+}
+.trophy-meta {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--cyan);
+}
+
+/* Shimmer animation on unlock */
+.trophy-card.unlock-animating::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(0, 229, 255, 0.4) 50%,
+    transparent 55%
+  );
+  animation: sweep 0.7s ease-in-out;
+}
+
+@keyframes sweep {
+  0% { transform: translate(-30%, -30%) rotate(0deg); }
+  100% { transform: translate(30%, 30%) rotate(0deg); }
+}
+
+/* 4. Timeline visualizer track nodes */
+.pipeline-nodes {
+  z-index: 2;
+}
+.pipeline-node:hover .node-ring {
+  transform: scale(1.2);
+  border-color: var(--cyan) !important;
+}
+
+/* 5. Custom animations */
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.1; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+/* AI Recruiter Assistant Panel */
+.ai-console-wrapper {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+.ai-chat-window::-webkit-scrollbar {
+  width: 6px;
+}
+.ai-chat-window::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ai-chat-window::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+.ai-message {
+  margin-bottom: 0.5rem;
+}
+.quick-prompt-btn {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+.quick-prompt-btn:hover {
+  background: rgba(0, 229, 255, 0.08);
+  border-color: rgba(0, 229, 255, 0.3);
+  color: var(--cyan);
+}
+
+/* System Health Monitor Gauges */
+.health-gauge-card {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.health-gauge-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 229, 255, 0.3) !important;
+  box-shadow: 0 8px 25px rgba(0, 229, 255, 0.08);
+}
+
+/* Timeline Pipeline */
+.timeline-pipeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+.pipeline-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.pipeline-node .node-ring {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+.pipeline-node.active .node-ring {
+  box-shadow: 0 0 10px var(--cyan-glow);
+}
+.pipeline-node.current .node-ring {
+  box-shadow: 0 0 15px var(--cyan-glow);
+  transform: scale(1.15);
+}
+.timeline-viewer-card {
+  transition: all 0.3s ease;
+}
+
+/* Knowledge Graph links and custom hover adjustments */
+.skills-graph-svg {
+  filter: drop-shadow(0px 5px 15px rgba(0,0,0,0.3));
+}
+.graph-node-pulse {
+  animation: pulse-ring 2.5s infinite;
+}
+.graph-node-group:hover .graph-node-pulse {
+  opacity: 0.5;
+}
