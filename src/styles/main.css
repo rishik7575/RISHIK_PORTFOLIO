@@ -54,6 +54,67 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Global Link Resets */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* ─── Global Button UI System ─── */
+.btn-primary, .btn-secondary {
+  height: 42px;
+  padding: 0 1.5rem;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  outline: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--purple), var(--purple-glow));
+  background-color: var(--purple);
+  color: #fff;
+  box-shadow: 0 4px 12px var(--purple-glow);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(124, 77, 255, 0.5);
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: 0 4px 12px var(--cyan-glow);
+  transform: translateY(-1px);
+}
+
+.btn-full {
+  width: 100%;
+  display: flex;
+}
+
 /* Background Grid Mesh overlay */
 body::before {
   content: '';
@@ -1397,12 +1458,6 @@ body.mode-recruiter #panel-terminal {
 .badge-image-wrapper {
   position: relative;
   cursor: zoom-in;
-  border: 1px solid var(--border-glass);
-  border-radius: 6px;
-  overflow: hidden;
-  background-color: var(--bg-panel-solid);
-  padding: 0.25rem;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
   max-width: 230px;
   animation: stamp-pop 0.4s var(--transition-smooth);
 }
@@ -2478,12 +2533,6 @@ body.mode-developer .c-channel:hover {
   width: 100%;
   position: relative;
   cursor: zoom-in;
-  border-radius: 6px;
-  overflow: hidden;
-  background-color: var(--bg-panel-solid);
-  padding: 0.25rem;
-  border: 1.5px solid rgba(124, 77, 255, 0.25);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
 }
 
 .recruiter-verified-cert-img {
@@ -2573,17 +2622,60 @@ body.mode-developer .c-channel:hover {
   font-weight: 600;
 }
 
-.cert-details-pane .btn-primary {
-  align-self: flex-start;
-  padding: 0 1.5rem;
-  height: 40px;
-  background-color: var(--purple);
-  color: #fff;
+.recruiter-cert-actions {
+  display: flex !important;
+  gap: 1.25rem !important;
+  margin-top: 1.75rem !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
 }
 
-.cert-details-pane .btn-primary:hover {
-  background-color: #622ad4;
-  box-shadow: 0 0 10px var(--purple-glow);
+.recruiter-cert-actions .btn-primary,
+.recruiter-cert-actions .btn-secondary {
+  height: 44px !important;
+  padding: 0 1.75rem !important;
+  border-radius: 6px !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.recruiter-cert-actions .btn-primary {
+  background: linear-gradient(135deg, var(--purple), var(--purple-glow)) !important;
+  background-color: var(--purple) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px var(--purple-glow) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.recruiter-cert-actions .btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(124, 77, 255, 0.5) !important;
+  filter: brightness(1.15) !important;
+}
+
+.recruiter-cert-actions .btn-secondary {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--border-glass) !important;
+  color: var(--text-secondary) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+.recruiter-cert-actions .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: var(--cyan) !important;
+  color: var(--cyan) !important;
+  box-shadow: 0 4px 15px var(--cyan-glow) !important;
+  transform: translateY(-2px) !important;
 }
 
 /* Recruiter Projects */
@@ -2836,8 +2928,8 @@ body.mode-developer .c-channel:hover {
     max-width: 320px;
   }
   
-  .cert-details-pane .btn-primary {
-    align-self: center;
+  .recruiter-cert-actions {
+    justify-content: center;
   }
 
   .live-metrics {
