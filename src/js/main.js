@@ -105,7 +105,7 @@ function initLiveMetrics() {
 }
 
 // ─── Workspace IDE Tab Manager ───
-let openTabs = ['profile.abap'];
+let openTabs = ['profile.abap', 'why_rishik.md', 'sap_landscape.yaml', 'certifications.sec', 'projects.rap', 'achievements.json', 'roadmap.future', 'terminal.sh'];
 let activeTab = 'profile.abap';
 
 const fileTypeMap = {
@@ -247,8 +247,33 @@ function initNavigation() {
     el.addEventListener('click', () => {
       const file = el.dataset.file;
       focusTab(file);
+      
+      // Close mobile sidebar overlay when selecting a file
+      const sidebar = document.querySelector('.sidebar');
+      if (sidebar && window.innerWidth <= 768) {
+        sidebar.classList.remove('mobile-active');
+      }
     });
   });
+
+  // Mobile sidebar toggle button handler
+  const toggleBtn = document.getElementById('btn-sidebar-toggle');
+  const sidebar = document.querySelector('.sidebar');
+  if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sidebar.classList.toggle('mobile-active');
+    });
+    
+    // Close sidebar overlay when clicking outside
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && sidebar.classList.contains('mobile-active')) {
+        if (!sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target)) {
+          sidebar.classList.remove('mobile-active');
+        }
+      }
+    });
+  }
 }
 
 // ─── Recruiter / Developer View Toggle ───
@@ -963,172 +988,7 @@ function initTerminal() {
 }
 
 // ─── Recruiter Scanner Floating Panel Minimized Toggle ───
-function initRecruiterScanPanel() {
-  const scanPanel = document.getElementById('recruiter-quick-scan');
-  const collapseBtn = document.getElementById('btn-collapse-scan');
-  const header = document.getElementById('inspector-header');
 
-  if (!scanPanel || !header) return;
-
-  let isDragging = false;
-  let hasDragged = false;
-  let startX = 0;
-  let startY = 0;
-  let startLeft = 0;
-  let startTop = 0;
-
-  function toggleCollapse() {
-    scanPanel.classList.toggle('collapsed');
-    collapseBtn.textContent = scanPanel.classList.contains('collapsed') ? '▲' : '_';
-  }
-
-  collapseBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleCollapse();
-  });
-
-  header.addEventListener('mousedown', (e) => {
-    // If clicked on collapseBtn directly, skip drag
-    if (e.target === collapseBtn || collapseBtn.contains(e.target)) return;
-
-    isDragging = true;
-    hasDragged = false;
-    
-    const rect = scanPanel.getBoundingClientRect();
-    startX = e.clientX;
-    startY = e.clientY;
-    startLeft = rect.left;
-    startTop = rect.top;
-
-    scanPanel.style.transition = 'none';
-    scanPanel.classList.add('is-dragging');
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
-
-  function onMouseMove(e) {
-    if (!isDragging) return;
-
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-      hasDragged = true;
-    }
-
-    let newLeft = startLeft + dx;
-    let newTop = startTop + dy;
-
-    const rect = scanPanel.getBoundingClientRect();
-    const minLeft = 10;
-    const maxLeft = window.innerWidth - rect.width - 10;
-    const minTop = 10;
-    const maxTop = window.innerHeight - 40;
-
-    newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
-    newTop = Math.max(minTop, Math.min(newTop, maxTop));
-
-    scanPanel.style.left = `${newLeft}px`;
-    scanPanel.style.top = `${newTop}px`;
-    scanPanel.style.bottom = 'auto';
-    scanPanel.style.right = 'auto';
-  }
-
-  function onMouseUp(e) {
-    if (!isDragging) return;
-    isDragging = false;
-    scanPanel.style.transition = '';
-    scanPanel.classList.remove('is-dragging');
-    
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  }
-
-  header.addEventListener('click', (e) => {
-    if (hasDragged) {
-      e.stopPropagation();
-      e.preventDefault();
-      return;
-    }
-    if (e.target === collapseBtn || collapseBtn.contains(e.target)) return;
-    
-    toggleCollapse();
-  });
-
-  // Collapse by default on narrow screens
-  if (window.innerWidth < 768) {
-    scanPanel.classList.add('collapsed');
-    collapseBtn.textContent = '▲';
-  }
-
-  // Resizing implementation
-  const resizer = document.getElementById('inspector-resizer');
-  if (resizer) {
-    let isResizing = false;
-    let originalWidth = 0;
-    let originalHeight = 0;
-    let originalMouseX = 0;
-    let originalMouseY = 0;
-
-    resizer.addEventListener('mousedown', (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      
-      // Disable resizing when collapsed
-      if (scanPanel.classList.contains('collapsed')) return;
-
-      isResizing = true;
-      originalWidth = scanPanel.offsetWidth;
-      originalHeight = scanPanel.offsetHeight;
-      originalMouseX = e.clientX;
-      originalMouseY = e.clientY;
-
-      // Lock top/left coordinates so dragging bottom-right corner tracks correctly
-      const rect = scanPanel.getBoundingClientRect();
-      scanPanel.style.left = `${rect.left}px`;
-      scanPanel.style.top = `${rect.top}px`;
-      scanPanel.style.bottom = 'auto';
-      scanPanel.style.right = 'auto';
-
-      scanPanel.style.transition = 'none';
-      scanPanel.classList.add('is-resizing');
-
-      document.addEventListener('mousemove', onResizeMouseMove);
-      document.addEventListener('mouseup', onResizeMouseUp);
-    });
-
-    function onResizeMouseMove(e) {
-      if (!isResizing) return;
-      const dw = e.clientX - originalMouseX;
-      const dh = e.clientY - originalMouseY;
-
-      const newWidth = Math.max(260, originalWidth + dw);
-      const newHeight = Math.max(150, originalHeight + dh);
-
-      // On small screens, keep width fluid via CSS (left/right dock)
-      if (window.innerWidth > 576) {
-        scanPanel.style.width = `${newWidth}px`;
-      }
-      scanPanel.style.height = `${newHeight}px`;
-
-      // Set max-height to none so the element can stretch and display its inner scrollbar
-      const body = scanPanel.querySelector('.inspector-body');
-      if (body) {
-        body.style.maxHeight = 'none';
-      }
-    }
-
-    function onResizeMouseUp() {
-      if (!isResizing) return;
-      isResizing = false;
-      scanPanel.style.transition = '';
-      scanPanel.classList.remove('is-resizing');
-      document.removeEventListener('mousemove', onResizeMouseMove);
-      document.removeEventListener('mouseup', onResizeMouseUp);
-    }
-  }
-}
 
 // ─── Mouse cursor position updater for glowing gradients ───
 function initCursorTrack() {
@@ -1146,6 +1006,40 @@ function initCursorTrack() {
   });
 }
 
+// ─── Direct Fallback Email Redirect ───
+function initEmailRedirect() {
+  document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const mailtoUrl = link.getAttribute('href');
+      const email = 'rishikmaduri@gmail.com';
+      const fallbackUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+      
+      let isDefaultLaunched = false;
+      
+      // Monitor window blur to detect if default mail client launched successfully
+      const handleBlur = () => {
+        isDefaultLaunched = true;
+        window.removeEventListener('blur', handleBlur);
+      };
+      window.addEventListener('blur', handleBlur);
+      
+      // Fallback timer: if window doesn't blur in 900ms, open web Gmail in new tab
+      const fallbackTimer = setTimeout(() => {
+        window.removeEventListener('blur', handleBlur);
+        if (!isDefaultLaunched) {
+          console.log("Native mail client not detected. Redirecting to Gmail Webmail fallback...");
+          window.open(fallbackUrl, '_blank');
+        }
+      }, 900);
+      
+      // Trigger native mailto redirection
+      window.location.href = mailtoUrl;
+    });
+  });
+}
+
 // ─── Workspace Boot Initialization ───
 function initWorkspace() {
   initLiveMetrics();
@@ -1158,9 +1052,9 @@ function initWorkspace() {
   initImageZoomModal(); // Wire up zoom triggers
   initJSONAccordion();
   initTerminal();
-  initRecruiterScanPanel();
   initCursorTrack();
   initHolographicCards(); // Initialize 3D shine cards
+  initEmailRedirect(); // Wire up click-redirection with Gmail fallback
   
   // Open default tab
   focusTab('profile.abap');
