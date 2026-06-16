@@ -1038,35 +1038,88 @@ function initCursorTrack() {
 
 // ─── Direct Fallback Email Redirect ───
 function initEmailRedirect() {
+  const popover = document.getElementById('email-popover');
+  const closeBtn = document.getElementById('close-email-popover');
+  const copyBtn = document.getElementById('email-option-copy');
+  const copyTitle = document.getElementById('copy-option-title');
+  const copyDesc = document.getElementById('copy-option-desc');
+  const email = 'rishikmaduri@gmail.com';
+
+  if (!popover) return;
+
+  function showPopover(triggerElement) {
+    const rect = triggerElement.getBoundingClientRect();
+    const popoverWidth = 290;
+    const padding = 12; // Safety margin from screen boundary
+    
+    let left = rect.left + rect.width / 2;
+    
+    // Bounds check to prevent off-screen overflow on mobile viewports
+    const halfWidth = popoverWidth / 2;
+    if (left - halfWidth < padding) {
+      left = halfWidth + padding;
+    } else if (left + halfWidth > window.innerWidth - padding) {
+      left = window.innerWidth - halfWidth - padding;
+    }
+    
+    popover.style.left = `${left}px`;
+    popover.style.bottom = `${window.innerHeight - rect.top + 8}px`; // 8px above the trigger button
+    popover.style.transform = `translateX(-50%)`;
+    
+    popover.classList.remove('hidden');
+  }
+
+  function hidePopover() {
+    popover.classList.add('hidden');
+  }
+
+  // Intercept all mailto links to trigger popover
   document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      
-      const mailtoUrl = link.getAttribute('href');
-      const email = 'rishikmaduri@gmail.com';
-      const fallbackUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
-      
-      let isDefaultLaunched = false;
-      
-      // Monitor window blur to detect if default mail client launched successfully
-      const handleBlur = () => {
-        isDefaultLaunched = true;
-        window.removeEventListener('blur', handleBlur);
-      };
-      window.addEventListener('blur', handleBlur);
-      
-      // Fallback timer: if window doesn't blur in 900ms, open web Gmail in new tab
-      const fallbackTimer = setTimeout(() => {
-        window.removeEventListener('blur', handleBlur);
-        if (!isDefaultLaunched) {
-          console.log("Native mail client not detected. Redirecting to Gmail Webmail fallback...");
-          window.open(fallbackUrl, '_blank');
-        }
-      }, 900);
-      
-      // Trigger native mailto redirection
-      window.location.href = mailtoUrl;
+      e.stopPropagation();
+      showPopover(link);
     });
+  });
+
+  // Close close button inside popover
+  closeBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    hidePopover();
+  });
+
+  // Copy email to clipboard option
+  copyBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(email).then(() => {
+      if (copyTitle && copyDesc) {
+        copyTitle.textContent = 'Copied!';
+        copyTitle.style.color = 'var(--green)';
+        copyDesc.textContent = 'Email address copied to clipboard';
+        
+        setTimeout(() => {
+          copyTitle.textContent = 'Copy Email Address';
+          copyTitle.style.color = '#fff';
+          copyDesc.textContent = 'Copy address to clipboard';
+        }, 2000);
+      }
+    }).catch(err => {
+      console.error('Could not copy email: ', err);
+    });
+  });
+
+  // Click outside close handler
+  document.addEventListener('click', (e) => {
+    if (!popover.classList.contains('hidden') && !popover.contains(e.target)) {
+      hidePopover();
+    }
+  });
+
+  // Escape key close handler
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !popover.classList.contains('hidden')) {
+      hidePopover();
+    }
   });
 }
 

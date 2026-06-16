@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="./assets/index-1_gB9bjV.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Bnkcsokx.css">
+  <script type="module" crossorigin src="./assets/index-CWGWWUGD.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CkE6dzLB.css">
 </head>
 <body class="mode-developer">
   <!-- System Boot / Sync Sequence -->
@@ -1674,6 +1674,37 @@
           </ul>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Custom Email Popover Selector (APEX-01 V2.0 Pop-up Bypass) -->
+  <div id="email-popover" class="email-popover hidden">
+    <div class="popover-header">
+      <span>Send Email to Rishik</span>
+      <button type="button" id="close-email-popover" class="btn-popover-close" aria-label="Close">×</button>
+    </div>
+    <div class="popover-body">
+      <a href="mailto:rishikmaduri@gmail.com" class="popover-option" id="email-option-native">
+        <span class="option-icon">💻</span>
+        <div class="option-details">
+          <span class="option-title">Default Mail App</span>
+          <span class="option-desc font-mono">mailto:rishikmaduri@gmail.com</span>
+        </div>
+      </a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=rishikmaduri@gmail.com" target="_blank" rel="noopener" class="popover-option" id="email-option-gmail">
+        <span class="option-icon">✉️</span>
+        <div class="option-details">
+          <span class="option-title">Gmail Webmail</span>
+          <span class="option-desc">Open in Gmail compose window</span>
+        </div>
+      </a>
+      <button type="button" class="popover-option" id="email-option-copy">
+        <span class="option-icon">📋</span>
+        <div class="option-details">
+          <span class="option-title" id="copy-option-title">Copy Email Address</span>
+          <span class="option-desc" id="copy-option-desc">Copy address to clipboard</span>
+        </div>
+      </button>
     </div>
   </div>
 

@@ -1676,6 +1676,37 @@
     </div>
   </div>
 
+  <!-- Custom Email Popover Selector (APEX-01 V2.0 Pop-up Bypass) -->
+  <div id="email-popover" class="email-popover hidden">
+    <div class="popover-header">
+      <span>Send Email to Rishik</span>
+      <button type="button" id="close-email-popover" class="btn-popover-close" aria-label="Close">×</button>
+    </div>
+    <div class="popover-body">
+      <a href="mailto:rishikmaduri@gmail.com" class="popover-option" id="email-option-native">
+        <span class="option-icon">💻</span>
+        <div class="option-details">
+          <span class="option-title">Default Mail App</span>
+          <span class="option-desc font-mono">mailto:rishikmaduri@gmail.com</span>
+        </div>
+      </a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=rishikmaduri@gmail.com" target="_blank" rel="noopener" class="popover-option" id="email-option-gmail">
+        <span class="option-icon">✉️</span>
+        <div class="option-details">
+          <span class="option-title">Gmail Webmail</span>
+          <span class="option-desc">Open in Gmail compose window</span>
+        </div>
+      </a>
+      <button type="button" class="popover-option" id="email-option-copy">
+        <span class="option-icon">📋</span>
+        <div class="option-details">
+          <span class="option-title" id="copy-option-title">Copy Email Address</span>
+          <span class="option-desc" id="copy-option-desc">Copy address to clipboard</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
   <script type="module" src="/src/js/main.js"></script>
 </body>
 </html>
