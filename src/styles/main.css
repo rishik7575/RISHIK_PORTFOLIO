@@ -50,6 +50,7 @@ html, body {
   font-size: 15.5px; /* Restored to standard highly readable size */
   overflow: hidden;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   -webkit-font-smoothing: antialiased;
 }
@@ -270,6 +271,7 @@ body::before {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   position: relative;
   z-index: 1;
@@ -468,6 +470,7 @@ body.mode-recruiter #panel-terminal {
   display: flex;
   flex: 1;
   height: calc(100vh - 52px);
+  height: calc(100dvh - 52px);
   overflow: hidden;
   position: relative;
 }
@@ -4679,6 +4682,7 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: 
     linear-gradient(rgba(0, 229, 255, 0.005) 1px, transparent 1px) 0 0 / 48px 48px,
     linear-gradient(90deg, rgba(0, 229, 255, 0.005) 1px, transparent 1px) 0 0 / 48px 48px,
@@ -4878,4 +4882,15 @@ body.mode-recruiter .popover-option:hover {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Bento Dashboard Contact Buttons */
+.bento-contact-btn {
+  transition: all 0.2s ease;
+}
+
+.bento-contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.15);
 }
