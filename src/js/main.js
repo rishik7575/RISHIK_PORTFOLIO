@@ -113,11 +113,6 @@ let openTabs = [
   'knowledge_graph.svg',
   'sap_landscape.yaml',
   'certifications.sec',
-  'hall_of_achievements.sec',
-  'impact.analytics',
-  'system_health.monitor',
-  'assistant.ai',
-  'career_journey.timeline',
   'innovation_lab.future',
   'terminal.sh'
 ];
@@ -131,11 +126,6 @@ const fileTypeMap = {
   'knowledge_graph.svg': { label: 'knowledge_graph.svg', type: 'SVG', iconClass: 'svg-icon', iconChar: 'G', linesCount: 90 },
   'sap_landscape.yaml': { label: 'sap_landscape.yaml', type: 'YAML', iconClass: 'yaml-icon', iconChar: 'Y', linesCount: 52 },
   'certifications.sec': { label: 'certifications.sec', type: 'SEC', iconClass: 'sec-icon', iconChar: 'S', linesCount: 48 },
-  'hall_of_achievements.sec': { label: 'hall_of_achievements.sec', type: 'SEC', iconClass: 'sec-icon', iconChar: 'T', linesCount: 75 },
-  'impact.analytics': { label: 'impact.analytics', type: 'ANALYTICS', iconClass: 'analytics-icon', iconChar: 'I', linesCount: 65 },
-  'system_health.monitor': { label: 'system_health.monitor', type: 'MONITOR', iconClass: 'monitor-icon', iconChar: 'H', linesCount: 58 },
-  'assistant.ai': { label: 'assistant.ai', type: 'AI', iconClass: 'ai-icon', iconChar: 'X', linesCount: 80 },
-  'career_journey.timeline': { label: 'career_journey.timeline', type: 'TIMELINE', iconClass: 'timeline-icon', iconChar: 'T', linesCount: 70 },
   'innovation_lab.future': { label: 'innovation_lab.future', type: 'FUTURE', iconClass: 'future-icon', iconChar: 'F', linesCount: 60 },
   'terminal.sh': { label: 'terminal.sh', type: 'SH', iconClass: 'terminal-icon', iconChar: '>_', linesCount: 35 }
 };
@@ -219,18 +209,6 @@ function focusTab(file) {
   if (footerType) footerType.textContent = fileTypeMap[file].type;
 
   // Triggers panel-specific events
-  if (file === 'career_journey.timeline') {
-    const progLine = document.getElementById('timeline-progress-line');
-    if (progLine) {
-      progLine.style.width = '0%';
-      setTimeout(() => {
-        progLine.style.width = '80%';
-      }, 100);
-    }
-  }
-  if (file === 'system_health.monitor') {
-    animateSystemHealthMeters();
-  }
   if (file === 'terminal.sh') {
     const terminalInput = document.getElementById('terminal-input');
     if (terminalInput) setTimeout(() => terminalInput.focus(), 50);
@@ -1073,8 +1051,8 @@ function initEmailRedirect() {
     popover.classList.add('hidden');
   }
 
-  // Intercept all mailto links to trigger popover
-  document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+  // Intercept all mailto links to trigger popover, except the native option inside the popover itself
+  document.querySelectorAll('a[href^="mailto:"]:not(#email-option-native)').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -1140,11 +1118,8 @@ function initWorkspace() {
   initEmailRedirect(); // Wire up click-redirection with Gmail fallback
   
   // APEX-01 V2.0 Initializations
-  initAIRecruiterAssistant();
   initDiagnosticModal();
   initKnowledgeGraph();
-  initDigitalTrophies();
-  initBentoTimeline();
   initBentoDownloads();
   
   // Open default tab
@@ -1195,171 +1170,7 @@ function initHolographicCards() {
   });
 }
 
-// ─── AI Recruiter Assistant ───
-const aiResponses = [
-  "Rishik's SAP stack includes:\n- SAP ABAP Cloud development paradigms\n- RESTful Application Programming (RAP) models (Managed & Unmanaged)\n- Core Data Services (CDS View Entities & projections)\n- Data Control Language (DCL) access protections\n- SAP BTP (Business Technology Platform) services\n- OData v4 REST interfaces & SAP Fiori Elements UI templates.",
-  "Rishik has developed and deployed several key enterprise applications:\n- Smart College Management System (SAP BTP, RAP, OData v4, DCL views, Fiori Elements) which centralized databases and reduced administrative workloads by 45%.\n- Automated Loan Screening & Approval System (S/4HANA, RAP Managed scenarios, CIBIL credit validation, determinations, validations) which reduced evaluation errors to zero.",
-  "Why hire Rishik?\n- Certified SAP Associate in ABAP Cloud (C-ABAPD-2507)\n- Immediate availability with US Citizenship (dual India/US status, NO visa sponsorship required)\n- Proven hackathon winner (1st & 2nd place in optimization/analytics challenges)\n- High learning agility with 1000+ invested hours in SAP architectures.",
-  "Rishik holds the official SAP Certified Associate - Back-End Developer - ABAP Cloud credential (issued in December 2025). The certification validates his skills in clean-core principles, RAP business objects, SQL, and database authorization models.",
-  "Rishik is highly suitable for the following roles:\n- SAP Consultant / Developer\n- SAP RAP / BTP Engineer\n- ABAP Cloud Developer\n- Business Analyst\n- Data Analyst\n- Technology Consultant / Solutions Analyst"
-];
 
-const bentoQuestions = [
-  "What SAP technologies does Rishik know?",
-  "What projects has he built?",
-  "Why should I hire Rishik?",
-  "What certifications does he have?"
-];
-
-function initAIRecruiterAssistant() {
-  // Developer Mode Panel AI assistant
-  const devChatWindow = document.getElementById('ai-chat-window');
-  const devChatInput = document.getElementById('ai-chat-input');
-  const devSendBtn = document.getElementById('ai-send-btn');
-  const devQuickPrompts = document.querySelectorAll('.quick-prompt-btn');
-
-  // Bento Dashboard widget AI assistant
-  const bentoChatWindow = document.getElementById('bento-ai-chat');
-  const bentoPrompts = document.querySelectorAll('.bento-prompt-btn');
-
-  function sendAIPromptToWindow(index, chatWindow) {
-    if (!chatWindow) return;
-    
-    // Check if bento or dev
-    const isBento = chatWindow.id === 'bento-ai-chat';
-    const question = isBento ? bentoQuestions[index] : devQuickPrompts[index]?.textContent || "Describe credentials";
-
-    // User message
-    const userMsg = document.createElement('div');
-    userMsg.className = isBento ? 'bento-bubble user' : 'ai-message user';
-    if (isBento) {
-      userMsg.style.cssText = 'margin-bottom: 0.5rem; text-align: right; color: var(--purple); font-weight: 700;';
-      userMsg.textContent = question;
-    } else {
-      userMsg.style.cssText = 'display: flex; flex-direction: column; gap: 0.25rem; align-items: flex-end;';
-      userMsg.innerHTML = `
-        <div class="message-sender" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--purple); font-weight: 700;">RECRUITER</div>
-        <div class="message-content" style="font-size: 0.85rem; color: #fff; line-height: 1.5; background: rgba(124, 77, 255, 0.1); border-radius: 4px; padding: 0.75rem; border-right: 3px solid var(--purple); max-width: 80%;">${question}</div>
-      `;
-    }
-    chatWindow.appendChild(userMsg);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-
-    // Thinking bubble
-    const thinkingMsg = document.createElement('div');
-    thinkingMsg.className = isBento ? 'bento-bubble assistant thinking' : 'ai-message assistant thinking';
-    if (isBento) {
-      thinkingMsg.style.cssText = 'margin-bottom: 0.5rem; color: var(--text-dim);';
-      thinkingMsg.textContent = 'Co-pilot is thinking...';
-    } else {
-      thinkingMsg.style.cssText = 'display: flex; flex-direction: column; gap: 0.25rem;';
-      thinkingMsg.innerHTML = `
-        <div class="message-sender" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--cyan); font-weight: 700;">CO-PILOT</div>
-        <div class="message-content" style="font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; background: rgba(255,255,255,0.01); border-radius: 4px; padding: 0.5rem; border-left: 3px solid var(--border-glass);">Thinking...</div>
-      `;
-    }
-    chatWindow.appendChild(thinkingMsg);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-
-    setTimeout(() => {
-      thinkingMsg.remove();
-      const replyMsg = document.createElement('div');
-      replyMsg.className = isBento ? 'bento-bubble assistant' : 'ai-message assistant';
-      if (isBento) {
-        replyMsg.style.cssText = 'margin-bottom: 0.5rem; color: var(--cyan); white-space: pre-line;';
-        replyMsg.textContent = aiResponses[index];
-      } else {
-        replyMsg.style.cssText = 'display: flex; flex-direction: column; gap: 0.25rem;';
-        replyMsg.innerHTML = `
-          <div class="message-sender" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--cyan); font-weight: 700;">CO-PILOT</div>
-          <div class="message-content" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; background: rgba(255,255,255,0.02); border-radius: 4px; padding: 0.75rem; border-left: 3px solid var(--cyan); white-space: pre-line;">${aiResponses[index]}</div>
-        `;
-      }
-      chatWindow.appendChild(replyMsg);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-    }, 500);
-  }
-
-  // Bind quick click prompts
-  devQuickPrompts.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = parseInt(btn.dataset.index);
-      sendAIPromptToWindow(idx, devChatWindow);
-    });
-  });
-
-  bentoPrompts.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = parseInt(btn.dataset.index);
-      sendAIPromptToWindow(idx, bentoChatWindow);
-    });
-  });
-
-  // Custom chat box handlers
-  function handleCustomAIPrompt(inputEl, chatWindow) {
-    if (!inputEl || !chatWindow) return;
-    const text = inputEl.value.trim();
-    if (!text) return;
-    inputEl.value = '';
-
-    // Add user bubble
-    const userMsg = document.createElement('div');
-    userMsg.className = 'ai-message user';
-    userMsg.style.cssText = 'display: flex; flex-direction: column; gap: 0.25rem; align-items: flex-end;';
-    userMsg.innerHTML = `
-      <div class="message-sender" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--purple); font-weight: 700;">RECRUITER</div>
-      <div class="message-content" style="font-size: 0.85rem; color: #fff; line-height: 1.5; background: rgba(124, 77, 255, 0.1); border-radius: 4px; padding: 0.75rem; border-right: 3px solid var(--purple); max-width: 80%;">${text}</div>
-    `;
-    chatWindow.appendChild(userMsg);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-
-    // Add thinking bubble
-    const thinkingMsg = document.createElement('div');
-    thinkingMsg.className = 'ai-message assistant thinking';
-    thinkingMsg.style.cssText = 'display: flex; flex-direction: column; gap: 0.25rem;';
-    thinkingMsg.innerHTML = `
-      <div class="message-sender" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--cyan); font-weight: 700;">CO-PILOT</div>
-      <div class="message-content" style="font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; background: rgba(255,255,255,0.01); border-radius: 4px; padding: 0.5rem; border-left: 3px solid var(--border-glass);">Thinking...</div>
-    `;
-    chatWindow.appendChild(thinkingMsg);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-
-    let replyText = "I parsed your query, but could not retrieve a direct match. You can ask me about Rishik's SAP skills, BTP projects, certifications, or hiring recommendations.";
-    const query = text.toLowerCase();
-
-    if (query.includes('skill') || query.includes('technolog') || query.includes('know') || query.includes('stack') || query.includes('abap')) {
-      replyText = aiResponses[0];
-    } else if (query.includes('project') || query.includes('built') || query.includes('system') || query.includes('develop')) {
-      replyText = aiResponses[1];
-    } else if (query.includes('hire') || query.includes('why') || query.includes('suitable') || query.includes('strength') || query.includes('fit') || query.includes('rishik')) {
-      replyText = aiResponses[2];
-    } else if (query.includes('certificat') || query.includes('credly') || query.includes('credential')) {
-      replyText = aiResponses[3];
-    } else if (query.includes('role') || query.includes('job') || query.includes('position')) {
-      replyText = aiResponses[4];
-    }
-
-    setTimeout(() => {
-      thinkingMsg.remove();
-      const replyMsg = document.createElement('div');
-      replyMsg.className = 'ai-message assistant';
-      replyMsg.style.cssText = 'display: flex; flex-direction: column; gap: 0.25rem;';
-      replyMsg.innerHTML = `
-        <div class="message-sender" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--cyan); font-weight: 700;">CO-PILOT</div>
-        <div class="message-content" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; background: rgba(255,255,255,0.02); border-radius: 4px; padding: 0.75rem; border-left: 3px solid var(--cyan); white-space: pre-line;">${replyText}</div>
-      `;
-      chatWindow.appendChild(replyMsg);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-    }, 500);
-  }
-
-  if (devSendBtn && devChatInput) {
-    devSendBtn.addEventListener('click', () => handleCustomAIPrompt(devChatInput, devChatWindow));
-    devChatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleCustomAIPrompt(devChatInput, devChatWindow);
-    });
-  }
-}
 
 // ─── "Why Rishik?" Diagnostic Assessment Modal ───
 function initDiagnosticModal() {
@@ -1553,117 +1364,7 @@ function initKnowledgeGraph() {
   });
 }
 
-// ─── Digital Trophy Cabinet Decryption ───
-function initDigitalTrophies() {
-  const unlockBtns = document.querySelectorAll('.btn-unlock');
 
-  unlockBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const card = btn.closest('.trophy-card');
-      if (!card || !card.classList.contains('locked')) return;
-
-      card.classList.add('unlock-animating');
-      btn.textContent = 'DECRYPTING...';
-      btn.style.background = 'rgba(255,255,255,0.05)';
-      btn.style.color = 'var(--text-dim)';
-
-      setTimeout(() => {
-        card.classList.remove('locked');
-        card.classList.remove('unlock-animating');
-        card.classList.add('unlocked');
-        
-        const badge = card.querySelector('.badge');
-        if (badge) {
-          badge.className = 'badge status-unlocked';
-          badge.textContent = 'UNLOCKED';
-          badge.style.background = 'rgba(0, 230, 118, 0.15)';
-          badge.style.color = 'var(--green)';
-        }
-
-        const details = card.querySelector('.trophy-unlocked-details');
-        if (details) details.classList.remove('hidden');
-
-        btn.remove();
-      }, 700);
-    });
-  });
-}
-
-// ─── System Health progress bars counts animations ───
-function animateSystemHealthMeters() {
-  const gauges = document.querySelectorAll('#panel-system-health .health-gauge-card');
-  gauges.forEach(card => {
-    const fill = card.querySelector('.gauge-fill');
-    const percentEl = card.querySelector('.gauge-percentage');
-    if (!fill || !percentEl) return;
-
-    const targetVal = parseInt(percentEl.dataset.value) || 0;
-    fill.style.width = '0%';
-    
-    let current = 0;
-    const interval = setInterval(() => {
-      current += 2;
-      if (current >= targetVal) {
-        current = targetVal;
-        clearInterval(interval);
-      }
-      percentEl.textContent = `${current}%`;
-      fill.style.width = `${current}%`;
-    }, 15);
-  });
-}
-
-// ─── Interactive Career Roadmap Timeline ───
-const timelineNodesInfo = [
-  { year: '2022', title: 'Started Computer Science Engineering', desc: 'Initiated algorithms, OOP, database design, and programming structures core courses.' },
-  { year: '2024', title: 'Began SAP Learning Journey', desc: 'Self-directed study of SAP system architectures, Cloud foundry capabilities, and ABAP Cloud development paradigms.' },
-  { year: '2025', title: 'Completed SAP RAP Applications', desc: 'Programmed the Loan Eligibility & Smart College systems, proving RAP managed database persistence capabilities.' },
-  { year: '2025', title: 'Earned SAP Associate Certification', desc: 'Passed official exam validating professional ABAP Cloud development standards (C-ABAPD-2507).' },
-  { year: '2026', title: 'B.Tech Graduation & Opportunity Sync', desc: 'Completing B.Tech in CSE (8.5 CGPA). Seeking technical roles as SAP Developer, Cloud Architect, and enterprise software engineer.' },
-  { year: 'Future', title: 'Future Horizon Vision', desc: 'Targeting SAP Solution Architect roles, multi-cloud enterprise extension projects, and product ventures.' }
-];
-
-function initBentoTimeline() {
-  const nodes = document.querySelectorAll('#panel-career-journey .pipeline-node');
-  const progLine = document.getElementById('timeline-progress-line');
-  const vYear = document.getElementById('timeline-viewer-year');
-  const vTitle = document.getElementById('timeline-viewer-title');
-  const vDesc = document.getElementById('timeline-viewer-desc');
-
-  if (!nodes.length) return;
-
-  function focusNode(idx) {
-    if (progLine) {
-      progLine.style.width = `${(idx / (nodes.length - 1)) * 100}%`;
-    }
-
-    nodes.forEach((node, i) => {
-      if (i <= idx) {
-        node.classList.add('active');
-        node.querySelector('.node-ring').style.background = i === idx ? 'var(--cyan)' : 'var(--purple)';
-      } else {
-        node.classList.remove('active');
-        node.querySelector('.node-ring').style.background = '#000';
-      }
-      if (i === idx) {
-        node.classList.add('current');
-      } else {
-        node.classList.remove('current');
-      }
-    });
-
-    const info = timelineNodesInfo[idx];
-    if (info) {
-      if (vYear) vYear.textContent = info.year;
-      if (vTitle) vTitle.textContent = info.title;
-      if (vDesc) vDesc.textContent = info.desc;
-    }
-  }
-
-  nodes.forEach((node, i) => {
-    node.addEventListener('click', () => focusNode(i));
-  });
-}
 
 // ─── Recruiter Download Center micro-triggers ───
 function initBentoDownloads() {
