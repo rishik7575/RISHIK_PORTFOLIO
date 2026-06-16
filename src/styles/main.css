@@ -5129,3 +5129,76 @@ body.mode-developer .bento-card:hover {
 body.mode-recruiter .graph-node-group.active .graph-node-bg {
   filter: drop-shadow(0 0 8px var(--purple)) !important;
 }
+
+/* 4. Audience Assessment Diagnostic Modal Refined Representation */
+.diag-strength-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+@media (max-width: 580px) {
+  .diag-strength-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.diag-strength-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 0.85rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.diag-strength-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.04),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+.diag-strength-card:hover::after {
+  animation: glareSweep 0.85s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+.diag-strength-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 229, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+body.mode-recruiter .diag-strength-card:hover {
+  border-color: rgba(124, 77, 255, 0.25);
+}
+.diag-strength-card .card-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.diag-strength-card .card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.diag-strength-card .card-title {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+}
+.diag-strength-card .card-desc {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
