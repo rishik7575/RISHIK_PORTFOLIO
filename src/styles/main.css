@@ -5202,3 +5202,392 @@ body.mode-recruiter .diag-strength-card:hover {
   color: var(--text-dim);
   line-height: 1.4;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   APEX-01 EXECUTIVE TALENT INTELLIGENCE REPORT STYLING
+   ═══════════════════════════════════════════════════════════════ */
+
+.executive-report-wrapper {
+  max-width: 750px;
+  width: 90%;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  color: #1d1d1f !important;
+  font-family: var(--font-body);
+  animation: modalSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.executive-report-header {
+  padding: 2rem 2.5rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e7;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+.executive-report-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 2.5rem;
+  right: 2.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, #0066cc, #7c4dff, transparent);
+  opacity: 0.35;
+}
+
+.executive-report-body {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-height: 75vh;
+  overflow-y: auto;
+  background: #fbfbfd;
+  color: #1d1d1f;
+}
+
+/* Report Scrollbar Override */
+.executive-report-body::-webkit-scrollbar {
+  width: 5px;
+}
+.executive-report-body::-webkit-scrollbar-track {
+  background: #f5f5f7;
+}
+.executive-report-body::-webkit-scrollbar-thumb {
+  background: #d2d2d7;
+  border-radius: 3px;
+}
+.executive-report-body::-webkit-scrollbar-thumb:hover {
+  background: #86868b;
+}
+
+/* Snapshot Section */
+.brief-snapshot-card {
+  background: #fff;
+  border: 1px solid #e5e5e7;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015);
+}
+.brief-snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 2rem;
+}
+@media (max-width: 580px) {
+  .brief-snapshot-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+.snapshot-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.snapshot-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #86868b;
+  font-weight: 700;
+}
+.snapshot-value {
+  font-size: 0.88rem;
+  color: #1d1d1f;
+  font-weight: 600;
+}
+
+/* Recommendation & Stands Out Grid */
+.brief-two-column-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 768px) {
+  .brief-two-column-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.brief-recommendation-card {
+  background: #fff;
+  border: 1px solid #e5e5e7;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.recommendation-status-pill {
+  display: inline-flex;
+  align-self: flex-start;
+  background: rgba(0, 102, 204, 0.06);
+  border: 1px solid rgba(0, 102, 204, 0.15);
+  color: #0066cc;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.recommendation-confidence-pill {
+  display: inline-flex;
+  align-self: flex-start;
+  background: rgba(0, 230, 118, 0.08);
+  border: 1px solid rgba(0, 230, 118, 0.25);
+  color: #009944;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.evidence-sources-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  color: #515154;
+}
+.evidence-sources-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.evidence-check-icon {
+  color: #00aa55;
+  font-weight: bold;
+}
+
+.brief-stands-out-card {
+  background: linear-gradient(135deg, #fbfbfd 0%, #f5f5f7 100%);
+  border: 1px solid #d2d2d7;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.01);
+}
+.stands-out-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: 0.82rem;
+  color: #1d1d1f;
+}
+.stands-out-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.4;
+}
+.stands-out-dot {
+  color: #0066cc;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Career Trajectory Timeline */
+.brief-trajectory-card {
+  background: #fff;
+  border: 1px solid #e5e5e7;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.brief-trajectory-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+.trajectory-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  width: 90px;
+  text-align: center;
+}
+.trajectory-year {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #86868b;
+  font-weight: 700;
+}
+.trajectory-badge {
+  background: #f5f5f7;
+  border: 1px solid #e5e5e7;
+  border-radius: 4px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.7rem;
+  color: #1d1d1f;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.trajectory-step.future .trajectory-badge {
+  background: rgba(0, 102, 204, 0.05);
+  border-color: rgba(0, 102, 204, 0.2);
+  color: #0066cc;
+}
+.trajectory-arrow {
+  color: #d2d2d7;
+  font-weight: bold;
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 15px;
+}
+
+/* Evidence Competency Audit */
+.brief-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 580px) {
+  .brief-evidence-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.brief-evidence-card {
+  background: #fff;
+  border: 1px solid #e5e5e7;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+}
+.brief-evidence-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1d1d1f;
+  border-bottom: 1px solid #f5f5f7;
+  padding-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.brief-evidence-desc {
+  font-size: 0.74rem;
+  color: #515154;
+  line-height: 1.45;
+}
+
+/* Competitive & Risk */
+.brief-positioning-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.brief-positioning-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f5f5f7;
+  padding-bottom: 0.35rem;
+}
+.brief-positioning-key {
+  color: #515154;
+}
+.brief-positioning-val {
+  font-weight: 700;
+  color: #1d1d1f;
+}
+.brief-positioning-val.exceptional { color: #0066cc; }
+.brief-positioning-val.very-high { color: #0088cc; }
+.brief-positioning-val.high { color: #2e7d32; }
+.brief-positioning-val.strong { color: #1565c0; }
+
+.brief-risk-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.brief-risk-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f5f5f7;
+  padding-bottom: 0.35rem;
+}
+.brief-risk-key {
+  color: #515154;
+}
+.brief-risk-val {
+  font-weight: 700;
+  color: #2e7d32;
+}
+.brief-risk-val.very-low {
+  color: #2e7d32;
+}
+
+/* Decision Box */
+.brief-decision-card {
+  background: #1d1d1f;
+  color: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.decision-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  background: rgba(0, 230, 118, 0.15);
+  border: 1px solid rgba(0, 230, 118, 0.35);
+  color: var(--green);
+  font-size: 0.85rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}

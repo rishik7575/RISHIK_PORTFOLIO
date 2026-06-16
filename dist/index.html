@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="./assets/index-YASThqzo.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-ChbRTkqh.css">
+  <script type="module" crossorigin src="./assets/index-BHv7u2ms.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Ccg7MpBA.css">
 </head>
 <body class="mode-developer">
   <!-- System Boot / Sync Sequence -->
@@ -1198,116 +1198,227 @@
   <!-- Why Rishik Assessment Diagnostic Modal -->
   <div class="certificate-zoom-modal" id="why-rishik-diagnostic-modal">
     <div class="modal-backdrop" id="diagnostic-modal-backdrop"></div>
-    <div class="modal-content-wrapper diagnostic-content-wrapper" style="max-width: 650px; background: var(--bg-slate); border: 1px solid var(--border-glass); border-radius: 8px; overflow: hidden;">
-      <button class="modal-close-btn" id="diagnostic-modal-close-btn">×</button>
-      <div class="diagnostic-modal-header" style="padding: 1.5rem; background: linear-gradient(135deg, rgba(13, 20, 38, 0.9), rgba(6, 10, 20, 0.95)); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; flex-direction: column;">
-          <span class="diag-header-tag" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--cyan); letter-spacing: 0.1em; font-weight: 700; display: block; margin-bottom: 0.25rem;">APEX-01 SYSTEM DIAGNOSTIC REPORT</span>
-          <h2 class="diag-header-title" style="font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin: 0; font-weight: 700;">Audience Assessment: Why Rishik?</h2>
-        </div>
-        <span style="font-size: 0.7rem; font-family: var(--font-mono); background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.25); color: var(--green); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">VERIFIED AUDIT ✓</span>
-      </div>
-      <div class="diagnostic-modal-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: 70vh; overflow-y: auto;">
+    <div class="executive-report-wrapper">
+      <button class="modal-close-btn" id="diagnostic-modal-close-btn" style="top: 1.5rem; right: 1.5rem; color: #1d1d1f; border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); z-index: 10;">×</button>
+      
+      <!-- 1. Executive Header & Assessment Context -->
+      <div class="executive-report-header">
+        <span style="font-family: var(--font-mono); font-size: 0.68rem; color: #86868b; letter-spacing: 0.15em; font-weight: 700; text-transform: uppercase;">CONFIDENTIAL TALENT BRIEF // FOR INTERNAL USE ONLY</span>
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: #1d1d1f; margin: 0.25rem 0 0.75rem 0; font-weight: 700; letter-spacing: -0.01em;">EXECUTIVE TALENT INTELLIGENCE REPORT</h2>
         
-        <div class="diag-summary-box" style="background: rgba(0, 184, 212, 0.03); border: 1px solid rgba(0, 184, 212, 0.2); border-left: 4px solid var(--cyan); border-radius: 4px; padding: 1rem; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary);">
-          <h4 style="margin: 0 0 0.4rem 0; font-size: 0.85rem; font-weight: 700; color: var(--cyan); font-family: var(--font-mono);">RECOMMENDATION REPORT: SAP SOLUTION TEAM FIT</h4>
-          <p style="margin: 0;">
-            Rishik Maduri presents a highly optimized profile for recruiters looking for SAP Consulting and Cloud Architecture talent. As an officially certified SAP Associate in ABAP Cloud with B.Tech CSE academic credentials and multiple hackathon victory logs, he bridges the gap between high-performance backends and real-world business objectives.
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; font-size: 0.78rem; color: #515154; border-top: 1px solid #f5f5f7; padding-top: 0.75rem; margin-top: 0.25rem;">
+          <div><strong style="color: #1d1d1f;">Generated For:</strong> SAP Hiring Team</div>
+          <div><strong style="color: #1d1d1f;">Assessment Type:</strong> Technical + Growth Potential Review</div>
+          <div><strong style="color: #1d1d1f;">Confidence Source:</strong> Certification + Projects + Achievements</div>
+        </div>
+      </div>
+
+      <div class="executive-report-body">
+        
+        <!-- 2. Executive Snapshot -->
+        <div class="brief-snapshot-card">
+          <h3 style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem 0; color: #1d1d1f; border-bottom: 1px solid #f5f5f7; padding-bottom: 0.5rem;">Executive Snapshot</h3>
+          <div class="brief-snapshot-grid">
+            <div class="snapshot-item">
+              <span class="snapshot-label">Candidate</span>
+              <span class="snapshot-value">Rishik Maduri</span>
+            </div>
+            <div class="snapshot-item">
+              <span class="snapshot-label">Current Status</span>
+              <span class="snapshot-value">SAP Certified Associate</span>
+            </div>
+            <div class="snapshot-item">
+              <span class="snapshot-label">Education</span>
+              <span class="snapshot-value">B.Tech Computer Science</span>
+            </div>
+            <div class="snapshot-item">
+              <span class="snapshot-label">Specialization</span>
+              <span class="snapshot-value">SAP ABAP Cloud & RAP</span>
+            </div>
+            <div class="snapshot-item">
+              <span class="snapshot-label">Availability</span>
+              <span class="snapshot-value">Open for Opportunities</span>
+            </div>
+            <div class="snapshot-item">
+              <span class="snapshot-label">Best Fit Roles</span>
+              <span class="snapshot-value">SAP Developer / Technical Consultant / Business Analyst</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Hiring Recommendation & Why Rishik Stands Out Grid -->
+        <div class="brief-two-column-grid">
+          <!-- Hiring Recommendation -->
+          <div class="brief-recommendation-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="recommendation-status-pill">Hiring Recommendation</span>
+              <span class="recommendation-confidence-pill">Confidence: HIGH</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin: 0.25rem 0 0.5rem 0; color: #1d1d1f;">HIGH POTENTIAL CANDIDATE</h4>
+            
+            <ul class="evidence-sources-list">
+              <li><span class="evidence-check-icon">✓</span> SAP Certification</li>
+              <li><span class="evidence-check-icon">✓</span> Enterprise RAP Projects</li>
+              <li><span class="evidence-check-icon">✓</span> Hackathon Achievements</li>
+              <li><span class="evidence-check-icon">✓</span> Academic Performance</li>
+              <li><span class="evidence-check-icon">✓</span> Continuous Learning</li>
+              <li><span class="evidence-check-icon">✓</span> Technical Versatility</li>
+            </ul>
+          </div>
+
+          <!-- Why Rishik Stands Out -->
+          <div class="brief-stands-out-card">
+            <h4 style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0; color: #1d1d1f;">Why Rishik Stands Out</h4>
+            <ul class="stands-out-list">
+              <li><span class="stands-out-dot">•</span> <strong>SAP Certified Associate:</strong> Proven credentials in ABAP Cloud backend.</li>
+              <li><span class="stands-out-dot">•</span> <strong>Enterprise RAP Development:</strong> Hands-on RESTful backend apps.</li>
+              <li><span class="stands-out-dot">•</span> <strong>Hackathon Performance:</strong> 4x winner under intense development cycles.</li>
+              <li><span class="stands-out-dot">•</span> <strong>Business Process Knowledge:</strong> Understands ERP database integration.</li>
+              <li><span class="stands-out-dot">•</span> <strong>Continuous Learning:</strong> 1000+ hours dedicated study trajectory.</li>
+              <li><span class="stands-out-dot">•</span> <strong>Cross-Domain Adaptability:</strong> Melds core CS concepts with SAP ecosystem.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 4. Career Trajectory Timeline -->
+        <div class="brief-trajectory-card">
+          <h3 style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0; color: #1d1d1f;">Career Trajectory & Velocity</h3>
+          <div class="brief-trajectory-flow">
+            <div class="trajectory-step">
+              <span class="trajectory-year">2022</span>
+              <span class="trajectory-badge" title="CS Foundation">CS Foundation</span>
+            </div>
+            <span class="trajectory-arrow">➔</span>
+            <div class="trajectory-step">
+              <span class="trajectory-year">2024</span>
+              <span class="trajectory-badge" title="ABAP Developer">ABAP Developer</span>
+            </div>
+            <span class="trajectory-arrow">➔</span>
+            <div class="trajectory-step">
+              <span class="trajectory-year">2025</span>
+              <span class="trajectory-badge" title="SAP Certified">SAP Certified</span>
+            </div>
+            <span class="trajectory-arrow">➔</span>
+            <div class="trajectory-step">
+              <span class="trajectory-year">2025</span>
+              <span class="trajectory-badge" title="RAP & BTP Dev">RAP & BTP Dev</span>
+            </div>
+            <span class="trajectory-arrow">➔</span>
+            <div class="trajectory-step">
+              <span class="trajectory-year">2026</span>
+              <span class="trajectory-badge" title="Cloud Architect">Cloud Architect</span>
+            </div>
+            <span class="trajectory-arrow">➔</span>
+            <div class="trajectory-step future">
+              <span class="trajectory-year">Future</span>
+              <span class="trajectory-badge" title="SAP Solutions Lead">SAP Solutions Lead</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Evidence Behind Score -->
+        <div>
+          <h3 style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem 0; color: #1d1d1f;">Evidence Behind Score</h3>
+          <div class="brief-evidence-grid">
+            <div class="brief-evidence-card">
+              <span class="brief-evidence-title"><span style="color: #0066cc;">★</span> Certification Strength</span>
+              <span class="brief-evidence-desc">SAP Certified Associate in ABAP Cloud (C_ABAPD_2309), verifying deep expertise in modern clean core practices and SQL Scripting.</span>
+            </div>
+            <div class="brief-evidence-card">
+              <span class="brief-evidence-title"><span style="color: #0066cc;">★</span> Project Complexity</span>
+              <span class="brief-evidence-desc">Built enterprise-ready Restful Application Programming (RAP) models with draft handling, service definitions, and Fiori integrations.</span>
+            </div>
+            <div class="brief-evidence-card">
+              <span class="brief-evidence-title"><span style="color: #0066cc;">★</span> Business Understanding</span>
+              <span class="brief-evidence-desc">Solid grip on relational modeling, modular ERP logic, transaction safety, and aligning custom backends with business targets.</span>
+            </div>
+            <div class="brief-evidence-card">
+              <span class="brief-evidence-title"><span style="color: #0066cc;">★</span> Problem Solving</span>
+              <span class="brief-evidence-desc">4x hackathon winner with practical experience designing algorithms, optimizing databases, and deploying clean code under pressure.</span>
+            </div>
+            <div class="brief-evidence-card">
+              <span class="brief-evidence-title"><span style="color: #0066cc;">★</span> Learning Agility</span>
+              <span class="brief-evidence-desc">Dedicated 1000+ hours to SAP BTP, ABAP Cloud, and RAP paradigms, demonstrating quick adaptability to enterprise technologies.</span>
+            </div>
+            <div class="brief-evidence-card">
+              <span class="brief-evidence-title"><span style="color: #0066cc;">★</span> Communication</span>
+              <span class="brief-evidence-desc">Proven team player who translates complex technical logic into clear business updates and collaborates effectively with stakeholders.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Competitive Positioning & 7. Hiring Risk Assessment Grid -->
+        <div class="brief-two-column-grid">
+          <!-- Competitive Positioning -->
+          <div class="brief-snapshot-card">
+            <h3 style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem 0; color: #1d1d1f; border-bottom: 1px solid #f5f5f7; padding-bottom: 0.5rem;">Competitive Positioning</h3>
+            <ul class="brief-positioning-list">
+              <li class="brief-positioning-item">
+                <span class="brief-positioning-key">Compared to Entry-Level</span>
+                <span class="brief-positioning-val high">Top 5%</span>
+              </li>
+              <li class="brief-positioning-item">
+                <span class="brief-positioning-key">Technical Depth</span>
+                <span class="brief-positioning-val strong">Above Average</span>
+              </li>
+              <li class="brief-positioning-item">
+                <span class="brief-positioning-key">SAP Expertise</span>
+                <span class="brief-positioning-val exceptional">Exceptional</span>
+              </li>
+              <li class="brief-positioning-item">
+                <span class="brief-positioning-key">Learning Velocity</span>
+                <span class="brief-positioning-val high">High</span>
+              </li>
+              <li class="brief-positioning-item">
+                <span class="brief-positioning-key">Business Awareness</span>
+                <span class="brief-positioning-val strong">Strong</span>
+              </li>
+              <li class="brief-positioning-item">
+                <span class="brief-positioning-key">Growth Potential</span>
+                <span class="brief-positioning-val very-high">Very High</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Hiring Risk Assessment -->
+          <div class="brief-snapshot-card">
+            <h3 style="font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem 0; color: #1d1d1f; border-bottom: 1px solid #f5f5f7; padding-bottom: 0.5rem;">Hiring Risk Assessment</h3>
+            <ul class="brief-risk-list">
+              <li class="brief-risk-item">
+                <span class="brief-risk-key">Technical Risk</span>
+                <span class="brief-risk-val very-low">Low</span>
+              </li>
+              <li class="brief-risk-item">
+                <span class="brief-risk-key">Learning Curve</span>
+                <span class="brief-risk-val very-low">Very Low</span>
+              </li>
+              <li class="brief-risk-item">
+                <span class="brief-risk-key">Adaptability Risk</span>
+                <span class="brief-risk-val very-low">Low</span>
+              </li>
+              <li class="brief-risk-item">
+                <span class="brief-risk-key">Communication Risk</span>
+                <span class="brief-risk-val very-low">Low</span>
+              </li>
+              <li class="brief-risk-item">
+                <span class="brief-risk-key">Overall Risk Profile</span>
+                <span class="brief-risk-val very-low" style="color: #2e7d32; font-weight: 800;">MINIMAL</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 8. Final Executive Decision Box -->
+        <div class="brief-decision-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <span class="decision-badge">PROCEED TO INTERVIEW</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: #86868b; text-transform: uppercase; letter-spacing: 0.05em;">Status: Highly Recommended</span>
+          </div>
+          <p style="margin: 0; font-size: 0.88rem; color: #d2d2d7; line-height: 1.5;">
+            Rishik's SAP Certified status coupled with solid computer science fundamentals, business workflow understanding, and proven high learning velocity makes him a low-risk, high-return candidate. Highly suited for immediate deployment into enterprise ABAP Cloud, RAP, and BTP integration teams.
           </p>
         </div>
 
-        <div class="diag-ratings-grid" style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <div class="diag-rating-item">
-            <div class="diag-rating-header" style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.2rem;">
-              <span>Technical Fit (ABAP Cloud, RAP, BTP)</span>
-              <strong style="color: var(--cyan);">96%</strong>
-            </div>
-            <div class="diag-rating-track" style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: visible; position: relative;">
-              <div class="diag-rating-fill fill-cyan" style="height: 100%; width: 96%; background: linear-gradient(90deg, rgba(0, 229, 255, 0.2), var(--cyan)); border-radius: 3px; position: relative;">
-                <span style="position: absolute; right: 0; top: 50%; transform: translate(50%, -50%); width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px var(--cyan), 0 0 12px var(--cyan);"></span>
-              </div>
-            </div>
-          </div>
-          
-          <div class="diag-rating-item">
-            <div class="diag-rating-header" style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.2rem;">
-              <span>Business & Process Fit (ERP Logic)</span>
-              <strong style="color: var(--purple);">92%</strong>
-            </div>
-            <div class="diag-rating-track" style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: visible; position: relative;">
-              <div class="diag-rating-fill fill-purple" style="height: 100%; width: 92%; background: linear-gradient(90deg, rgba(124, 77, 255, 0.2), var(--purple)); border-radius: 3px; position: relative;">
-                <span style="position: absolute; right: 0; top: 50%; transform: translate(50%, -50%); width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px var(--purple), 0 0 12px var(--purple);"></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="diag-rating-item">
-            <div class="diag-rating-header" style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.2rem;">
-              <span>Communication & Stakeholder Management</span>
-              <strong style="color: var(--cyan);">94%</strong>
-            </div>
-            <div class="diag-rating-track" style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: visible; position: relative;">
-              <div class="diag-rating-fill fill-cyan" style="height: 100%; width: 94%; background: linear-gradient(90deg, rgba(0, 229, 255, 0.2), var(--cyan)); border-radius: 3px; position: relative;">
-                <span style="position: absolute; right: 0; top: 50%; transform: translate(50%, -50%); width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px var(--cyan), 0 0 12px var(--cyan);"></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="diag-rating-item">
-            <div class="diag-rating-header" style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.2rem;">
-              <span>Learning Agility (1000+ Study Hours)</span>
-              <strong style="color: var(--green);">100%</strong>
-            </div>
-            <div class="diag-rating-track" style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: visible; position: relative;">
-              <div class="diag-rating-fill fill-success" style="height: 100%; width: 100%; background: linear-gradient(90deg, rgba(0, 230, 118, 0.2), var(--green)); border-radius: 3px; position: relative;">
-                <span style="position: absolute; right: 0; top: 50%; transform: translate(50%, -50%); width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px var(--green), 0 0 12px var(--green);"></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="diag-rating-item">
-            <div class="diag-rating-header" style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.2rem;">
-              <span>Leadership & Initiative Potential</span>
-              <strong style="color: var(--purple);">90%</strong>
-            </div>
-            <div class="diag-rating-track" style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: visible; position: relative;">
-              <div class="diag-rating-fill fill-purple" style="height: 100%; width: 90%; background: linear-gradient(90deg, rgba(124, 77, 255, 0.2), var(--purple)); border-radius: 3px; position: relative;">
-                <span style="position: absolute; right: 0; top: 50%; transform: translate(50%, -50%); width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px var(--purple), 0 0 12px var(--purple);"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="diag-strength-grid">
-          <div class="diag-strength-card">
-            <span class="card-icon">🛡️</span>
-            <div class="card-info">
-              <span class="card-title">Zero Sponsorship Needed</span>
-              <span class="card-desc">U.S. Citizen with dual US/India status. Available for immediate employment.</span>
-            </div>
-          </div>
-          <div class="diag-strength-card">
-            <span class="card-icon">⚙️</span>
-            <div class="card-info">
-              <span class="card-title">SAP Certified Clean Core</span>
-              <span class="card-desc">ABAP Cloud standards expertise with RAP architecture mastery.</span>
-            </div>
-          </div>
-          <div class="diag-strength-card">
-            <span class="card-icon">🏆</span>
-            <div class="card-info">
-              <span class="card-title">Analytical Rigor</span>
-              <span class="card-desc">4x Hackathon winner with optimized resource allocation algorithms.</span>
-            </div>
-          </div>
-          <div class="diag-strength-card">
-            <span class="card-icon">📈</span>
-            <div class="card-info">
-              <span class="card-title">Enterprise Growth Mindset</span>
-              <span class="card-desc">Fast adapter of modern multi-cloud architectures &amp; toolstacks.</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
