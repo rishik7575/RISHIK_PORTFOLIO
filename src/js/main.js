@@ -1120,7 +1120,6 @@ function initWorkspace() {
   // APEX-01 V2.0 Initializations
   initDiagnosticModal();
   initKnowledgeGraph();
-  initBentoDownloads();
   
   // Open default tab
   focusTab('profile.abap');
@@ -1366,28 +1365,4 @@ function initKnowledgeGraph() {
 
 
 
-// ─── Recruiter Download Center micro-triggers ───
-function initBentoDownloads() {
-  const dlProj = document.getElementById('db-dl-proj');
-  const dlAch = document.getElementById('db-dl-ach');
-  const dlSnap = document.getElementById('db-dl-snap');
 
-  if (dlProj) {
-    dlProj.addEventListener('click', (e) => {
-      e.preventDefault();
-      alert("Downloading Project Summary PDF... Package initiated.");
-    });
-  }
-  if (dlAch) {
-    dlAch.addEventListener('click', (e) => {
-      e.preventDefault();
-      alert("Downloading Achievement Catalog PDF... Package initiated.");
-    });
-  }
-  if (dlSnap) {
-    dlSnap.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.print();
-    });
-  }
-}
